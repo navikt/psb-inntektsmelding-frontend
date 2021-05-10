@@ -23,7 +23,6 @@
         "@babel/preset-env": "^7.13.12",
         "@babel/preset-react": "^7.12.13",
         "@babel/preset-typescript": "^7.13.0",
-        "@hookform/devtools": "^2.2.1",
         "@types/jest": "^26.0.21",
         "@typescript-eslint/eslint-plugin": "^4.19.0",
         "@typescript-eslint/parser": "^4.19.0",
@@ -63,7 +62,6 @@
     "dependencies": {
         "@navikt/array-utils": "^0.0.1",
         "@navikt/date-utils": "^0.0.2",
-        "@navikt/nap-autocomplete": "^1.0.2",
         "@navikt/period-utils": "^0.0.3",
         "@types/react": "^17.0.3",
         "@types/react-dom": "^17.0.3",
@@ -107,7 +105,6 @@
         "react-collapse": "^5.1.0",
         "react-day-picker": "^7.4.10",
         "react-dom": "^17.0.2",
-        "react-hook-form": "^6.15.5",
         "react-modal": "^3.12.1"
     }
 }
