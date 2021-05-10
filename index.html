@@ -1,0 +1,27 @@
+<html>
+    <head>
+        <title>Kompletthet</title>
+
+        <style>
+            body {
+                font-family: 'Source Sans Pro', Arial, sans-serif;
+                font-size: 1rem;
+            }
+
+
+        </style>
+    </head>
+    <body>
+        <div id="app" style="padding:2.5rem"></div>
+        <script type="text/javascript">
+            setTimeout(() => {
+                window.renderKompletthetApp('app', {
+                    endpoints: {},
+                    behandlingUuid: '123',
+                    readOnly: false,
+                    onFinished: () => console.log('Aksjonspunkt løst')
+                });
+            }, 300);
+        </script>
+    </body>
+</html>
