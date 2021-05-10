@@ -31,7 +31,8 @@
         "react/jsx-wrap-multilines": 0,
         "import/prefer-default-export": 0,
         "@typescript-eslint/no-shadow": "error",
-        "no-shadow": "off"
+        "no-shadow": "off",
+        "arrow-body-style": "off"
     },
     "settings": {
         "import/resolver": {
