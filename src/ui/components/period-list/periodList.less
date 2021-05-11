@@ -1,0 +1,24 @@
+.periodList {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+    &__element {
+        border-bottom: 1px solid #b0b0b0;
+        padding: 1.5rem 0rem 1.5rem 0rem;
+
+        &__title {
+            display: flex;
+            margin-bottom: 1rem;
+
+            &__period {
+                position: relative;
+                top: 2px;
+            }
+        }
+    }
+
+    &__element:first-child {
+        padding-top: 0;
+    }
+}

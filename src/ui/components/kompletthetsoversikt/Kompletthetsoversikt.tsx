@@ -1,6 +1,10 @@
 import React from 'react';
+import { Period } from '@navikt/period-utils';
 import Box, { Margin } from '../box/Box';
 import { Kompletthet } from '../../../types/KompletthetData';
+import PeriodList from '../period-list/PeriodList';
+import InntektsmeldingListe from '../inntektsmelding-liste/InntektsmeldingListe';
+import InntektsmeldingListeHeading from '../inntektsmelding-liste-heading/InntektsmeldingListeHeading';
 
 interface KompletthetsoversiktProps {
     kompletthetsoversikt: Kompletthet;
@@ -8,38 +12,19 @@ interface KompletthetsoversiktProps {
 
 const Kompletthetsoversikt = ({ kompletthetsoversikt }: KompletthetsoversiktProps) => {
     const { tilstand } = kompletthetsoversikt;
+    const periods = tilstand.map(({ periode }) => periode);
+    const statuses = tilstand.map(({ status }) => status);
     return (
         <div className="kompletthet">
-            <h1 style={{ fontSize: 22 }}>Kompletthet</h1>
+            <h1 style={{ fontSize: 22 }}>Inntektsmelding</h1>
             <Box marginTop={Margin.xLarge}>
-                <ul>
-                    {tilstand.map((kompletthetstilstand) => {
-                        const { periode } = kompletthetstilstand;
-                        return (
-                            <li key={JSON.stringify(periode)} style={{ marginBottom: '3rem' }}>
-                                <p>{periode.prettifyPeriod()}</p>
-                                <div style={{ display: 'flex' }}>
-                                    {kompletthetstilstand.status.map(({ arbeidsgiver, journalpostId, status }) => {
-                                        return (
-                                            <div
-                                                key={journalpostId}
-                                                style={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    marginRight: '4rem',
-                                                }}
-                                            >
-                                                <p>Arbeidsgiver: {arbeidsgiver.arbeidsgiver}</p>
-                                                <p>Status: {status}</p>
-                                                <p>JournalpostId: {journalpostId}</p>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </li>
-                        );
-                    })}
-                </ul>
+                <PeriodList
+                    periods={periods}
+                    listHeadingRenderer={() => <InntektsmeldingListeHeading />}
+                    listItemRenderer={(period: Period) => (
+                        <InntektsmeldingListe status={statuses[periods.indexOf(period)]} />
+                    )}
+                />
             </Box>
         </div>
     );
