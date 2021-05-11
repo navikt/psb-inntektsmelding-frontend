@@ -1,14 +1,15 @@
-import { Period } from '@navikt/period-utils';
 import React from 'react';
-import { Kompletthet as KompletthetsData } from '../types/KompletthetData';
+import axios from 'axios';
+import { Period } from '@navikt/period-utils';
+import { get } from '../util/httpUtils';
+import Kompletthetsoversikt from './components/kompletthetsoversikt/Kompletthetsoversikt';
+import mainComponentReducer from './reducer';
+import ActionType from './actionTypes';
+import PageContainer from './components/page-container/PageContainer';
+import { Kompletthet as KompletthetData } from '../types/KompletthetData';
 import { Kompletthet as KompletthetResponse } from '../types/KompletthetResponse';
-import Box, { Margin } from './components/box/Box';
 
-interface MainComponentProps {
-    response: KompletthetResponse;
-}
-
-function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetsData {
+function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetData {
     return {
         tilstand: tilstand.map(({ periode, status }) => {
             const [fom, tom] = periode.split('/');
@@ -20,42 +21,46 @@ function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetsDa
     };
 }
 
-const MainComponent = ({ response }: MainComponentProps) => {
-    const { tilstand } = initKompletthetsdata(response);
+const MainComponent = () => {
+    const [state, dispatch] = React.useReducer(mainComponentReducer, {
+        isLoading: true,
+        kompletthetsoversiktHarFeilet: false,
+        kompletthetsoversiktResponse: null,
+    });
+
+    const httpCanceler = React.useMemo(() => axios.CancelToken.source(), []);
+    const { kompletthetsoversiktResponse, isLoading, kompletthetsoversiktHarFeilet } = state;
+
+    const getKompletthetsoversikt = () =>
+        get<KompletthetResponse>('http://localhost:8082/mock/kompletthet', () => console.error('noe gikk galt'), {
+            cancelToken: httpCanceler.token,
+        });
+
+    const handleError = () => {
+        dispatch({ type: ActionType.FAILED });
+    };
+
+    React.useEffect(() => {
+        let isMounted = true;
+        getKompletthetsoversikt()
+            .then((response: KompletthetResponse) => {
+                if (isMounted) {
+                    dispatch({ type: ActionType.OK, kompletthetsoversiktResponse: response });
+                }
+            })
+            .catch(handleError);
+        return () => {
+            isMounted = false;
+            httpCanceler.cancel();
+        };
+    }, []);
+
     return (
-        <div className="kompletthet">
-            <h1 style={{ fontSize: 22 }}>Kompletthet</h1>
-            <Box marginTop={Margin.xLarge}>
-                <ul>
-                    {tilstand.map((kompletthetstilstand) => {
-                        const { periode } = kompletthetstilstand;
-                        return (
-                            <li key={JSON.stringify(periode)} style={{ marginBottom: '3rem' }}>
-                                <p>{periode.prettifyPeriod()}</p>
-                                <div style={{ display: 'flex' }}>
-                                    {kompletthetstilstand.status.map(({ arbeidsgiver, journalpostId, status }) => {
-                                        return (
-                                            <div
-                                                key={journalpostId}
-                                                style={{
-                                                    display: 'flex',
-                                                    flexDirection: 'column',
-                                                    marginRight: '4rem',
-                                                }}
-                                            >
-                                                <p>Arbeidsgiver: {arbeidsgiver.arbeidsgiver}</p>
-                                                <p>Status: {status}</p>
-                                                <p>JournalpostId: {journalpostId}</p>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </li>
-                        );
-                    })}
-                </ul>
-            </Box>
-        </div>
+        <PageContainer isLoading={isLoading} hasError={kompletthetsoversiktHarFeilet}>
+            {kompletthetsoversiktResponse && (
+                <Kompletthetsoversikt kompletthetsoversikt={initKompletthetsdata(kompletthetsoversiktResponse)} />
+            )}
+        </PageContainer>
     );
 };
 

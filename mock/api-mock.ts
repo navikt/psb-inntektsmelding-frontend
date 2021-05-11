@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import mockedKompletthetsdata from './mockedKompletthetsdata';
+
 const app = express();
 
 app.use(express.json());
@@ -11,7 +13,7 @@ app.use(
 );
 
 app.use('/mock/kompletthet', (req, res) => {
-    res.send();
+    res.send(mockedKompletthetsdata);
 });
 
 const port = 8082;
