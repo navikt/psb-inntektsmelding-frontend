@@ -9,7 +9,11 @@ interface PeriodListItemProps {
 }
 
 const renderListItem = (status: Status) => {
-    const listItem = (children) => <li className={styles.inntektsmeldingListe__item}>{children}</li>;
+    const listItem = (children) => (
+        <li className={styles.inntektsmeldingListe__item} key={status.journalpostId}>
+            {children}
+        </li>
+    );
     if (status.status === 'MOTTATT') {
         return listItem(<InntektsmeldingMottattItem status={status} />);
     }

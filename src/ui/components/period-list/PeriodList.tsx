@@ -14,7 +14,7 @@ const PeriodList = ({ periods, listHeadingRenderer, listItemRenderer }: PeriodLi
         <ul className={styles.periodList}>
             {periods.map((period) => {
                 return (
-                    <li className={styles.periodList__element}>
+                    <li className={styles.periodList__element} key={period.prettifyPeriod()}>
                         <div className={styles.periodList__element__title}>
                             <CalendarIcon />
                             <span className={styles.periodList__element__title__period}>{period.prettifyPeriod()}</span>

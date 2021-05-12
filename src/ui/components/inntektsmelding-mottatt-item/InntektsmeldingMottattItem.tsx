@@ -4,6 +4,7 @@ import { Status } from '../../../types/KompletthetData';
 import GreenCheckIconFilled from '../icons/GreenCheckIconFilled';
 import ListItem from '../list-item/ListItem';
 import styles from './inntektsmeldingMottattItem.less';
+import ArbeidsgiverTekst from '../arbeidsgiver-tekst/ArbeidsgiverTekst';
 
 interface MottattContentProps {
     dokumentLink: string;
@@ -28,7 +29,7 @@ interface InntektsmeldingMottattItemProps {
 const InntektsmeldingMottattItem = ({ status }: InntektsmeldingMottattItemProps) => {
     return (
         <ListItem
-            firstColumnRenderer={() => <span>{status.arbeidsgiver.arbeidsgiver}</span>}
+            firstColumnRenderer={() => <ArbeidsgiverTekst arbeidsgiver={status.arbeidsgiver} />}
             secondColumnRenderer={() => <MottattContent dokumentLink="#" />}
         />
     );

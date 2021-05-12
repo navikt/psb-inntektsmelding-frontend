@@ -8,6 +8,8 @@ import ActionType from './actionTypes';
 import PageContainer from './components/page-container/PageContainer';
 import { Kompletthet as KompletthetData } from '../types/KompletthetData';
 import { Kompletthet as KompletthetResponse } from '../types/KompletthetResponse';
+import ContainerContract from '../types/ContainerContract';
+import ContainerContext from '../context/ContainerContext';
 
 function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetData {
     return {
@@ -21,7 +23,11 @@ function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetDat
     };
 }
 
-const MainComponent = () => {
+interface MainComponentProps {
+    data: ContainerContract;
+}
+
+const MainComponent = ({ data: { arbeidsforhold, readOnly, httpErrorHandler, endpoints } }: MainComponentProps) => {
     const [state, dispatch] = React.useReducer(mainComponentReducer, {
         isLoading: true,
         kompletthetsoversiktHarFeilet: false,
@@ -32,7 +38,7 @@ const MainComponent = () => {
     const { kompletthetsoversiktResponse, isLoading, kompletthetsoversiktHarFeilet } = state;
 
     const getKompletthetsoversikt = () =>
-        get<KompletthetResponse>('http://localhost:8082/mock/kompletthet', () => console.error('noe gikk galt'), {
+        get<KompletthetResponse>(endpoints.kompletthetBeregning, httpErrorHandler, {
             cancelToken: httpCanceler.token,
         });
 
@@ -56,11 +62,13 @@ const MainComponent = () => {
     }, []);
 
     return (
-        <PageContainer isLoading={isLoading} hasError={kompletthetsoversiktHarFeilet}>
-            {kompletthetsoversiktResponse && (
-                <Kompletthetsoversikt kompletthetsoversikt={initKompletthetsdata(kompletthetsoversiktResponse)} />
-            )}
-        </PageContainer>
+        <ContainerContext.Provider value={{ arbeidsforhold, readOnly, httpErrorHandler, endpoints }}>
+            <PageContainer isLoading={isLoading} hasError={kompletthetsoversiktHarFeilet}>
+                {kompletthetsoversiktResponse && (
+                    <Kompletthetsoversikt kompletthetsoversikt={initKompletthetsdata(kompletthetsoversiktResponse)} />
+                )}
+            </PageContainer>
+        </ContainerContext.Provider>
     );
 };
 

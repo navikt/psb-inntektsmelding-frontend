@@ -15,7 +15,21 @@
         <div id="app" style="padding:2.5rem"></div>
         <script type="text/javascript">
             setTimeout(() => {
-                window.renderKompletthetApp('app');
+                window.renderKompletthetApp('app', {
+                    readOnly: false,
+                    arbeidsforhold: {
+                        '123456789': {
+                            navn: 'MOCK MOCKESEN AS'
+                        },
+                        '234567890': {
+                            fødselsdato: '01.01.2048'
+                        }
+                    },
+                    endpoints: {
+                        kompletthetBeregning: 'http://localhost:8082/mock/kompletthet'
+                    },
+                    httpErrorHandler: () => console.error('An error occured')
+                });
             }, 300);
         </script>
     </body>
