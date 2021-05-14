@@ -13,24 +13,29 @@ interface FortsettUtenInntektsmeldingFormProps {
     onSubmit: (data: FortsettUtenInntektsmeldingFormState) => void;
 }
 
+export enum FieldName {
+    FORTSETT_UTEN_INNTEKTSMELDING = 'fortsettUtenInntektsmelding',
+    BEGRUNNELSE = 'begrunnelse',
+}
+
 const FortsettUtenInntektsmeldingForm = ({ onSubmit }: FortsettUtenInntektsmeldingFormProps) => {
     const formMethods = useForm({});
     const { handleSubmit, watch, register } = formMethods;
-    const fortsettUtenInntektsmelding = watch('fortsettUtenInntektsmelding', false);
+    const fortsettUtenInntektsmelding = watch(FieldName.FORTSETT_UTEN_INNTEKTSMELDING, false);
 
     return (
         <FormProvider {...formMethods}>
             <form onSubmit={() => handleSubmit(onSubmit)}>
                 <Checkbox
-                    name="fortsettUtenInntektsmelding"
+                    name={FieldName.FORTSETT_UTEN_INNTEKTSMELDING}
                     label="Fortsett uten inntektsmelding"
-                    {...register('fortsettUtenInntektsmelding')}
+                    {...register(FieldName.FORTSETT_UTEN_INNTEKTSMELDING)}
                 />
 
                 {fortsettUtenInntektsmelding && (
                     <Box marginTop={Margin.medium}>
                         <TextArea
-                            name="begrunnelse"
+                            name={FieldName.BEGRUNNELSE}
                             label="Begrunnelse"
                             validators={{ something: (v) => (!v ? 'Du må fylle inn en verdi' : null) }}
                         />
