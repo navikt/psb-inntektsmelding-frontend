@@ -27,7 +27,7 @@ interface MainComponentProps {
     data: ContainerContract;
 }
 
-const MainComponent = ({ data: { arbeidsforhold, readOnly, httpErrorHandler, endpoints } }: MainComponentProps) => {
+const MainComponent = ({ data }: MainComponentProps) => {
     const [state, dispatch] = React.useReducer(mainComponentReducer, {
         isLoading: true,
         kompletthetsoversiktHarFeilet: false,
@@ -36,6 +36,7 @@ const MainComponent = ({ data: { arbeidsforhold, readOnly, httpErrorHandler, end
 
     const httpCanceler = React.useMemo(() => axios.CancelToken.source(), []);
     const { kompletthetsoversiktResponse, isLoading, kompletthetsoversiktHarFeilet } = state;
+    const { endpoints, httpErrorHandler } = data;
 
     const getKompletthetsoversikt = () =>
         get<KompletthetResponse>(endpoints.kompletthetBeregning, httpErrorHandler, {
@@ -62,7 +63,7 @@ const MainComponent = ({ data: { arbeidsforhold, readOnly, httpErrorHandler, end
     }, []);
 
     return (
-        <ContainerContext.Provider value={{ arbeidsforhold, readOnly, httpErrorHandler, endpoints }}>
+        <ContainerContext.Provider value={data}>
             <PageContainer isLoading={isLoading} hasError={kompletthetsoversiktHarFeilet}>
                 {kompletthetsoversiktResponse && (
                     <Kompletthetsoversikt kompletthetsoversikt={initKompletthetsdata(kompletthetsoversiktResponse)} />

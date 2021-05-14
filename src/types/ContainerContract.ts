@@ -1,4 +1,5 @@
 import { HttpErrorHandler } from './HttpErrorHandler';
+import AksjonspunktRequestPayload from './AksjonspunktRequestPayload';
 
 export type ArbeidsgiverOpplysninger = Readonly<{
     navn: string;
@@ -12,6 +13,7 @@ interface ContainerContract {
     endpoints: {
         kompletthetBeregning: string;
     };
+    onFinished: (data: AksjonspunktRequestPayload) => void;
 }
 
 export default ContainerContract;

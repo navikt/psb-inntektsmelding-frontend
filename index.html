@@ -28,7 +28,8 @@
                     endpoints: {
                         kompletthetBeregning: 'http://localhost:8082/mock/kompletthet'
                     },
-                    httpErrorHandler: () => console.error('An error occured')
+                    httpErrorHandler: () => console.error('An error occured'),
+                    onFinished: (data) => console.log('Aksjonspunkt løst', data)
                 });
             }, 300);
         </script>
