@@ -1,27 +1,50 @@
+import { getHumanReadablePeriodString, Period } from '@navikt/period-utils';
+import Alertstripe from 'nav-frontend-alertstriper';
 import React from 'react';
-import { Period } from '@navikt/period-utils';
-import Box, { Margin } from '../box/Box';
-import { Kompletthet } from '../../../types/KompletthetData';
-import PeriodList from '../period-list/PeriodList';
-import InntektsmeldingListe from '../inntektsmelding-liste/InntektsmeldingListe';
-import InntektsmeldingListeHeading from '../inntektsmelding-liste-heading/InntektsmeldingListeHeading';
 import ContainerContext from '../../../context/ContainerContext';
-import FortsettUtenInntektsmeldingForm from '../fortsett-uten-inntektsmelding-form/FortsettUtenInntektsmeldingForm';
 import AksjonspunktRequestPayload from '../../../types/AksjonspunktRequestPayload';
+import { Kompletthet } from '../../../types/KompletthetData';
+import Box, { Margin } from '../box/Box';
+import FortsettUtenInntektsmeldingForm from '../fortsett-uten-inntektsmelding-form/FortsettUtenInntektsmeldingForm';
+import InntektsmeldingListeHeading from '../inntektsmelding-liste-heading/InntektsmeldingListeHeading';
+import InntektsmeldingListe from '../inntektsmelding-liste/InntektsmeldingListe';
+import PeriodList from '../period-list/PeriodList';
 
 interface KompletthetsoversiktProps {
     kompletthetsoversikt: Kompletthet;
 }
+
+const periodestring = (perioder: Period[]) => {
+    if (perioder.length > 1) {
+        return `periodene ${getHumanReadablePeriodString(perioder)}`;
+    }
+    return `perioden ${getHumanReadablePeriodString(perioder)}`;
+};
 
 const Kompletthetsoversikt = ({ kompletthetsoversikt }: KompletthetsoversiktProps) => {
     const { onFinished } = React.useContext(ContainerContext);
     const { tilstand } = kompletthetsoversikt;
     const periods = tilstand.map(({ periode }) => periode);
     const statuses = tilstand.map(({ status }) => status);
+    const perioderSomManglerInntektsmelding = tilstand
+        .filter(({ status }) => status.some((s) => s.status === 'MANGLER'))
+        .map(({ periode }) => periode);
+    const harPerioderSomManglerInntektsmelding = perioderSomManglerInntektsmelding.length > 0;
+
     return (
         <div className="kompletthet">
             <h1 style={{ fontSize: 22 }}>Inntektsmelding</h1>
-            <FortsettUtenInntektsmeldingForm onSubmit={(data: AksjonspunktRequestPayload) => onFinished(data)} />
+            {/* {harPerioderSomManglerInntektsmelding && ( */}
+            <>
+                <Box marginBottom={Margin.large}>
+                    <Alertstripe type="advarsel">
+                        {`Inntektsmelding mangler for en eller flere arbeidsgivere i
+                        ${periodestring(perioderSomManglerInntektsmelding)}. TODO: Beskrive rutine`}
+                    </Alertstripe>
+                </Box>
+                <FortsettUtenInntektsmeldingForm onSubmit={(data: AksjonspunktRequestPayload) => onFinished(data)} />
+            </>
+            {/* )} */}
             <Box marginTop={Margin.xLarge}>
                 <PeriodList
                     periods={periods}
