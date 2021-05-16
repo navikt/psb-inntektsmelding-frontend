@@ -1,7 +1,7 @@
 import { Hovedknapp } from 'nav-frontend-knapper';
-import { Checkbox } from 'nav-frontend-skjema';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import ControlledCheckbox from '../../form/Checkbox';
 import TextArea from '../../form/TextArea';
 import Box, { Margin } from '../box/Box';
 
@@ -20,16 +20,16 @@ export enum FieldName {
 
 const FortsettUtenInntektsmeldingForm = ({ onSubmit }: FortsettUtenInntektsmeldingFormProps) => {
     const formMethods = useForm({});
-    const { handleSubmit, watch, register } = formMethods;
-    const fortsettUtenInntektsmelding = watch(FieldName.FORTSETT_UTEN_INNTEKTSMELDING, false);
+    const { handleSubmit, watch, control } = formMethods;
+    const fortsettUtenInntektsmelding = watch(FieldName.FORTSETT_UTEN_INNTEKTSMELDING);
 
     return (
         <FormProvider {...formMethods}>
             <form onSubmit={() => handleSubmit(onSubmit)}>
-                <Checkbox
+                <ControlledCheckbox
+                    control={control}
                     name={FieldName.FORTSETT_UTEN_INNTEKTSMELDING}
                     label="Fortsett uten inntektsmelding"
-                    {...register(FieldName.FORTSETT_UTEN_INNTEKTSMELDING)}
                 />
 
                 {fortsettUtenInntektsmelding && (
