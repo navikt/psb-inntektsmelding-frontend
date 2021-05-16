@@ -15,7 +15,7 @@ interface FortsettUtenInntektsmeldingFormProps {
 
 export enum FieldName {
     FORTSETT_UTEN_INNTEKTSMELDING = 'fortsettUtenInntektsmelding',
-    BEGRUNNELSE = 'begrunnelse',
+    BEGRUNN = 'begrunn',
 }
 
 const FortsettUtenInntektsmeldingForm = ({ onSubmit }: FortsettUtenInntektsmeldingFormProps) => {
@@ -33,17 +33,21 @@ const FortsettUtenInntektsmeldingForm = ({ onSubmit }: FortsettUtenInntektsmeldi
                 />
 
                 {fortsettUtenInntektsmelding && (
-                    <Box marginTop={Margin.medium}>
-                        <TextArea
-                            name={FieldName.BEGRUNNELSE}
-                            label="Begrunnelse"
-                            validators={{ something: (v) => (!v ? 'Du må fylle inn en verdi' : null) }}
-                        />
-                    </Box>
+                    <>
+                        <Box marginTop={Margin.medium}>
+                            <TextArea
+                                name={FieldName.BEGRUNN}
+                                label="Begrunn"
+                                validators={{ something: (v) => (!v ? 'Du må fylle inn en verdi' : null) }}
+                            />
+                        </Box>
+                        <Box marginTop={Margin.large}>
+                            <Hovedknapp disabled={!fortsettUtenInntektsmelding}>
+                                Fortsett uten inntektsmelding
+                            </Hovedknapp>
+                        </Box>
+                    </>
                 )}
-                <Box marginTop={Margin.large}>
-                    <Hovedknapp disabled={!fortsettUtenInntektsmelding}>Lagre</Hovedknapp>
-                </Box>
             </form>
         </FormProvider>
     );

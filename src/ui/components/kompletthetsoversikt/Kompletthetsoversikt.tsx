@@ -45,7 +45,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt }: KompletthetsoversiktProp
                 <FortsettUtenInntektsmeldingForm onSubmit={(data: AksjonspunktRequestPayload) => onFinished(data)} />
             </>
             {/* )} */}
-            <Box marginTop={Margin.xLarge}>
+            <Box marginTop={Margin.large}>
                 <PeriodList
                     periods={periods}
                     listHeadingRenderer={() => <InntektsmeldingListeHeading />}
