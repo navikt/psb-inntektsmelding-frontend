@@ -17,6 +17,10 @@
             setTimeout(() => {
                 window.renderKompletthetApp('app', {
                     readOnly: false,
+                    dokumenter: [
+                        { journalpostId: '1111', href: '/foo' },
+                        { journalpostId: '4444', href: '/bar' }
+                    ],
                     arbeidsforhold: {
                         '123456789': {
                             navn: 'MOCK MOCKESEN AS'
@@ -29,7 +33,8 @@
                         kompletthetBeregning: 'http://localhost:8082/mock/kompletthet'
                     },
                     httpErrorHandler: () => console.error('An error occured'),
-                    onFinished: (data) => console.log('Aksjonspunkt løst', data)
+                    onFinished: (data) => console.log('Aksjonspunkt løst', data),
+                    visFortsettKnapp: true
                 });
             }, 300);
         </script>

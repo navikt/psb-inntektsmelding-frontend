@@ -5,7 +5,7 @@ import ControlledCheckbox from '../../form/Checkbox';
 import TextArea from '../../form/TextArea';
 import Box, { Margin } from '../box/Box';
 
-interface FortsettUtenInntektsmeldingFormState {
+export interface FortsettUtenInntektsmeldingFormState {
     begrunnelse: string;
 }
 
@@ -15,7 +15,7 @@ interface FortsettUtenInntektsmeldingFormProps {
 
 export enum FieldName {
     FORTSETT_UTEN_INNTEKTSMELDING = 'fortsettUtenInntektsmelding',
-    BEGRUNN = 'begrunn',
+    BEGRUNNELSE = 'begrunnelse',
 }
 
 const FortsettUtenInntektsmeldingForm = ({ onSubmit }: FortsettUtenInntektsmeldingFormProps) => {
@@ -25,7 +25,7 @@ const FortsettUtenInntektsmeldingForm = ({ onSubmit }: FortsettUtenInntektsmeldi
 
     return (
         <FormProvider {...formMethods}>
-            <form onSubmit={() => handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <ControlledCheckbox
                     control={control}
                     name={FieldName.FORTSETT_UTEN_INNTEKTSMELDING}
@@ -36,13 +36,13 @@ const FortsettUtenInntektsmeldingForm = ({ onSubmit }: FortsettUtenInntektsmeldi
                     <>
                         <Box marginTop={Margin.medium}>
                             <TextArea
-                                name={FieldName.BEGRUNN}
-                                label="Begrunn"
+                                name={FieldName.BEGRUNNELSE}
+                                label="Begrunnelse"
                                 validators={{ something: (v) => (!v ? 'Du må fylle inn en verdi' : null) }}
                             />
                         </Box>
                         <Box marginTop={Margin.large}>
-                            <Hovedknapp disabled={!fortsettUtenInntektsmelding}>
+                            <Hovedknapp disabled={!fortsettUtenInntektsmelding} mini>
                                 Fortsett uten inntektsmelding
                             </Hovedknapp>
                         </Box>

@@ -1,10 +1,11 @@
+interface Perioder {
+    periode: string;
+    fortsett: boolean;
+}
+
 interface AksjonspunktRequestPayload {
     begrunnelse: string;
-    perioder: {
-        [periodeString: string]: {
-            fortsettUtenInntektsmelding: true;
-        };
-    };
+    perioder: Perioder[];
 }
 
 export default AksjonspunktRequestPayload;
