@@ -1,0 +1,9 @@
+{
+    "app": "psb-inntektsmelding-frontend",
+    "cluster": "dev-fss",
+    "namespace": "pleiepenger",
+    "team": "pleiepenger",
+    "minReplicas": "1",
+    "maxReplicas": "2",
+    "ingresses": ["https://psb-inntektsmelding-frontend.dev.adeo.no"]
+}

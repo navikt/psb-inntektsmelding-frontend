@@ -1,6 +1,6 @@
 FROM node:14-alpine
 
-WORKDIR /kompletthet-app
+WORKDIR /psb-inntektsmelding-app
 
 COPY build ./build
 COPY server.js .
