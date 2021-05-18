@@ -7,7 +7,7 @@ import mainComponentReducer from './reducer';
 import ActionType from './actionTypes';
 import PageContainer from './components/page-container/PageContainer';
 import { Kompletthet as KompletthetData } from '../types/KompletthetData';
-import { Kompletthet as KompletthetResponse } from '../types/KompletthetResponse';
+import { Kompletthet as KompletthetResponse, Tilstand } from '../types/KompletthetResponse';
 import ContainerContract from '../types/ContainerContract';
 import ContainerContext from '../context/ContainerContext';
 
@@ -23,11 +23,14 @@ function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetDat
     };
 }
 
+const tilstandManglerInntektsmelding = (tilstand: Tilstand) =>
+    tilstand.status.some(({ status }) => status === 'MANGLER');
+
 interface MainComponentProps {
     data: ContainerContract;
 }
 
-const MainComponent = ({ data: { arbeidsforhold, readOnly, httpErrorHandler, endpoints } }: MainComponentProps) => {
+const MainComponent = ({ data }: MainComponentProps) => {
     const [state, dispatch] = React.useReducer(mainComponentReducer, {
         isLoading: true,
         kompletthetsoversiktHarFeilet: false,
@@ -36,6 +39,7 @@ const MainComponent = ({ data: { arbeidsforhold, readOnly, httpErrorHandler, end
 
     const httpCanceler = React.useMemo(() => axios.CancelToken.source(), []);
     const { kompletthetsoversiktResponse, isLoading, kompletthetsoversiktHarFeilet } = state;
+    const { endpoints, httpErrorHandler, onFinished } = data;
 
     const getKompletthetsoversikt = () =>
         get<KompletthetResponse>(endpoints.kompletthetBeregning, httpErrorHandler, {
@@ -62,10 +66,29 @@ const MainComponent = ({ data: { arbeidsforhold, readOnly, httpErrorHandler, end
     }, []);
 
     return (
-        <ContainerContext.Provider value={{ arbeidsforhold, readOnly, httpErrorHandler, endpoints }}>
+        <ContainerContext.Provider value={data}>
             <PageContainer isLoading={isLoading} hasError={kompletthetsoversiktHarFeilet}>
                 {kompletthetsoversiktResponse && (
-                    <Kompletthetsoversikt kompletthetsoversikt={initKompletthetsdata(kompletthetsoversiktResponse)} />
+                    <Kompletthetsoversikt
+                        kompletthetsoversikt={initKompletthetsdata(kompletthetsoversiktResponse)}
+                        onFormSubmit={({ begrunnelse }) => {
+                            onFinished({
+                                begrunnelse,
+                                perioder: kompletthetsoversiktResponse.tilstand.map((currentTilstand) => {
+                                    if (tilstandManglerInntektsmelding(currentTilstand)) {
+                                        return {
+                                            periode: currentTilstand.periode,
+                                            fortsett: true,
+                                        };
+                                    }
+                                    return {
+                                        periode: currentTilstand.periode,
+                                        fortsett: false,
+                                    };
+                                }),
+                            });
+                        }}
+                    />
                 )}
             </PageContainer>
         </ContainerContext.Provider>

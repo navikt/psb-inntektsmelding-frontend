@@ -9,7 +9,7 @@ export default {
                         arbeidsforhold: null,
                     },
                     status: 'MOTTATT',
-                    journalpostId: '1234567',
+                    journalpostId: '1111',
                 },
                 {
                     arbeidsgiver: {
@@ -17,7 +17,7 @@ export default {
                         arbeidsforhold: null,
                     },
                     status: 'MANGLER',
-                    journalpostId: '2345678',
+                    journalpostId: '2222',
                 },
             ],
         },
@@ -30,7 +30,7 @@ export default {
                         arbeidsforhold: null,
                     },
                     status: 'MANGLER',
-                    journalpostId: '1234567',
+                    journalpostId: '3333',
                 },
                 {
                     arbeidsgiver: {
@@ -38,7 +38,7 @@ export default {
                         arbeidsforhold: null,
                     },
                     status: 'MOTTATT',
-                    journalpostId: '2345678',
+                    journalpostId: '4444',
                 },
             ],
         },
