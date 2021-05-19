@@ -3,6 +3,7 @@ import { Status } from '../../../types/KompletthetData';
 import ListItem from '../list-item/ListItem';
 import styles from '../inntektsmelding-mottatt-item/inntektsmeldingMottattItem.less';
 import WarningIcon from '../icons/WarningIcon';
+import ArbeidsgiverTekst from '../arbeidsgiver-tekst/ArbeidsgiverTekst';
 
 interface InntektsmeldingMottattItemProps {
     status: Status;
@@ -18,7 +19,7 @@ const ManglerContent = () => (
 const InntektsmeldingManglerItem = ({ status }: InntektsmeldingMottattItemProps) => {
     return (
         <ListItem
-            firstColumnRenderer={() => <span>{status.arbeidsgiver.arbeidsgiver}</span>}
+            firstColumnRenderer={() => <ArbeidsgiverTekst arbeidsgiver={status.arbeidsgiver} />}
             secondColumnRenderer={() => <ManglerContent />}
         />
     );
