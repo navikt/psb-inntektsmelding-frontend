@@ -12,6 +12,7 @@ import InntektsmeldingListe from '../inntektsmelding-liste/InntektsmeldingListe'
 import PeriodList from '../period-list/PeriodList';
 import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
 import styles from './kompletthetsoversikt.less';
+import tilstandManglerInntektsmeldingUtil from '../../../util/tilstandManglerInntektsmelding';
 
 interface KompletthetsoversiktProps {
     kompletthetsoversikt: Kompletthet;
@@ -31,7 +32,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
     const periods = tilstand.map(({ periode }) => periode);
     const statuses = tilstand.map(({ status }) => status);
     const perioderSomManglerInntektsmelding = tilstand
-        .filter(({ status }) => status.some((s) => s.status === 'MANGLER'))
+        .filter(tilstandManglerInntektsmeldingUtil)
         .map(({ periode }) => periode);
 
     return (

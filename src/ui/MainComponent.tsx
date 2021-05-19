@@ -7,9 +7,10 @@ import mainComponentReducer from './reducer';
 import ActionType from './actionTypes';
 import PageContainer from './components/page-container/PageContainer';
 import { Kompletthet as KompletthetData } from '../types/KompletthetData';
-import { Kompletthet as KompletthetResponse, Tilstand } from '../types/KompletthetResponse';
+import { Kompletthet as KompletthetResponse } from '../types/KompletthetResponse';
 import ContainerContract from '../types/ContainerContract';
 import ContainerContext from '../context/ContainerContext';
+import tilstandManglerInntektsmelding from '../util/tilstandManglerInntektsmelding';
 
 function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetData {
     return {
@@ -22,9 +23,6 @@ function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetDat
         }),
     };
 }
-
-const tilstandManglerInntektsmelding = (tilstand: Tilstand) =>
-    tilstand.status.some(({ status }) => status === 'MANGLER');
 
 interface MainComponentProps {
     data: ContainerContract;

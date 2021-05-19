@@ -17,7 +17,7 @@ const MottattContent = ({ dokumentLink }: MottattContentProps) => (
         <GreenCheckIconFilled />
         <div>
             <span className={styles.mottattLabel__text}>Mottatt</span>
-            <Lenke className={styles.mottattLabel__link} href={dokumentLink}>
+            <Lenke className={styles.mottattLabel__link} href={dokumentLink} target="_blank">
                 Vis inntektsmelding
             </Lenke>
         </div>
