@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Period } from '@navikt/period-utils';
+import { Period } from '@navikt/k9-period-utils';
 import { get } from '../util/httpUtils';
 import Kompletthetsoversikt from './components/kompletthetsoversikt/Kompletthetsoversikt';
 import mainComponentReducer from './reducer';

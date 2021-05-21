@@ -1,5 +1,5 @@
 import React from 'react';
-import { Period } from '@navikt/period-utils';
+import { Period } from '@navikt/k9-period-utils';
 import styles from './periodList.less';
 import CalendarIcon from '../icons/CalendarIcon';
 

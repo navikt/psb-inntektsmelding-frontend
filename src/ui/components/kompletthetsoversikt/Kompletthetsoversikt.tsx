@@ -1,4 +1,4 @@
-import { getHumanReadablePeriodString, Period } from '@navikt/period-utils';
+import { getHumanReadablePeriodString, Period } from '@navikt/k9-period-utils';
 import Alertstripe from 'nav-frontend-alertstriper';
 import React from 'react';
 import ContainerContext from '../../../context/ContainerContext';
