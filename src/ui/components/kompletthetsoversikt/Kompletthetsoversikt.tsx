@@ -1,9 +1,9 @@
 import { getHumanReadablePeriodString, Period } from '@navikt/k9-period-utils';
 import Alertstripe from 'nav-frontend-alertstriper';
 import React from 'react';
+import { Box, Margin } from '@navikt/k9-react-components';
 import ContainerContext from '../../../context/ContainerContext';
 import { Kompletthet } from '../../../types/KompletthetData';
-import Box, { Margin } from '../box/Box';
 import FortsettUtenInntektsmeldingForm, {
     FortsettUtenInntektsmeldingFormState,
 } from '../fortsett-uten-inntektsmelding-form/FortsettUtenInntektsmeldingForm';

@@ -1,9 +1,9 @@
 import { Hovedknapp } from 'nav-frontend-knapper';
 import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { Box, Margin } from '@navikt/k9-react-components';
 import ControlledCheckbox from '../../form/Checkbox';
 import TextArea from '../../form/TextArea';
-import Box, { Margin } from '../box/Box';
 
 export interface FortsettUtenInntektsmeldingFormState {
     begrunnelse: string;
