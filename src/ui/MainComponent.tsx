@@ -1,4 +1,5 @@
 import { Period } from '@navikt/k9-period-utils';
+import { get } from '@navikt/k9-http-utils';
 import { PageContainer } from '@navikt/k9-react-components';
 import axios from 'axios';
 import React from 'react';
@@ -6,7 +7,6 @@ import ContainerContext from '../context/ContainerContext';
 import ContainerContract from '../types/ContainerContract';
 import { Kompletthet as KompletthetData } from '../types/KompletthetData';
 import { Kompletthet as KompletthetResponse } from '../types/KompletthetResponse';
-import { get } from '../util/httpUtils';
 import tilstandManglerInntektsmelding from '../util/tilstandManglerInntektsmelding';
 import ActionType from './actionTypes';
 import Kompletthetsoversikt from './components/kompletthetsoversikt/Kompletthetsoversikt';

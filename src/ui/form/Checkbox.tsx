@@ -13,8 +13,8 @@ const ControlledCheckbox = ({ control, name, label }: Props): JSX.Element => (
         control={control}
         defaultValue={false}
         name={name}
-        render={({ field: { onChange, value, ref } }) => {
-            return <Checkbox label={label} onChange={onChange} ref={ref} checked={value} />;
+        render={({ onChange, ref }) => {
+            return <Checkbox label={label} onChange={(e) => onChange(e.target.checked)} ref={ref} />;
         }}
     />
 );

@@ -1,7 +1,7 @@
+import { GreenCheckIconFilled } from '@navikt/k9-react-components';
 import React from 'react';
 import Lenke from 'nav-frontend-lenker';
 import { Status } from '../../../types/KompletthetData';
-import GreenCheckIconFilled from '../icons/GreenCheckIconFilled';
 import ListItem from '../list-item/ListItem';
 import styles from './inntektsmeldingMottattItem.less';
 import ArbeidsgiverTekst from '../arbeidsgiver-tekst/ArbeidsgiverTekst';

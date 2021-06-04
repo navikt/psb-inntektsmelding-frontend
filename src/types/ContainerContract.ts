@@ -1,4 +1,4 @@
-import { HttpErrorHandler } from './HttpErrorHandler';
+import { HttpErrorHandler } from '@navikt/k9-http-utils';
 import AksjonspunktRequestPayload from './AksjonspunktRequestPayload';
 
 export type ArbeidsgiverOpplysninger = Readonly<{

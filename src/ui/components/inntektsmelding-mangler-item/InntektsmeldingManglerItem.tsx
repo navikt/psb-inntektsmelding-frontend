@@ -1,8 +1,8 @@
+import { WarningIcon } from '@navikt/k9-react-components';
 import React from 'react';
 import { Status } from '../../../types/KompletthetData';
 import ListItem from '../list-item/ListItem';
 import styles from '../inntektsmelding-mottatt-item/inntektsmeldingMottattItem.less';
-import WarningIcon from '../icons/WarningIcon';
 import ArbeidsgiverTekst from '../arbeidsgiver-tekst/ArbeidsgiverTekst';
 
 interface InntektsmeldingMottattItemProps {
