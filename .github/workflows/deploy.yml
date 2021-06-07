@@ -5,6 +5,8 @@ on:
             - main
         paths:
             - 'build/**'
+            - '.github/workflows/deploy.yml'
+            - 'package.json'
 env:
     IMAGE_BASE: docker.pkg.github.com/${{ github.repository }}/psb-inntektsmelding-frontend
     CLUSTER: dev-fss
@@ -74,7 +76,7 @@ jobs:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   CLUSTER: prod-fss
                   RESOURCE: nais/naiserator.yml
-                  VARS: nais/prod-fss.json                  
+                  VARS: nais/prod-fss.json
             - name: Set changelog
               run: |
                   text="$(git --no-pager log $(git describe --tags --abbrev=0)..HEAD --pretty=format:"%h %s")"
