@@ -10,7 +10,7 @@ module.exports = merge(commonWebpackConfig, {
     mode: 'production',
     output: {
         filename: 'app.js',
-        path: path.resolve(__dirname, `../build/${pkg.version}`),
+        path: path.resolve(__dirname, '../build'),
     },
     optimization: {
         minimize: true,
