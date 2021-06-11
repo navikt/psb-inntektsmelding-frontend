@@ -10,7 +10,11 @@ const ArbeidsgiverTekst = ({ arbeidsgiver }: ArbeidsgiverTekstProps) => {
     const { arbeidsforhold } = React.useContext(ContainerContext);
     const id = arbeidsgiver.arbeidsgiver;
     const tekst = arbeidsforhold[id].navn || arbeidsforhold[id].fødselsdato;
-    return <span>{tekst}</span>;
+    return (
+        <span>
+            {tekst} (Arbeidsforhold {id})
+        </span>
+    );
 };
 
 export default ArbeidsgiverTekst;
