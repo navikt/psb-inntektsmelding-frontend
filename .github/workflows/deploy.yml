@@ -31,13 +31,16 @@ jobs:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
             - name: Kjøre enhetstester
               run: npm test
+            - name: Sette versjon
+              run: |
+                echo "MAJOR_VERSION=$(npm run majorVersion --silent)" >> $GITHUB_ENV
             - name: Sette miljøvariabler
               run: |
                   echo "TAG=$(date "+%Y.%m.%d")-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
                   echo "IMAGE=${IMAGE_BASE}:${TAG}" >> $GITHUB_ENV
                   echo "LATEST=${IMAGE_BASE}:latest" >> $GITHUB_ENV
-                  echo "CSS_HASH=$(shasum -b -a 384 build/styles.css | awk '{ print $1 }' | xxd -r -p | base64)" >> $GITHUB_ENV
-                  echo "JS_HASH=$(shasum -b -a 384 build/app.js | awk '{ print $1 }' | xxd -r -p | base64)" >> $GITHUB_ENV
+                  echo "CSS_HASH=$(shasum -b -a 384 build/${MAJOR_VERSION}/styles.css | awk '{ print $1 }' | xxd -r -p | base64)" >> $GITHUB_ENV
+                  echo "JS_HASH=$(shasum -b -a 384 build/${MAJOR_VERSION}/app.js | awk '{ print $1 }' | xxd -r -p | base64)" >> $GITHUB_ENV
             - name: Bygg og laste opp docker-image
               run: |
                   docker build --tag ${IMAGE} --tag ${LATEST} .
@@ -54,15 +57,6 @@ jobs:
                   CLUSTER: dev-fss
                   RESOURCE: nais/naiserator.yml
                   VARS: nais/dev-fss.json
-            - name: Deploy til prod-fss
-              if: github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'ci skip')
-              uses: nais/deploy/actions/deploy@v1
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  CLUSTER: prod-fss
-                  RESOURCE: nais/naiserator.yml
-                  VARS: nais/prod-fss.json
             - name: Create Release
               id: create_release
               uses: actions/create-release@latest
