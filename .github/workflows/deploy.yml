@@ -70,7 +70,7 @@ jobs:
                       ```
                       <script
                         type="text/javascript"
-                        src="https://psb-inntektsmelding-frontend.dev.adeo.no/app.js"
+                        src="https://psb-inntektsmelding-frontend.dev.adeo.no/${{ MAJOR_VERSION }}/app.js"
                         integrity="sha384-${{ env.JS_HASH }}"
                         crossorigin="anonymous"
                       ></script>
@@ -80,7 +80,7 @@ jobs:
                       ```
                       <link
                         rel="stylesheet"
-                        href="https://psb-inntektsmelding-frontend.dev.adeo.no/styles.css"
+                        href="https://psb-inntektsmelding-frontend.dev.adeo.no/${{ MAJOR_VERSION }}/styles.css"
                         integrity="sha384-${{ env.CSS_HASH }}"
                         crossorigin="anonymous"
                       >
