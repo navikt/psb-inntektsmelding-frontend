@@ -65,8 +65,8 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                  tag_name: ${{ TAG }}
-                  release_name: ${{ TAG }}
+                  tag_name: ${{ env.TAG }}
+                  release_name: ${{ env.TAG }}
                   body: |
                       For JS, add this to your app:
                       ```
