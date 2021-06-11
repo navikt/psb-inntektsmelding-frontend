@@ -1,6 +1,6 @@
 {
     "name": "psb-inntektsmelding-frontend",
-    "version": "0.0.4",
+    "version": "1.0.0",
     "scripts": {
         "test": "jest --passWithNoTests",
         "test-watch": "jest --watch",
@@ -8,7 +8,7 @@
         "build": "webpack --config webpack/webpack-config.production.js",
         "dev": "node webpack/webpack-config.development.js",
         "api-mock": "ts-node mock/api-mock.ts",
-        "version": "node ./version.js",
+        "majorVersion": "node ./majorVersion.js",
         "lint": "eslint 'src/**/*.{ts,tsx,js,jsx}'"
     },
     "keywords": [],
