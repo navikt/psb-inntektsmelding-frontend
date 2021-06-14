@@ -12,7 +12,7 @@ const ArbeidsgiverTekst = ({ arbeidsgiver }: ArbeidsgiverTekstProps) => {
     const tekst = arbeidsforhold[id].navn || arbeidsforhold[id].fødselsdato;
     return (
         <span>
-            {tekst} (Arbeidsforhold {id})
+            {tekst} (Arbeidsforhold {arbeidsgiver.arbeidsforhold})
         </span>
     );
 };
