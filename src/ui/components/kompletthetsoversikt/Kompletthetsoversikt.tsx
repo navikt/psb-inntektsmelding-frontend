@@ -36,14 +36,29 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
         .map(({ periode }) => periode);
 
     return (
-        <div className="kompletthet">
-            <h1 style={{ fontSize: 22 }}>Inntektsmelding</h1>
+        <div className={styles.kompletthet}>
+            <h1 className={styles.kompletthet__mainHeading}>Inntektsmelding</h1>
+            <h2 className={styles.kompletthet__subHeading}>Opplysninger til beregning</h2>
             {visFortsettKnapp && (
                 <>
                     <Box marginBottom={Margin.large}>
                         <Alertstripe type="advarsel" className={styles.alertstripe}>
                             {`Inntektsmelding mangler for en eller flere arbeidsgivere i
                         ${periodestring(perioderSomManglerInntektsmelding)}. TODO: Beskrive rutine`}
+                        </Alertstripe>
+                    </Box>
+                    <Box marginBottom={Margin.large}>
+                        <Alertstripe type="info" className={styles.alertstripe}>
+                            <ul className={styles.kompletthet__list}>
+                                <li>
+                                    Første fraværsdato i inntektsmeldingen må være 4 uker før eller etter
+                                    skjæringstidspunktet for ytelsen.
+                                </li>
+                                <li>
+                                    Arbeidsforholds-ID i inntektsmeldingen må være lik arbeidsforholds-ID i
+                                    Aa-registeret.
+                                </li>
+                            </ul>
                         </Alertstripe>
                     </Box>
                     <WriteAccessBoundContent
