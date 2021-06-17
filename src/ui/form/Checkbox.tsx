@@ -6,15 +6,18 @@ interface Props {
     control: Control;
     name: string;
     label: string;
+    disabled?: boolean;
 }
 
-const ControlledCheckbox = ({ control, name, label }: Props): JSX.Element => (
+const ControlledCheckbox = ({ control, name, label, disabled }: Props): JSX.Element => (
     <Controller
         control={control}
         defaultValue={false}
         name={name}
         render={({ onChange, ref }) => {
-            return <Checkbox label={label} onChange={(e) => onChange(e.target.checked)} ref={ref} />;
+            return (
+                <Checkbox label={label} onChange={(e) => onChange(e.target.checked)} ref={ref} disabled={disabled} />
+            );
         }}
     />
 );

@@ -1,6 +1,6 @@
 {
     "name": "psb-inntektsmelding-frontend",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "scripts": {
         "test": "jest --passWithNoTests",
         "test-watch": "jest --watch",

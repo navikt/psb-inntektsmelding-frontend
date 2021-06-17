@@ -3,6 +3,7 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Box, Margin, TextArea } from '@navikt/k9-react-components';
 import ControlledCheckbox from '../../form/Checkbox';
+import ContainerContext from '../../../context/ContainerContext';
 
 export interface FortsettUtenInntektsmeldingFormState {
     begrunnelse: string;
@@ -18,6 +19,7 @@ export enum FieldName {
 }
 
 const FortsettUtenInntektsmeldingForm = ({ onSubmit }: FortsettUtenInntektsmeldingFormProps) => {
+    const { readOnly } = React.useContext(ContainerContext);
     const formMethods = useForm({});
     const { handleSubmit, watch, control } = formMethods;
     const fortsettUtenInntektsmelding = watch(FieldName.FORTSETT_UTEN_INNTEKTSMELDING);
@@ -29,6 +31,7 @@ const FortsettUtenInntektsmeldingForm = ({ onSubmit }: FortsettUtenInntektsmeldi
                     control={control}
                     name={FieldName.FORTSETT_UTEN_INNTEKTSMELDING}
                     label="Fortsett uten inntektsmelding"
+                    disabled={readOnly}
                 />
 
                 {fortsettUtenInntektsmelding && (
