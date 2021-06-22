@@ -44,7 +44,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
                     <Box marginBottom={Margin.large}>
                         <Alertstripe type="advarsel" className={styles.alertstripe}>
                             {`Inntektsmelding mangler for en eller flere arbeidsgivere i
-                        ${periodestring(perioderSomManglerInntektsmelding)}. TODO: Beskrive rutine`}
+                        ${periodestring(perioderSomManglerInntektsmelding)}.`}
                         </Alertstripe>
                     </Box>
                     <Box marginBottom={Margin.large}>
