@@ -18,13 +18,14 @@ export enum FieldName {
     BEGRUNNELSE = 'begrunnelse',
 }
 
-const FortsettUtenInntektsmeldingForm = ({ onSubmit }: FortsettUtenInntektsmeldingFormProps) => {
+const FortsettUtenInntektsmeldingForm = ({ onSubmit }: FortsettUtenInntektsmeldingFormProps): JSX.Element => {
     const { readOnly } = React.useContext(ContainerContext);
     const formMethods = useForm({});
     const { handleSubmit, watch, control } = formMethods;
     const fortsettUtenInntektsmelding = watch(FieldName.FORTSETT_UTEN_INNTEKTSMELDING);
 
     return (
+        // eslint-disable-next-line react/jsx-props-no-spreading
         <FormProvider {...formMethods}>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <ControlledCheckbox

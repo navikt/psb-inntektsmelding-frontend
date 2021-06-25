@@ -31,7 +31,7 @@ interface InntektsmeldingMottattItemProps {
 const finnDokumentLink = (dokumenter: DokumentOpplysninger[], journalpostId: string) =>
     dokumenter.find((dokument) => dokument.journalpostId === journalpostId);
 
-const InntektsmeldingMottattItem = ({ status }: InntektsmeldingMottattItemProps) => {
+const InntektsmeldingMottattItem = ({ status }: InntektsmeldingMottattItemProps): JSX.Element => {
     const { dokumenter } = React.useContext(ContainerContext);
     const dokumentLink = finnDokumentLink(dokumenter || [], status.journalpostId)?.href;
     return (

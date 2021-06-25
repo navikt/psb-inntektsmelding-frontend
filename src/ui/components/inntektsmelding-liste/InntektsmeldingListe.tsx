@@ -23,8 +23,8 @@ const renderListItem = (status: Status) => {
     return null;
 };
 
-const InntektsmeldingListe = ({ status }: PeriodListItemProps) => {
-    return <ul className={styles.inntektsmeldingListe}>{status.map(renderListItem)}</ul>;
-};
+const InntektsmeldingListe = ({ status }: PeriodListItemProps): JSX.Element => (
+    <ul className={styles.inntektsmeldingListe}>{status.map(renderListItem)}</ul>
+);
 
 export default InntektsmeldingListe;

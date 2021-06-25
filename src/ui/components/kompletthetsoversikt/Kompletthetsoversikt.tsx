@@ -26,7 +26,7 @@ const periodestring = (perioder: Period[]) => {
     return `perioden ${getHumanReadablePeriodString(perioder)}`;
 };
 
-const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: KompletthetsoversiktProps) => {
+const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: KompletthetsoversiktProps): JSX.Element => {
     const { visFortsettKnapp } = React.useContext(ContainerContext);
     const { tilstand } = kompletthetsoversikt;
     const periods = tilstand.map(({ periode }) => periode);

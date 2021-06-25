@@ -16,13 +16,11 @@ const ManglerContent = () => (
     </div>
 );
 
-const InntektsmeldingManglerItem = ({ status }: InntektsmeldingMottattItemProps) => {
-    return (
-        <ListItem
-            firstColumnRenderer={() => <ArbeidsgiverTekst arbeidsgiver={status.arbeidsgiver} />}
-            secondColumnRenderer={() => <ManglerContent />}
-        />
-    );
-};
+const InntektsmeldingManglerItem = ({ status }: InntektsmeldingMottattItemProps): JSX.Element => (
+    <ListItem
+        firstColumnRenderer={() => <ArbeidsgiverTekst arbeidsgiver={status.arbeidsgiver} />}
+        secondColumnRenderer={() => <ManglerContent />}
+    />
+);
 
 export default InntektsmeldingManglerItem;

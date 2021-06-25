@@ -6,7 +6,7 @@ interface ArbeidsgiverTekstProps {
     arbeidsgiver: Arbeidsgiver;
 }
 
-const ArbeidsgiverTekst = ({ arbeidsgiver }: ArbeidsgiverTekstProps) => {
+const ArbeidsgiverTekst = ({ arbeidsgiver }: ArbeidsgiverTekstProps): JSX.Element => {
     const { arbeidsforhold } = React.useContext(ContainerContext);
     const id = arbeidsgiver.arbeidsgiver;
     const tekst = arbeidsforhold[id].navn || arbeidsforhold[id].fødselsdato;

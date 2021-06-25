@@ -6,13 +6,11 @@ interface ListItemProps {
     secondColumnRenderer: () => React.ReactNode;
 }
 
-const ListItem = ({ firstColumnRenderer, secondColumnRenderer }: ListItemProps) => {
-    return (
-        <div className={styles.listItem}>
-            <div className={styles.listItem__firstColumn}>{firstColumnRenderer()}</div>
-            <div className={styles.listItem__secondColumn}>{secondColumnRenderer()}</div>
-        </div>
-    );
-};
+const ListItem = ({ firstColumnRenderer, secondColumnRenderer }: ListItemProps): JSX.Element => (
+    <div className={styles.listItem}>
+        <div className={styles.listItem__firstColumn}>{firstColumnRenderer()}</div>
+        <div className={styles.listItem__secondColumn}>{secondColumnRenderer()}</div>
+    </div>
+);
 
 export default ListItem;
