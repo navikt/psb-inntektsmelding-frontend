@@ -4,19 +4,24 @@ import React from 'react';
 import { Box, Margin } from '@navikt/k9-react-components';
 import ContainerContext from '../../../context/ContainerContext';
 import { Kompletthet } from '../../../types/KompletthetData';
-import FortsettUtenInntektsmeldingForm, {
-    FortsettUtenInntektsmeldingFormState,
-} from '../fortsett-uten-inntektsmelding-form/FortsettUtenInntektsmeldingForm';
+import { FortsettUtenInntektsmeldingFormState } from '../fortsett-uten-inntektsmelding-form/FortsettUtenInntektsmeldingForm';
 import InntektsmeldingListeHeading from '../inntektsmelding-liste-heading/InntektsmeldingListeHeading';
 import InntektsmeldingListe from '../inntektsmelding-liste/InntektsmeldingListe';
 import PeriodList from '../period-list/PeriodList';
-import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
 import styles from './kompletthetsoversikt.less';
 import tilstandManglerInntektsmeldingUtil from '../../../util/tilstandManglerInntektsmelding';
 
 interface KompletthetsoversiktProps {
     kompletthetsoversikt: Kompletthet;
-    onFormSubmit: (data: FortsettUtenInntektsmeldingFormState) => void;
+    onFormSubmit: ({
+        begrunnelse,
+        periode,
+        beslutning,
+    }: {
+        begrunnelse: string;
+        periode: Period;
+        beslutning: string;
+    }) => void;
 }
 
 const periodestring = (perioder: Period[]) => {
@@ -29,6 +34,7 @@ const periodestring = (perioder: Period[]) => {
 const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: KompletthetsoversiktProps): JSX.Element => {
     const { visFortsettKnapp } = React.useContext(ContainerContext);
     const { tilstand } = kompletthetsoversikt;
+    console.log(tilstand)
     const periods = tilstand.map(({ periode }) => periode);
     const statuses = tilstand.map(({ status }) => status);
     const perioderSomManglerInntektsmelding = tilstand
@@ -61,9 +67,6 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
                             </ul>
                         </Alertstripe>
                     </Box>
-                    <WriteAccessBoundContent
-                        contentRenderer={() => <FortsettUtenInntektsmeldingForm onSubmit={onFormSubmit} />}
-                    />
                 </>
             )}
             <Box marginTop={Margin.large}>
@@ -73,6 +76,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
                     listItemRenderer={(period: Period) => (
                         <InntektsmeldingListe status={statuses[periods.indexOf(period)]} />
                     )}
+                    onFormSubmit={onFormSubmit}
                 />
             </Box>
         </div>

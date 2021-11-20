@@ -69,21 +69,12 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
                 {kompletthetsoversiktResponse && (
                     <Kompletthetsoversikt
                         kompletthetsoversikt={initKompletthetsdata(kompletthetsoversiktResponse)}
-                        onFormSubmit={({ begrunnelse }) => {
+                        onFormSubmit={({ begrunnelse, periode, beslutning }) => {
                             onFinished({
                                 begrunnelse,
-                                perioder: kompletthetsoversiktResponse.tilstand.map((currentTilstand) => {
-                                    if (tilstandManglerInntektsmelding(currentTilstand)) {
-                                        return {
-                                            periode: currentTilstand.periode,
-                                            fortsett: true,
-                                        };
-                                    }
-                                    return {
-                                        periode: currentTilstand.periode,
-                                        fortsett: false,
-                                    };
-                                }),
+                                perioder: [
+                                    { periode: `${periode.fom}/${periode.tom}`, fortsett: beslutning === 'fortsett' },
+                                ],
                             });
                         }}
                     />

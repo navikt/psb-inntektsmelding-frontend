@@ -5,6 +5,7 @@ export interface Kompletthet {
 export interface Tilstand {
     periode: string;
     status: Status[];
+    tilVurdering: boolean;
 }
 
 type StatusType = 'MOTTATT' | 'MANGLER';
