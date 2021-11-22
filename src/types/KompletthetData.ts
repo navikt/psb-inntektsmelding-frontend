@@ -7,6 +7,8 @@ export interface Kompletthet {
 export interface Tilstand {
     periode: Period;
     status: Status[];
+    begrunnelse: string;
+    tilVurdering: boolean;
 }
 
 type StatusType = 'MOTTATT' | 'MANGLER';

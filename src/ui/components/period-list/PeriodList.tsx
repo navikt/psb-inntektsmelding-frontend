@@ -1,12 +1,14 @@
 import React from 'react';
 import { Period } from '@navikt/k9-period-utils';
 import { CalendarIcon } from '@navikt/k9-react-components';
+import Alertstripe from 'nav-frontend-alertstriper';
 import styles from './periodList.less';
 import FortsettUtenInntektsmeldingForm from '../fortsett-uten-inntektsmelding-form/FortsettUtenInntektsmeldingForm';
 import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
+import { Tilstand } from '../../../types/KompletthetData';
 
 interface PeriodListProps {
-    periods: Period[];
+    tilstander: Tilstand[];
     listHeadingRenderer: () => React.ReactNode;
     listItemRenderer: (period: Period) => React.ReactNode;
     onFormSubmit: ({
@@ -20,19 +22,33 @@ interface PeriodListProps {
     }) => void;
 }
 
-const PeriodList = ({ periods, listHeadingRenderer, listItemRenderer, onFormSubmit }: PeriodListProps): JSX.Element => (
+const PeriodList = ({
+    tilstander,
+    listHeadingRenderer,
+    listItemRenderer,
+    onFormSubmit,
+}: PeriodListProps): JSX.Element => (
     <ul className={styles.periodList}>
-        {periods.map((period) => (
-            <li className={styles.periodList__element} key={period.prettifyPeriod()}>
+        {tilstander.map((tilstand) => (
+            <li className={styles.periodList__element} key={tilstand.periode.prettifyPeriod()}>
                 <div className={styles.periodList__element__title}>
                     <CalendarIcon />
-                    <span className={styles.periodList__element__title__period}>{period.prettifyPeriod()}</span>
+                    <span className={styles.periodList__element__title__period}>
+                        {tilstand.periode.prettifyPeriod()}
+                    </span>
                 </div>
                 {listHeadingRenderer()}
-                {listItemRenderer(period)}
-                <WriteAccessBoundContent
-                    contentRenderer={() => <FortsettUtenInntektsmeldingForm onSubmit={onFormSubmit} periode={period} />}
-                />
+                {listItemRenderer(tilstand.periode)}
+                {!tilstand.begrunnelse && tilstand.tilVurdering && (
+                    <WriteAccessBoundContent
+                        contentRenderer={() => (
+                            <FortsettUtenInntektsmeldingForm onSubmit={onFormSubmit} periode={tilstand.periode} />
+                        )}
+                    />
+                )}
+                {tilstand.begrunnelse && tilstand.tilVurdering && (
+                    <Alertstripe type="info">Fortsett uten inntektsmelding</Alertstripe>
+                )}
             </li>
         ))}
     </ul>

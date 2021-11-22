@@ -7,18 +7,19 @@ import ContainerContext from '../context/ContainerContext';
 import ContainerContract from '../types/ContainerContract';
 import { Kompletthet as KompletthetData } from '../types/KompletthetData';
 import { Kompletthet as KompletthetResponse } from '../types/KompletthetResponse';
-import tilstandManglerInntektsmelding from '../util/tilstandManglerInntektsmelding';
 import ActionType from './actionTypes';
 import Kompletthetsoversikt from './components/kompletthetsoversikt/Kompletthetsoversikt';
 import mainComponentReducer from './reducer';
 
 function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetData {
     return {
-        tilstand: tilstand.map(({ periode, status }) => {
+        tilstand: tilstand.map(({ periode, status, begrunnelse, tilVurdering }) => {
             const [fom, tom] = periode.split('/');
             return {
                 periode: new Period(fom, tom),
                 status,
+                begrunnelse,
+                tilVurdering
             };
         }),
     };
@@ -73,7 +74,11 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
                             onFinished({
                                 begrunnelse,
                                 perioder: [
-                                    { periode: `${periode.fom}/${periode.tom}`, fortsett: beslutning === 'fortsett' },
+                                    {
+                                        periode: `${periode.fom}/${periode.tom}`,
+                                        fortsett: beslutning === 'fortsett',
+                                        begrunnelse
+                                    },
                                 ],
                             });
                         }}

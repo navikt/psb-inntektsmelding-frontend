@@ -20,6 +20,9 @@ const renderListItem = (status: Status) => {
     if (status.status === 'MANGLER') {
         return listItem(<InntektsmeldingManglerItem status={status} />);
     }
+    if (status.status === 'FORTSETT_UTEN') {
+        return listItem(<InntektsmeldingManglerItem status={status} />);
+    }
     return null;
 };
 

@@ -4,7 +4,6 @@ import React from 'react';
 import { Box, Margin } from '@navikt/k9-react-components';
 import ContainerContext from '../../../context/ContainerContext';
 import { Kompletthet } from '../../../types/KompletthetData';
-import { FortsettUtenInntektsmeldingFormState } from '../fortsett-uten-inntektsmelding-form/FortsettUtenInntektsmeldingForm';
 import InntektsmeldingListeHeading from '../inntektsmelding-liste-heading/InntektsmeldingListeHeading';
 import InntektsmeldingListe from '../inntektsmelding-liste/InntektsmeldingListe';
 import PeriodList from '../period-list/PeriodList';
@@ -33,11 +32,10 @@ const periodestring = (perioder: Period[]) => {
 
 const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: KompletthetsoversiktProps): JSX.Element => {
     const { visFortsettKnapp } = React.useContext(ContainerContext);
-    const { tilstand } = kompletthetsoversikt;
-    console.log(tilstand)
-    const periods = tilstand.map(({ periode }) => periode);
-    const statuses = tilstand.map(({ status }) => status);
-    const perioderSomManglerInntektsmelding = tilstand
+    const { tilstand: tilstander } = kompletthetsoversikt;
+    const periods = tilstander.map(({ periode }) => periode);
+    const statuses = tilstander.map(({ status }) => status);
+    const perioderSomManglerInntektsmelding = tilstander
         .filter(tilstandManglerInntektsmeldingUtil)
         .map(({ periode }) => periode);
 
@@ -71,11 +69,13 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
             )}
             <Box marginTop={Margin.large}>
                 <PeriodList
-                    periods={periods}
+                    tilstander={tilstander}
                     listHeadingRenderer={() => <InntektsmeldingListeHeading />}
-                    listItemRenderer={(period: Period) => (
+                    listItemRenderer={(period: Period) => {
+                        console.log(statuses[periods.indexOf(period)])
+                        return (
                         <InntektsmeldingListe status={statuses[periods.indexOf(period)]} />
-                    )}
+                    )}}
                     onFormSubmit={onFormSubmit}
                 />
             </Box>

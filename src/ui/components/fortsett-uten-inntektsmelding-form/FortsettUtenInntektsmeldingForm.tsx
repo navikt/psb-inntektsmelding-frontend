@@ -1,9 +1,9 @@
 import { Hovedknapp } from 'nav-frontend-knapper';
 import Panel from 'nav-frontend-paneler';
 import React from 'react';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
-// RadioGroupPanel skal hentes fra k9-form-utils
-import { Box, Margin, TextArea, RadioGroupPanel } from '@navikt/k9-react-components';
+import { FormProvider, useForm } from 'react-hook-form';
+import { Box, Margin } from '@navikt/k9-react-components';
+import { RadioGroupPanel, TextArea } from '@navikt/k9-form-utils';
 import { Period } from '@navikt/k9-period-utils';
 import ContainerContext from '../../../context/ContainerContext';
 import styles from './fortsettUtenInntektsMeldingForm.less';
@@ -25,10 +25,9 @@ export enum FieldName {
 
 const FortsettUtenInntektsmeldingForm = ({ onSubmit, periode }: FortsettUtenInntektsmeldingFormProps): JSX.Element => {
     const { readOnly } = React.useContext(ContainerContext);
-    const formMethods = useForm({});
-    const { handleSubmit, watch, control } = formMethods;
+    const formMethods = useForm({ mode: 'onTouched' });
+    const { handleSubmit, watch } = formMethods;
     const fortsettUtenInntektsmelding = watch(FieldName.BESLUTNING);
-
     return (
         // eslint-disable-next-line react/jsx-props-no-spreading
         <FormProvider {...formMethods}>
@@ -36,20 +35,14 @@ const FortsettUtenInntektsmeldingForm = ({ onSubmit, periode }: FortsettUtenInnt
                 onSubmit={handleSubmit(({ begrunnelse, beslutning }) => onSubmit({ begrunnelse, periode, beslutning }))}
             >
                 <Panel className={styles.fortsettUtenInntektsmelding__panel}>
-                    <Controller
-                        control={control}
+                    <RadioGroupPanel
                         name={FieldName.BESLUTNING}
-                        render={({ onChange }) => (
-                            <RadioGroupPanel
-                                name={FieldName.BESLUTNING}
-                                question="Kan du gå videre uten inntektsmelding?"
-                                radios={[
-                                    { value: 'fortsett', label: 'Ja, fortsett uten inntektsmelding' },
-                                    { value: 'purring', label: 'Nei, send purring med varsel om avslag' },
-                                ]}
-                                onChange={(e) => onChange(e)}
-                            />
-                        )}
+                        question="Kan du gå videre uten inntektsmelding?"
+                        radios={[
+                            { value: 'fortsett', label: 'Ja, fortsett uten inntektsmelding' },
+                            { value: 'purring', label: 'Nei, send purring med varsel om avslag' },
+                        ]}
+                        disabled={readOnly}
                     />
                     <>
                         {fortsettUtenInntektsmelding === 'fortsett' && (

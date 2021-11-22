@@ -6,6 +6,7 @@ export interface Tilstand {
     periode: string;
     status: Status[];
     tilVurdering: boolean;
+    begrunnelse: string;
 }
 
 type StatusType = 'MOTTATT' | 'MANGLER';
