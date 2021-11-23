@@ -55,7 +55,6 @@ const PeriodList = ({
                         <LabelledContent
                             label="Begrunnelse"
                             content={<span>{tilstand.begrunnelse}</span>}
-                            indentContent
                         />
                     </>
                 )}
