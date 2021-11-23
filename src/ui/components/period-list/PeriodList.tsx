@@ -1,6 +1,6 @@
 import React from 'react';
 import { Period } from '@navikt/k9-period-utils';
-import { CalendarIcon } from '@navikt/k9-react-components';
+import { CalendarIcon, LabelledContent } from '@navikt/k9-react-components';
 import Alertstripe from 'nav-frontend-alertstriper';
 import styles from './periodList.less';
 import FortsettUtenInntektsmeldingForm from '../fortsett-uten-inntektsmelding-form/FortsettUtenInntektsmeldingForm';
@@ -47,7 +47,17 @@ const PeriodList = ({
                     />
                 )}
                 {tilstand.begrunnelse && tilstand.tilVurdering && (
-                    <Alertstripe type="info">Fortsett uten inntektsmelding</Alertstripe>
+                    <>
+                        <Alertstripe type="info" className={styles.periodList__alertstripe}>
+                            Fortsett uten inntektsmelding
+                        </Alertstripe>
+
+                        <LabelledContent
+                            label="Begrunnelse"
+                            content={<span>{tilstand.begrunnelse}</span>}
+                            indentContent
+                        />
+                    </>
                 )}
             </li>
         ))}

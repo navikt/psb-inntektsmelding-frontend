@@ -71,11 +71,9 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
                 <PeriodList
                     tilstander={tilstander}
                     listHeadingRenderer={() => <InntektsmeldingListeHeading />}
-                    listItemRenderer={(period: Period) => {
-                        console.log(statuses[periods.indexOf(period)])
-                        return (
+                    listItemRenderer={(period: Period) => (
                         <InntektsmeldingListe status={statuses[periods.indexOf(period)]} />
-                    )}}
+                    )}
                     onFormSubmit={onFormSubmit}
                 />
             </Box>

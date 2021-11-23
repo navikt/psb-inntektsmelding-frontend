@@ -19,7 +19,7 @@ function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetDat
                 periode: new Period(fom, tom),
                 status,
                 begrunnelse,
-                tilVurdering
+                tilVurdering,
             };
         }),
     };
@@ -72,12 +72,12 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
                         kompletthetsoversikt={initKompletthetsdata(kompletthetsoversiktResponse)}
                         onFormSubmit={({ begrunnelse, periode, beslutning }) => {
                             onFinished({
-                                begrunnelse,
+                                begrunnelse: beslutning === 'fortsett' ? begrunnelse : null,
                                 perioder: [
                                     {
                                         periode: `${periode.fom}/${periode.tom}`,
                                         fortsett: beslutning === 'fortsett',
-                                        begrunnelse
+                                        begrunnelse,
                                     },
                                 ],
                             });
