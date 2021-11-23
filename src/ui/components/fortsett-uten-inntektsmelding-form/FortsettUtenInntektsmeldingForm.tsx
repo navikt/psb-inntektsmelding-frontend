@@ -7,6 +7,7 @@ import { RadioGroupPanel, TextArea } from '@navikt/k9-form-utils';
 import { Period } from '@navikt/k9-period-utils';
 import ContainerContext from '../../../context/ContainerContext';
 import styles from './fortsettUtenInntektsMeldingForm.less';
+import { finnAktivtAksjonspunkt } from '../../../util/utils';
 
 export interface FortsettUtenInntektsmeldingFormState {
     begrunnelse: string;
@@ -15,7 +16,7 @@ export interface FortsettUtenInntektsmeldingFormState {
 
 interface FortsettUtenInntektsmeldingFormProps {
     periode: Period;
-    onSubmit: ({ begrunnelse, periode, beslutning }) => void;
+    onSubmit: ({ begrunnelse, periode, beslutning, kode }) => void;
 }
 
 export enum FieldName {
@@ -24,15 +25,20 @@ export enum FieldName {
 }
 
 const FortsettUtenInntektsmeldingForm = ({ onSubmit, periode }: FortsettUtenInntektsmeldingFormProps): JSX.Element => {
-    const { readOnly } = React.useContext(ContainerContext);
+    const { readOnly, aksjonspunkter } = React.useContext(ContainerContext);
     const formMethods = useForm({ mode: 'onTouched' });
     const { handleSubmit, watch } = formMethods;
     const fortsettUtenInntektsmelding = watch(FieldName.BESLUTNING);
+    const aktivtAksjonspunkt = finnAktivtAksjonspunkt(aksjonspunkter);
+    const aksjonspunktKode = aktivtAksjonspunkt?.definisjon?.kode;
+
     return (
         // eslint-disable-next-line react/jsx-props-no-spreading
         <FormProvider {...formMethods}>
             <form
-                onSubmit={handleSubmit(({ begrunnelse, beslutning }) => onSubmit({ begrunnelse, periode, beslutning }))}
+                onSubmit={handleSubmit(({ begrunnelse, beslutning }) =>
+                    onSubmit({ begrunnelse, periode, beslutning, kode: aksjonspunktKode })
+                )}
             >
                 <Panel className={styles.fortsettUtenInntektsmelding__panel}>
                     <RadioGroupPanel

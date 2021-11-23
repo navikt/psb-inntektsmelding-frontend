@@ -70,14 +70,16 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
                 {kompletthetsoversiktResponse && (
                     <Kompletthetsoversikt
                         kompletthetsoversikt={initKompletthetsdata(kompletthetsoversiktResponse)}
-                        onFormSubmit={({ begrunnelse, periode, beslutning }) => {
+                        onFormSubmit={({ begrunnelse, periode, beslutning, kode }) => {
                             onFinished({
+                                '@type': kode,
+                                kode,
                                 begrunnelse: beslutning === 'fortsett' ? begrunnelse : null,
                                 perioder: [
                                     {
                                         periode: `${periode.fom}/${periode.tom}`,
                                         fortsett: beslutning === 'fortsett',
-                                        begrunnelse,
+                                        begrunnelse: beslutning === 'fortsett' ? begrunnelse : null,
                                     },
                                 ],
                             });

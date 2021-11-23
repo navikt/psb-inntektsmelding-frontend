@@ -51,11 +51,7 @@ const PeriodList = ({
                         <Alertstripe type="info" className={styles.periodList__alertstripe}>
                             Fortsett uten inntektsmelding
                         </Alertstripe>
-
-                        <LabelledContent
-                            label="Begrunnelse"
-                            content={<span>{tilstand.begrunnelse}</span>}
-                        />
+                        <LabelledContent label="Begrunnelse" content={<span>{tilstand.begrunnelse}</span>} />
                     </>
                 )}
             </li>

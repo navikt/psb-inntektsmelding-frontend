@@ -7,6 +7,8 @@ interface Perioder {
 interface AksjonspunktRequestPayload {
     begrunnelse: string;
     perioder: Perioder[];
+    kode: string;
+    '@type': string;
 }
 
 export default AksjonspunktRequestPayload;

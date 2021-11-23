@@ -1,4 +1,5 @@
 import { HttpErrorHandler } from '@navikt/k9-http-utils';
+import Aksjonspunkt from './Aksjonspunkt';
 import AksjonspunktRequestPayload from './AksjonspunktRequestPayload';
 
 export type ArbeidsgiverOpplysninger = Readonly<{
@@ -20,7 +21,7 @@ interface ContainerContract {
         kompletthetBeregning: string;
     };
     onFinished: (data: AksjonspunktRequestPayload) => void;
-    visFortsettKnapp: boolean;
+    aksjonspunkter: Aksjonspunkt[];
 }
 
 export default ContainerContract;

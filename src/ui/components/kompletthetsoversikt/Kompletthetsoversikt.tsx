@@ -9,6 +9,7 @@ import InntektsmeldingListe from '../inntektsmelding-liste/InntektsmeldingListe'
 import PeriodList from '../period-list/PeriodList';
 import styles from './kompletthetsoversikt.less';
 import tilstandManglerInntektsmeldingUtil from '../../../util/tilstandManglerInntektsmelding';
+import { finnAktivtAksjonspunkt } from '../../../util/utils';
 
 interface KompletthetsoversiktProps {
     kompletthetsoversikt: Kompletthet;
@@ -16,10 +17,12 @@ interface KompletthetsoversiktProps {
         begrunnelse,
         periode,
         beslutning,
+        kode,
     }: {
         begrunnelse: string;
         periode: Period;
         beslutning: string;
+        kode: string;
     }) => void;
 }
 
@@ -31,7 +34,7 @@ const periodestring = (perioder: Period[]) => {
 };
 
 const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: KompletthetsoversiktProps): JSX.Element => {
-    const { visFortsettKnapp } = React.useContext(ContainerContext);
+    const { aksjonspunkter } = React.useContext(ContainerContext);
     const { tilstand: tilstander } = kompletthetsoversikt;
     const periods = tilstander.map(({ periode }) => periode);
     const statuses = tilstander.map(({ status }) => status);
@@ -39,11 +42,13 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
         .filter(tilstandManglerInntektsmeldingUtil)
         .map(({ periode }) => periode);
 
+    const aktivtAksjonspunkt = finnAktivtAksjonspunkt(aksjonspunkter);
+
     return (
         <div className={styles.kompletthet}>
             <h1 className={styles.kompletthet__mainHeading}>Inntektsmelding</h1>
             <h2 className={styles.kompletthet__subHeading}>Opplysninger til beregning</h2>
-            {visFortsettKnapp && (
+            {aktivtAksjonspunkt && (
                 <>
                     <Box marginBottom={Margin.large}>
                         <Alertstripe type="advarsel" className={styles.alertstripe}>
