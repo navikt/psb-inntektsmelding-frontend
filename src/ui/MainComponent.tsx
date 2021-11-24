@@ -74,12 +74,12 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
                             onFinished({
                                 '@type': kode,
                                 kode,
-                                begrunnelse: beslutning === 'fortsett' ? begrunnelse : null,
+                                begrunnelse: kode === '9069' && beslutning !== 'fortsett' ? null : begrunnelse,
                                 perioder: [
                                     {
                                         periode: `${periode.fom}/${periode.tom}`,
                                         fortsett: beslutning === 'fortsett',
-                                        begrunnelse: beslutning === 'fortsett' ? begrunnelse : null,
+                                        begrunnelse: kode === '9069' && beslutning !== 'fortsett' ? null : begrunnelse,
                                     },
                                 ],
                             });

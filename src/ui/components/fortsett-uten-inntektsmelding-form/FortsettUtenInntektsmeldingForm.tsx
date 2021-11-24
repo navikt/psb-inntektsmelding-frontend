@@ -31,27 +31,45 @@ const FortsettUtenInntektsmeldingForm = ({ onSubmit, periode }: FortsettUtenInnt
     const fortsettUtenInntektsmelding = watch(FieldName.BESLUTNING);
     const aktivtAksjonspunkt = finnAktivtAksjonspunkt(aksjonspunkter);
     const aksjonspunktKode = aktivtAksjonspunkt?.definisjon?.kode;
+    const skalViseBegrunnelse = !(aksjonspunktKode === '9069' && fortsettUtenInntektsmelding !== 'fortsett');
+    const fortsettKnappTekstFunc = {
+        '9069': (erFortsett: boolean) =>
+            erFortsett ? 'Fortsett uten inntektsmelding' : 'Send purring med varsel om avslag',
+        '9071': (erFortsett: boolean) => (erFortsett ? 'Fortsett uten inntektsmelding' : 'Avslå periode'),
+    };
 
+    const radios = {
+        '9069': [
+            { value: 'fortsett', label: 'Ja, fortsett uten inntektsmelding' },
+            { value: 'avslag', label: 'Nei, send purring med varsel om avslag' },
+        ],
+        '9071': [
+            { value: 'fortsett', label: 'Ja, fortsett uten inntektsmelding' },
+            { value: 'avslag', label: 'Avslå periode' },
+        ],
+    };
     return (
         // eslint-disable-next-line react/jsx-props-no-spreading
         <FormProvider {...formMethods}>
             <form
                 onSubmit={handleSubmit(({ begrunnelse, beslutning }) =>
-                    onSubmit({ begrunnelse, periode, beslutning, kode: aksjonspunktKode })
+                    onSubmit({
+                        begrunnelse: skalViseBegrunnelse ? begrunnelse : null,
+                        periode,
+                        beslutning,
+                        kode: aksjonspunktKode,
+                    })
                 )}
             >
                 <Panel className={styles.fortsettUtenInntektsmelding__panel}>
                     <RadioGroupPanel
                         name={FieldName.BESLUTNING}
                         question="Kan du gå videre uten inntektsmelding?"
-                        radios={[
-                            { value: 'fortsett', label: 'Ja, fortsett uten inntektsmelding' },
-                            { value: 'purring', label: 'Nei, send purring med varsel om avslag' },
-                        ]}
+                        radios={radios[aksjonspunktKode]}
                         disabled={readOnly}
                     />
                     <>
-                        {fortsettUtenInntektsmelding === 'fortsett' && (
+                        {skalViseBegrunnelse && (
                             <TextArea
                                 name={FieldName.BEGRUNNELSE}
                                 label="Begrunnelse"
@@ -60,9 +78,7 @@ const FortsettUtenInntektsmeldingForm = ({ onSubmit, periode }: FortsettUtenInnt
                         )}
                         <Box marginTop={Margin.large}>
                             <Hovedknapp disabled={!fortsettUtenInntektsmelding} mini>
-                                {fortsettUtenInntektsmelding === 'purring'
-                                    ? 'Send purring med varsel om avslag'
-                                    : 'Fortsett uten inntektsmelding'}
+                                {fortsettKnappTekstFunc[aksjonspunktKode](fortsettUtenInntektsmelding === 'fortsett')}
                             </Hovedknapp>
                         </Box>
                     </>
