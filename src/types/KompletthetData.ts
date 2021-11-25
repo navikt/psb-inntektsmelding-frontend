@@ -9,9 +9,10 @@ export interface Tilstand {
     status: Status[];
     begrunnelse: string;
     tilVurdering: boolean;
+    vurdering: Vurdering;
 }
 
-type StatusType = 'MOTTATT' | 'MANGLER';
+export type StatusType = 'MOTTATT' | 'MANGLER';
 
 export interface Status {
     arbeidsgiver: Arbeidsgiver;
@@ -22,4 +23,8 @@ export interface Status {
 export interface Arbeidsgiver {
     arbeidsgiver: string;
     arbeidsforhold: null;
+}
+export interface Vurdering {
+    beskrivelse: string;
+    kode: string;
 }

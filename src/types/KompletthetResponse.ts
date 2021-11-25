@@ -1,23 +1,12 @@
+import { Status, Vurdering } from './KompletthetData';
+
 export interface Kompletthet {
     tilstand: Tilstand[];
 }
-
 export interface Tilstand {
     periode: string;
     status: Status[];
     tilVurdering: boolean;
     begrunnelse: string;
-}
-
-type StatusType = 'MOTTATT' | 'MANGLER';
-
-export interface Status {
-    arbeidsgiver: Arbeidsgiver;
-    status: StatusType;
-    journalpostId: string;
-}
-
-export interface Arbeidsgiver {
-    arbeidsgiver: string;
-    arbeidsforhold: null;
+    vurdering: Vurdering;
 }

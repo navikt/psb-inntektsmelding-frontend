@@ -13,13 +13,14 @@ import mainComponentReducer from './reducer';
 
 function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetData {
     return {
-        tilstand: tilstand.map(({ periode, status, begrunnelse, tilVurdering }) => {
+        tilstand: tilstand.map(({ periode, status, begrunnelse, tilVurdering, vurdering }) => {
             const [fom, tom] = periode.split('/');
             return {
                 periode: new Period(fom, tom),
                 status,
                 begrunnelse,
                 tilVurdering,
+                vurdering,
             };
         }),
     };

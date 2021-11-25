@@ -6,6 +6,7 @@ import styles from './periodList.less';
 import FortsettUtenInntektsmeldingForm from '../fortsett-uten-inntektsmelding-form/FortsettUtenInntektsmeldingForm';
 import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
 import { Tilstand } from '../../../types/KompletthetData';
+import ContainerContext from '../../../context/ContainerContext';
 
 interface PeriodListProps {
     tilstander: Tilstand[];
@@ -27,36 +28,41 @@ const PeriodList = ({
     listHeadingRenderer,
     listItemRenderer,
     onFormSubmit,
-}: PeriodListProps): JSX.Element => (
-    <ul className={styles.periodList}>
-        {tilstander.map((tilstand) => (
-            <li className={styles.periodList__element} key={tilstand.periode.prettifyPeriod()}>
-                <div className={styles.periodList__element__title}>
-                    <CalendarIcon />
-                    <span className={styles.periodList__element__title__period}>
-                        {tilstand.periode.prettifyPeriod()}
-                    </span>
-                </div>
-                {listHeadingRenderer()}
-                {listItemRenderer(tilstand.periode)}
-                {!tilstand.begrunnelse && tilstand.tilVurdering && (
-                    <WriteAccessBoundContent
-                        contentRenderer={() => (
-                            <FortsettUtenInntektsmeldingForm onSubmit={onFormSubmit} periode={tilstand.periode} />
-                        )}
-                    />
-                )}
-                {tilstand.begrunnelse && tilstand.tilVurdering && (
-                    <>
-                        <Alertstripe type="info" className={styles.periodList__alertstripe}>
-                            Fortsett uten inntektsmelding
-                        </Alertstripe>
-                        <LabelledContent label="Begrunnelse" content={<span>{tilstand.begrunnelse}</span>} />
-                    </>
-                )}
-            </li>
-        ))}
-    </ul>
-);
+}: PeriodListProps): JSX.Element => {
+
+    const {aksjonspunkter} = React.useContext(ContainerContext)
+
+    return (
+        <ul className={styles.periodList}>
+            {tilstander.map((tilstand) => (
+                <li className={styles.periodList__element} key={tilstand.periode.prettifyPeriod()}>
+                    <div className={styles.periodList__element__title}>
+                        <CalendarIcon />
+                        <span className={styles.periodList__element__title__period}>
+                            {tilstand.periode.prettifyPeriod()}
+                        </span>
+                    </div>
+                    {listHeadingRenderer()}
+                    {listItemRenderer(tilstand.periode)}
+                    {!tilstand.begrunnelse && tilstand.tilVurdering && (
+                        <WriteAccessBoundContent
+                            contentRenderer={() => (
+                                <FortsettUtenInntektsmeldingForm onSubmit={onFormSubmit} periode={tilstand.periode} />
+                            )}
+                        />
+                    )}
+                    {tilstand.begrunnelse && tilstand.tilVurdering && (
+                        <>
+                            <Alertstripe type="info" className={styles.periodList__alertstripe}>
+                                Fortsett uten inntektsmelding
+                            </Alertstripe>
+                            <LabelledContent label="Begrunnelse" content={<span>{tilstand.begrunnelse}</span>} />
+                        </>
+                    )}
+                </li>
+            ))}
+        </ul>
+    );
+};
 
 export default PeriodList;

@@ -27,22 +27,11 @@ interface KompletthetsoversiktProps {
     }) => void;
 }
 
-const periodestring = (perioder: Period[]) => {
-    if (perioder.length > 1) {
-        return `periodene ${getHumanReadablePeriodString(perioder)}`;
-    }
-    return `perioden ${getHumanReadablePeriodString(perioder)}`;
-};
-
 const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: KompletthetsoversiktProps): JSX.Element => {
     const { aksjonspunkter } = React.useContext(ContainerContext);
     const { tilstand: tilstander } = kompletthetsoversikt;
     const periods = tilstander.map(({ periode }) => periode);
     const statuses = tilstander.map(({ status }) => status);
-    const perioderSomManglerInntektsmelding = tilstander
-        .filter(tilstandManglerInntektsmeldingUtil)
-        .map(({ periode }) => periode);
-
     const aktivtAksjonspunkt = finnAktivtAksjonspunkt(aksjonspunkter);
 
     return (
