@@ -4,11 +4,10 @@ import React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { Box, Margin } from '@navikt/k9-react-components';
 import { RadioGroupPanel, TextArea } from '@navikt/k9-form-utils';
-import { Period } from '@navikt/k9-period-utils';
 import ContainerContext from '../../../context/ContainerContext';
 import styles from './fortsettUtenInntektsMeldingForm.less';
-import { finnAktivtAksjonspunkt } from '../../../util/utils';
 import Aksjonspunkt from '../../../types/Aksjonspunkt';
+import { Kode, Tilstand } from '../../../types/KompletthetData';
 
 export interface FortsettUtenInntektsmeldingFormState {
     begrunnelse: string;
@@ -16,7 +15,7 @@ export interface FortsettUtenInntektsmeldingFormState {
 }
 
 interface FortsettUtenInntektsmeldingFormProps {
-    periode: Period;
+    tilstand: Tilstand;
     onSubmit: ({ begrunnelse, periode, beslutning, kode }) => void;
     redigeringsmodus: boolean;
     aksjonspunkt: Aksjonspunkt;
@@ -30,7 +29,7 @@ export enum FieldName {
 
 const FortsettUtenInntektsmeldingForm = ({
     onSubmit,
-    periode,
+    tilstand,
     redigeringsmodus,
     setRedigeringsmodus,
     aksjonspunkt,
@@ -41,8 +40,7 @@ const FortsettUtenInntektsmeldingForm = ({
 
     const fortsettUtenInntektsmelding = watch(FieldName.BESLUTNING);
     const aksjonspunktKode = aksjonspunkt?.definisjon?.kode;
-    console.log(aksjonspunktKode)
-    const skalViseBegrunnelse = !(aksjonspunktKode === '9069' && fortsettUtenInntektsmelding !== 'fortsett');
+    const skalViseBegrunnelse = !(aksjonspunktKode === '9069' && fortsettUtenInntektsmelding !== Kode.FORTSETT);
     const fortsettKnappTekstFunc = {
         '9069': (erFortsett: boolean) =>
             erFortsett ? 'Fortsett uten inntektsmelding' : 'Send purring med varsel om avslag',
@@ -51,12 +49,12 @@ const FortsettUtenInntektsmeldingForm = ({
 
     const radios = {
         '9069': [
-            { value: 'fortsett', label: 'Ja, bruk A-inntekt for denne arbeidsgiveren' },
-            { value: 'avslag', label: 'Nei, send purring med varsel om avslag' },
+            { value: Kode.FORTSETT, label: 'Ja, bruk A-inntekt for denne arbeidsgiveren' },
+            { value: Kode.MANGLENDE_GRUNNLAG, label: 'Nei, send purring med varsel om avslag' },
         ],
         '9071': [
-            { value: 'fortsett', label: 'Ja, bruk A-inntekt for denne arbeidsgiveren' },
-            { value: 'avslag', label: 'Nei, avslå periode på grunn av manglende inntektsopplysninger' },
+            { value: Kode.FORTSETT, label: 'Ja, bruk A-inntekt for denne arbeidsgiveren' },
+            { value: Kode.MANGLENDE_GRUNNLAG, label: 'Nei, avslå periode på grunn av manglende inntektsopplysninger' },
         ],
     };
 
@@ -67,7 +65,7 @@ const FortsettUtenInntektsmeldingForm = ({
                 onSubmit={handleSubmit(({ begrunnelse, beslutning }) =>
                     onSubmit({
                         begrunnelse: skalViseBegrunnelse ? begrunnelse : null,
-                        periode,
+                        periode: tilstand.periode,
                         beslutning,
                         kode: aksjonspunktKode,
                     })
@@ -79,6 +77,12 @@ const FortsettUtenInntektsmeldingForm = ({
                         question="Kan du gå videre uten inntektsmelding?"
                         radios={radios[aksjonspunktKode]}
                         disabled={readOnly && !redigeringsmodus}
+                        validators={{
+                            kanIkkeVelgeForrigeVerdi: (v) =>
+                                v === tilstand.vurdering.kode
+                                    ? 'Velg en annen verdi enn sist, eller avbryt redigering'
+                                    : null,
+                        }}
                     />
                     <>
                         {skalViseBegrunnelse && (
@@ -90,7 +94,9 @@ const FortsettUtenInntektsmeldingForm = ({
                         )}
                         <Box marginTop={Margin.large}>
                             <Hovedknapp disabled={!fortsettUtenInntektsmelding} mini>
-                                {fortsettKnappTekstFunc[aksjonspunktKode](fortsettUtenInntektsmelding === 'fortsett')}
+                                {fortsettKnappTekstFunc[aksjonspunktKode](
+                                    fortsettUtenInntektsmelding === Kode.FORTSETT
+                                )}
                             </Hovedknapp>
                             {redigeringsmodus && (
                                 <Knapp mini onClick={() => setRedigeringsmodus(false)}>

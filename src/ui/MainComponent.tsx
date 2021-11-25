@@ -5,7 +5,7 @@ import axios from 'axios';
 import React from 'react';
 import ContainerContext from '../context/ContainerContext';
 import ContainerContract from '../types/ContainerContract';
-import { Kompletthet as KompletthetData } from '../types/KompletthetData';
+import { Kode, Kompletthet as KompletthetData } from '../types/KompletthetData';
 import { Kompletthet as KompletthetResponse } from '../types/KompletthetResponse';
 import ActionType from './actionTypes';
 import Kompletthetsoversikt from './components/kompletthetsoversikt/Kompletthetsoversikt';
@@ -75,12 +75,12 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
                             onFinished({
                                 '@type': kode,
                                 kode,
-                                begrunnelse: kode === '9069' && beslutning !== 'fortsett' ? null : begrunnelse,
+                                begrunnelse,
                                 perioder: [
                                     {
                                         periode: `${periode.fom}/${periode.tom}`,
-                                        fortsett: beslutning === 'fortsett',
-                                        begrunnelse: kode === '9069' && beslutning !== 'fortsett' ? null : begrunnelse,
+                                        fortsett: beslutning === Kode.FORTSETT,
+                                        begrunnelse,
                                     },
                                 ],
                             });

@@ -9,7 +9,6 @@ import FortsettUtenInntektsmeldingForm from '../fortsett-uten-inntektsmelding-fo
 import { Tilstand, Kode } from '../../../types/KompletthetData';
 import ContainerContext from '../../../context/ContainerContext';
 import { finnAktivtAksjonspunkt } from '../../../util/utils';
-import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
 
 interface PeriodListProps {
     tilstander: Tilstand[];
@@ -32,7 +31,7 @@ const PeriodList = ({
     listItemRenderer,
     onFormSubmit,
 }: PeriodListProps): JSX.Element => {
-    const { aksjonspunkter } = React.useContext(ContainerContext);
+    const { aksjonspunkter, readOnly } = React.useContext(ContainerContext);
     const [redigeringsmodus, setRedigeringsmodus] = useState(false);
     const aktivtAksjonspunkt = finnAktivtAksjonspunkt(aksjonspunkter);
     const forrigeAksjonspunkt = aksjonspunkter.sort((a, b) => Number(b.definisjon.kode) - Number(a.definisjon.kode))[0];
@@ -49,19 +48,17 @@ const PeriodList = ({
                     </div>
                     {listHeadingRenderer()}
                     {listItemRenderer(tilstand.periode)}
-                    {(!tilstand.begrunnelse || redigeringsmodus) && aksjonspunkt && tilstand.tilVurdering && (
-                        <WriteAccessBoundContent
-                            contentRenderer={() => (
-                                <FortsettUtenInntektsmeldingForm
-                                    onSubmit={onFormSubmit}
-                                    periode={tilstand.periode}
-                                    aksjonspunkt={aksjonspunkt}
-                                    redigeringsmodus={redigeringsmodus}
-                                    setRedigeringsmodus={setRedigeringsmodus}
-                                />
-                            )}
-                        />
-                    )}
+                    {((!tilstand.begrunnelse && !readOnly) || redigeringsmodus) &&
+                        aksjonspunkt &&
+                        tilstand.tilVurdering && (
+                            <FortsettUtenInntektsmeldingForm
+                                onSubmit={onFormSubmit}
+                                tilstand={tilstand}
+                                aksjonspunkt={aksjonspunkt}
+                                redigeringsmodus={redigeringsmodus}
+                                setRedigeringsmodus={setRedigeringsmodus}
+                            />
+                        )}
 
                     {tilstand.vurdering.kode === Kode.FORTSETT && !redigeringsmodus && tilstand.tilVurdering && (
                         <>
