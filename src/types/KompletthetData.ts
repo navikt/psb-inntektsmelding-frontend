@@ -26,5 +26,10 @@ export interface Arbeidsgiver {
 }
 export interface Vurdering {
     beskrivelse: string;
-    kode: string;
+    kode: Kode;
+}
+
+export enum Kode {
+    FORTSETT = 'FORTSETT',
+    MANGLENDE_GRUNNLAG = 'MANGLENDE_GRUNNLAG',
 }
