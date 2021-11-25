@@ -93,16 +93,18 @@ const FortsettUtenInntektsmeldingForm = ({
                             />
                         )}
                         <Box marginTop={Margin.large}>
-                            <Hovedknapp disabled={!fortsettUtenInntektsmelding} mini>
-                                {fortsettKnappTekstFunc[aksjonspunktKode](
-                                    fortsettUtenInntektsmelding === Kode.FORTSETT
+                            <div className={styles.fortsettUtenInntektsmelding__knapper}>
+                                <Hovedknapp disabled={!fortsettUtenInntektsmelding} mini>
+                                    {fortsettKnappTekstFunc[aksjonspunktKode](
+                                        fortsettUtenInntektsmelding === Kode.FORTSETT
+                                    )}
+                                </Hovedknapp>
+                                {redigeringsmodus && (
+                                    <Knapp mini onClick={() => setRedigeringsmodus(false)}>
+                                        Avbryt redigering
+                                    </Knapp>
                                 )}
-                            </Hovedknapp>
-                            {redigeringsmodus && (
-                                <Knapp mini onClick={() => setRedigeringsmodus(false)}>
-                                    Avbryt redigering
-                                </Knapp>
-                            )}
+                            </div>
                         </Box>
                     </>
                 </Panel>
