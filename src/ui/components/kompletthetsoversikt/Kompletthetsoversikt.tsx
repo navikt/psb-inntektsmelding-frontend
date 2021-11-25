@@ -1,7 +1,8 @@
-import { getHumanReadablePeriodString, Period } from '@navikt/k9-period-utils';
-import Alertstripe from 'nav-frontend-alertstriper';
 import React from 'react';
+import cl from 'classnames';
+import { getHumanReadablePeriodString, Period } from '@navikt/k9-period-utils';
 import { Box, Margin } from '@navikt/k9-react-components';
+import Alertstripe from 'nav-frontend-alertstriper';
 import ContainerContext from '../../../context/ContainerContext';
 import { Kompletthet } from '../../../types/KompletthetData';
 import InntektsmeldingListeHeading from '../inntektsmelding-liste-heading/InntektsmeldingListeHeading';
@@ -52,20 +53,48 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
                 <>
                     <Box marginBottom={Margin.large}>
                         <Alertstripe type="advarsel" className={styles.alertstripe}>
-                            {`Inntektsmelding mangler for en eller flere arbeidsgivere i
-                        ${periodestring(perioderSomManglerInntektsmelding)}.`}
+                            Inntektsmelding mangler for en eller flere arbeidsgivere. Vurder om du kan fortsette
+                            behandlingen uten inntektsmelding, og heller benytte opplysninger fra A-inntekt, for
+                            arbeidsgiverne vi mangler inntektsmelding fra.
+                            <ul className={cl(styles.kompletthet__list, styles['kompletthet--margin-top'])}>
+                                <li>
+                                    Hvis du går videre uten inntektsmelding fra en arbeidsgiver, bruker vi utelukkende
+                                    opplysninger fra A-inntekt for arbeidsgiveren som vi mangler inntektsmelding fra for
+                                    å beregne månedsinntekt etter § 8-28.
+                                </li>
+                                <li>
+                                    Vi utbetaler alltid direkte til bruker for de arbeidsgiverne vi mangler
+                                    inntektsmelding fra.
+                                </li>
+                            </ul>
                         </Alertstripe>
                     </Box>
                     <Box marginBottom={Margin.large}>
                         <Alertstripe type="info" className={styles.alertstripe}>
+                            Du kan vurdere å gå videre uten inntektsmelding hvis:
                             <ul className={styles.kompletthet__list}>
                                 <li>
-                                    Første fraværsdato i inntektsmeldingen må være 4 uker før eller etter
-                                    skjæringstidspunktet for ytelsen.
+                                    Det er rapportert fast og regelmessig lønn de siste 3 månedene før
+                                    skjæringstidspunktet. Merk at det er unntak fra dette hvis søker har 0 % stilling,
+                                    har varierende arbeidstider eller annet.
                                 </li>
                                 <li>
-                                    Arbeidsforholds-ID i inntektsmeldingen må være lik arbeidsforholds-ID i
-                                    Aa-registeret.
+                                    Måneden skjæringstidspunktet er i er innrapportert til A-inntekt. Hvis det er
+                                    innrapportert lavere lønn enn foregående måneder, kan det tyde på at arbeidsgiver
+                                    ikke lenger utbetaler lønn.
+                                </li>
+                            </ul>
+                            <div className={styles['kompletthet--margin-top']}>
+                                Du bør ikke gå videre uten inntektsmelding hvis:
+                            </div>
+                            <ul className={styles.kompletthet__list}>
+                                <li>
+                                    Det er arbeidsforhold og frilansoppdrag i samme organisasjon (sjekk i
+                                    Aa-registeret).
+                                </li>
+                                <li>
+                                    Det er rapportert full lønn fra arbeidsgiver for måneden skjæringstidspunktet er i.
+                                    Dette tyder på at arbeidsgiver forskutterer lønn.
                                 </li>
                             </ul>
                         </Alertstripe>

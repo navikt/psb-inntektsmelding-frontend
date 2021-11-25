@@ -35,17 +35,20 @@ const FortsettUtenInntektsmeldingForm = ({ onSubmit, periode }: FortsettUtenInnt
     const fortsettKnappTekstFunc = {
         '9069': (erFortsett: boolean) =>
             erFortsett ? 'Fortsett uten inntektsmelding' : 'Send purring med varsel om avslag',
-        '9071': (erFortsett: boolean) => (erFortsett ? 'Fortsett uten inntektsmelding' : 'Avslå periode'),
+        '9071': (erFortsett: boolean) =>
+            erFortsett
+                ? 'Fortsett uten inntektsmelding'
+                : 'Avslå periode',
     };
 
     const radios = {
         '9069': [
-            { value: 'fortsett', label: 'Ja, fortsett uten inntektsmelding' },
+            { value: 'fortsett', label: 'Ja, bruk A-inntekt for denne arbeidsgiveren' },
             { value: 'avslag', label: 'Nei, send purring med varsel om avslag' },
         ],
         '9071': [
-            { value: 'fortsett', label: 'Ja, fortsett uten inntektsmelding' },
-            { value: 'avslag', label: 'Avslå periode' },
+            { value: 'fortsett', label: 'Ja, bruk A-inntekt for denne arbeidsgiveren' },
+            { value: 'avslag', label: 'Nei, avslå periode på grunn av manglende inntektsopplysninger' },
         ],
     };
     return (
