@@ -40,6 +40,7 @@ const FortsettUtenInntektsmeldingForm = ({
 
     const fortsettUtenInntektsmelding = watch(FieldName.BESLUTNING);
     const aksjonspunktKode = aksjonspunkt?.definisjon?.kode;
+    const vis = ((!tilstand.begrunnelse && !readOnly) || redigeringsmodus) && aksjonspunkt && tilstand.tilVurdering;
     const skalViseBegrunnelse = !(aksjonspunktKode === '9069' && fortsettUtenInntektsmelding !== Kode.FORTSETT);
     const fortsettKnappTekstFunc = {
         '9069': (erFortsett: boolean) =>
@@ -57,6 +58,10 @@ const FortsettUtenInntektsmeldingForm = ({
             { value: Kode.MANGLENDE_GRUNNLAG, label: 'Nei, avslå periode på grunn av manglende inntektsopplysninger' },
         ],
     };
+
+    if (!vis) {
+        return null;
+    }
 
     return (
         // eslint-disable-next-line react/jsx-props-no-spreading

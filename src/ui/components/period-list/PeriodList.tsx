@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { Period } from '@navikt/k9-period-utils';
-import { CalendarIcon, LabelledContent } from '@navikt/k9-react-components';
-import { Knapp } from 'nav-frontend-knapper';
-import { Edit } from '@navikt/ds-icons';
-import Alertstripe from 'nav-frontend-alertstriper';
+import { CalendarIcon } from '@navikt/k9-react-components';
 import styles from './periodList.less';
 import FortsettUtenInntektsmeldingForm from '../fortsett-uten-inntektsmelding-form/FortsettUtenInntektsmeldingForm';
-import { Tilstand, Kode } from '../../../types/KompletthetData';
+import { Tilstand } from '../../../types/KompletthetData';
 import ContainerContext from '../../../context/ContainerContext';
 import { finnAktivtAksjonspunkt } from '../../../util/utils';
+import FortsettUtenInntektsmeldingInfo from './FortsettUtenInntektsmeldingInfo';
+import FortsettUtenInntektsmeldingAvslag from './FortsettUtenInntektsmeldingAvslag';
 
 interface PeriodListProps {
     tilstander: Tilstand[];
@@ -31,7 +30,7 @@ const PeriodList = ({
     listItemRenderer,
     onFormSubmit,
 }: PeriodListProps): JSX.Element => {
-    const { aksjonspunkter, readOnly } = React.useContext(ContainerContext);
+    const { aksjonspunkter } = React.useContext(ContainerContext);
     const [redigeringsmodus, setRedigeringsmodus] = useState(false);
     const aktivtAksjonspunkt = finnAktivtAksjonspunkt(aksjonspunkter);
     const forrigeAksjonspunkt = aksjonspunkter.sort((a, b) => Number(b.definisjon.kode) - Number(a.definisjon.kode))[0];
@@ -48,42 +47,23 @@ const PeriodList = ({
                     </div>
                     {listHeadingRenderer()}
                     {listItemRenderer(tilstand.periode)}
-                    {((!tilstand.begrunnelse && !readOnly) || redigeringsmodus) &&
-                        aksjonspunkt &&
-                        tilstand.tilVurdering && (
-                            <FortsettUtenInntektsmeldingForm
-                                onSubmit={onFormSubmit}
-                                tilstand={tilstand}
-                                aksjonspunkt={aksjonspunkt}
-                                redigeringsmodus={redigeringsmodus}
-                                setRedigeringsmodus={setRedigeringsmodus}
-                            />
-                        )}
-
-                    {tilstand.vurdering.kode === Kode.FORTSETT && !redigeringsmodus && tilstand.tilVurdering && (
-                        <>
-                            <Alertstripe type="info" className={styles.periodList__alertstripe}>
-                                <span>Fortsett uten inntektsmelding.</span>
-                                <Knapp mini onClick={() => setRedigeringsmodus(true)}>
-                                    <Edit />
-                                    <span>Rediger vurdering</span>
-                                </Knapp>
-                            </Alertstripe>
-                            <LabelledContent label="Begrunnelse" content={<span>{tilstand.begrunnelse}</span>} />
-                        </>
-                    )}
-                    {tilstand.vurdering.kode === Kode.MANGLENDE_GRUNNLAG && !redigeringsmodus && tilstand.tilVurdering && (
-                        <>
-                            <Alertstripe type="feil" className={styles.periodList__alertstripe}>
-                                <span>Kan ikke gå videre uten inntektsmelding, søknad avslås.</span>
-                                <Knapp mini onClick={() => setRedigeringsmodus(true)}>
-                                    <Edit />
-                                    <span>Rediger vurdering</span>
-                                </Knapp>
-                            </Alertstripe>
-                            <LabelledContent label="Begrunnelse" content={<span>{tilstand.begrunnelse}</span>} />
-                        </>
-                    )}
+                    <FortsettUtenInntektsmeldingForm
+                        onSubmit={onFormSubmit}
+                        tilstand={tilstand}
+                        aksjonspunkt={aksjonspunkt}
+                        redigeringsmodus={redigeringsmodus}
+                        setRedigeringsmodus={setRedigeringsmodus}
+                    />
+                    <FortsettUtenInntektsmeldingInfo
+                        tilstand={tilstand}
+                        redigeringsmodus={redigeringsmodus}
+                        setRedigeringsmodus={setRedigeringsmodus}
+                    />
+                    <FortsettUtenInntektsmeldingAvslag
+                        tilstand={tilstand}
+                        redigeringsmodus={redigeringsmodus}
+                        setRedigeringsmodus={setRedigeringsmodus}
+                    />
                 </li>
             ))}
         </ul>
