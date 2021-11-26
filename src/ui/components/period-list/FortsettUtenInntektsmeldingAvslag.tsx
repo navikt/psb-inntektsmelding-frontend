@@ -15,21 +15,21 @@ const FortsettUtenInntektsmeldingAvslag = ({
     redigeringsmodus: boolean;
     setRedigeringsmodus: (state: boolean) => void;
 }): JSX.Element | null => {
-    if (tilstand.vurdering.kode !== Kode.MANGLENDE_GRUNNLAG && redigeringsmodus && !tilstand.tilVurdering) {
-        return null;
+    if (tilstand.vurdering.kode === Kode.MANGLENDE_GRUNNLAG && !redigeringsmodus && tilstand.tilVurdering) {
+        return (
+            <>
+                <Alertstripe type="feil" className={styles.periodList__alertstripe}>
+                    <span>Kan ikke gå videre uten inntektsmelding, søknad avslås.</span>
+                    <Knapp mini onClick={() => setRedigeringsmodus(true)}>
+                        <Edit />
+                        <span>Rediger vurdering</span>
+                    </Knapp>
+                </Alertstripe>
+                <LabelledContent label="Begrunnelse" content={<span>{tilstand.begrunnelse}</span>} />
+            </>
+        );
     }
-    return (
-        <>
-            <Alertstripe type="info" className={styles.periodList__alertstripe}>
-                <span>Fortsett uten inntektsmelding.</span>
-                <Knapp mini onClick={() => setRedigeringsmodus(true)}>
-                    <Edit />
-                    <span>Rediger vurdering</span>
-                </Knapp>
-            </Alertstripe>
-            <LabelledContent label="Begrunnelse" content={<span>{tilstand.begrunnelse}</span>} />
-        </>
-    );
+    return null;
 };
 
 export default FortsettUtenInntektsmeldingAvslag;
