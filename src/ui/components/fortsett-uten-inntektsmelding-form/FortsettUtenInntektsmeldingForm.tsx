@@ -36,7 +36,7 @@ const FortsettUtenInntektsmeldingForm = ({
     aksjonspunkt,
 }: FortsettUtenInntektsmeldingFormProps): JSX.Element => {
     const { readOnly } = React.useContext(ContainerContext);
-    const formMethods = useForm({ mode: 'onTouched' });
+    const formMethods = useForm({ mode: 'onTouched', defaultValues: { begrunnelse: 'glebb', beslutning: null } });
     const { handleSubmit, watch } = formMethods;
 
     const begrunnelseId = 'begrunnelse';
