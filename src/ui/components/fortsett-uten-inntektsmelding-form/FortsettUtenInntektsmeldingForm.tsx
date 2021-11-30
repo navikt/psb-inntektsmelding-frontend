@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import Panel from 'nav-frontend-paneler';
 import React from 'react';
@@ -38,6 +39,7 @@ const FortsettUtenInntektsmeldingForm = ({
     const formMethods = useForm({ mode: 'onTouched' });
     const { handleSubmit, watch } = formMethods;
 
+    const begrunnelseId = 'begrunnelse';
     const fortsettUtenInntektsmelding = watch(FieldName.BESLUTNING);
     const aksjonspunktKode = aksjonspunkt?.definisjon?.kode;
     const vis = ((!tilstand.begrunnelse && !readOnly) || redigeringsmodus) && aksjonspunkt && tilstand.tilVurdering;
@@ -95,7 +97,7 @@ const FortsettUtenInntektsmeldingForm = ({
                                 name={FieldName.BEGRUNNELSE}
                                 label={
                                     <>
-                                        <span>Begrunnelse</span>
+                                        <label htmlFor={begrunnelseId}>Begrunnelse</label>
                                         <div className={styles['fortsettUtenInntektsmelding__begrunnelse-subtext']}>
                                             Vi benytter opplysninger fra A-inntekt for arbeidsgiverne det mangler
                                             inntektsmelding fra. Gjør en vurdering av hvorfor du benytter A-inntekt for
@@ -104,6 +106,7 @@ const FortsettUtenInntektsmeldingForm = ({
                                     </>
                                 }
                                 validators={{ something: (v) => (!v ? 'Du må fylle inn en verdi' : null) }}
+                                id={begrunnelseId}
                             />
                         )}
                         <Box marginTop={Margin.large}>
