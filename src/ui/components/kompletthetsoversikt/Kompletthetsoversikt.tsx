@@ -1,15 +1,15 @@
 import React from 'react';
 import cl from 'classnames';
-import { getHumanReadablePeriodString, Period } from '@navikt/k9-period-utils';
+import { Period } from '@navikt/k9-period-utils';
 import { Box, Margin } from '@navikt/k9-react-components';
 import Alertstripe from 'nav-frontend-alertstriper';
+import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import ContainerContext from '../../../context/ContainerContext';
 import { Kompletthet } from '../../../types/KompletthetData';
 import InntektsmeldingListeHeading from '../inntektsmelding-liste-heading/InntektsmeldingListeHeading';
 import InntektsmeldingListe from '../inntektsmelding-liste/InntektsmeldingListe';
 import PeriodList from '../period-list/PeriodList';
 import styles from './kompletthetsoversikt.less';
-import tilstandManglerInntektsmeldingUtil from '../../../util/tilstandManglerInntektsmelding';
 import { finnAktivtAksjonspunkt } from '../../../util/utils';
 
 interface KompletthetsoversiktProps {
@@ -60,32 +60,34 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
                     </Box>
                     <Box marginBottom={Margin.large}>
                         <Alertstripe type="info" className={styles.alertstripe}>
-                            Du kan vurdere å gå videre uten inntektsmelding hvis:
-                            <ul className={styles.kompletthet__list}>
-                                <li>
-                                    Det er rapportert fast og regelmessig lønn de siste 3 månedene før
-                                    skjæringstidspunktet. Merk at det er unntak fra dette hvis søker har 0 % stilling,
-                                    har varierende arbeidstider eller annet.
-                                </li>
-                                <li>
-                                    Måneden skjæringstidspunktet er i er innrapportert til A-inntekt. Hvis det er
-                                    innrapportert lavere lønn enn foregående måneder, kan det tyde på at arbeidsgiver
-                                    ikke lenger utbetaler lønn.
-                                </li>
-                            </ul>
-                            <div className={styles['kompletthet--margin-top']}>
-                                Du bør ikke gå videre uten inntektsmelding hvis:
-                            </div>
-                            <ul className={styles.kompletthet__list}>
-                                <li>
-                                    Det er arbeidsforhold og frilansoppdrag i samme organisasjon (sjekk i
-                                    Aa-registeret).
-                                </li>
-                                <li>
-                                    Det er rapportert full lønn fra arbeidsgiver for måneden skjæringstidspunktet er i.
-                                    Dette tyder på at arbeidsgiver forskutterer lønn.
-                                </li>
-                            </ul>
+                            <Ekspanderbartpanel tittel="Når kan du gå videre uten inntektsmelding?">
+                                Du kan vurdere å gå videre uten inntektsmelding hvis:
+                                <ul className={styles.kompletthet__list}>
+                                    <li>
+                                        Det er rapportert fast og regelmessig lønn de siste 3 månedene før
+                                        skjæringstidspunktet. Merk at det er unntak fra dette hvis søker har 0 %
+                                        stilling, har varierende arbeidstider eller annet.
+                                    </li>
+                                    <li>
+                                        Måneden skjæringstidspunktet er i er innrapportert til A-inntekt. Hvis det er
+                                        innrapportert lavere lønn enn foregående måneder, kan det tyde på at
+                                        arbeidsgiver ikke lenger utbetaler lønn.
+                                    </li>
+                                </ul>
+                                <div className={styles['kompletthet--margin-top']}>
+                                    Du bør ikke gå videre uten inntektsmelding hvis:
+                                </div>
+                                <ul className={styles.kompletthet__list}>
+                                    <li>
+                                        Det er arbeidsforhold og frilansoppdrag i samme organisasjon (sjekk i
+                                        Aa-registeret).
+                                    </li>
+                                    <li>
+                                        Det er rapportert full lønn fra arbeidsgiver for måneden skjæringstidspunktet er
+                                        i. Dette tyder på at arbeidsgiver forskutterer lønn.
+                                    </li>
+                                </ul>
+                            </Ekspanderbartpanel>
                         </Alertstripe>
                     </Box>
                 </>

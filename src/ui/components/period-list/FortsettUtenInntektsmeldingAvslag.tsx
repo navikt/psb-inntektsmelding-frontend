@@ -15,7 +15,7 @@ const FortsettUtenInntektsmeldingAvslag = ({
     redigeringsmodus: boolean;
     setRedigeringsmodus: (state: boolean) => void;
 }): JSX.Element | null => {
-    if (tilstand.vurdering.kode === Kode.MANGLENDE_GRUNNLAG && !redigeringsmodus && tilstand.tilVurdering) {
+    if (tilstand?.vurdering?.kode === Kode.MANGLENDE_GRUNNLAG && !redigeringsmodus && tilstand.tilVurdering) {
         return (
             <>
                 <Alertstripe type="feil" className={styles.periodList__alertstripe}>

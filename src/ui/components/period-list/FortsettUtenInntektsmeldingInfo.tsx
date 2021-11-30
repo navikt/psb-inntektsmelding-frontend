@@ -15,7 +15,7 @@ const FortsettUtenInntektsmeldingInfo = ({
     redigeringsmodus: boolean;
     setRedigeringsmodus: (state: boolean) => void;
 }): JSX.Element | null => {
-    if (tilstand.vurdering.kode === Kode.FORTSETT && !redigeringsmodus && tilstand.tilVurdering) {
+    if (tilstand?.vurdering?.kode === Kode.FORTSETT && !redigeringsmodus && tilstand.tilVurdering) {
         return (
             <>
                 <Alertstripe type="info" className={styles.periodList__alertstripe}>
