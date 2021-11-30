@@ -38,7 +38,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
         <div className={styles.kompletthet}>
             <h1 className={styles.kompletthet__mainHeading}>Inntektsmelding</h1>
             <h2 className={styles.kompletthet__subHeading}>Opplysninger til beregning</h2>
-            {true && (
+            {aktivtAksjonspunkt && (
                 <>
                     <Box marginBottom={Margin.large}>
                         <Alertstripe type="advarsel" className={styles.alertstripe}>
@@ -60,7 +60,10 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
                     </Box>
                     <Box marginBottom={Margin.large}>
                         <Alertstripe type="info" className={styles.alertstripe}>
-                            <Ekspanderbartpanel tittel="Når kan du gå videre uten inntektsmelding?" className={styles.kompletthet__info}>
+                            <Ekspanderbartpanel
+                                tittel="Når kan du gå videre uten inntektsmelding?"
+                                className={styles.kompletthet__info}
+                            >
                                 Du kan vurdere å gå videre uten inntektsmelding hvis:
                                 <ul className={styles.kompletthet__list}>
                                     <li>

@@ -93,7 +93,16 @@ const FortsettUtenInntektsmeldingForm = ({
                         {skalViseBegrunnelse && (
                             <TextArea
                                 name={FieldName.BEGRUNNELSE}
-                                label="Begrunnelse"
+                                label={
+                                    <>
+                                        <span>Begrunnelse</span>
+                                        <div className={styles['fortsettUtenInntektsmelding__begrunnelse-subtext']}>
+                                            Vi benytter opplysninger fra A-inntekt for arbeidsgiverne det mangler
+                                            inntektsmelding fra. Gjør en vurdering av hvorfor du benytter A-inntekt for
+                                            å fastsette grunnlaget etter § 8-28.
+                                        </div>
+                                    </>
+                                }
                                 validators={{ something: (v) => (!v ? 'Du må fylle inn en verdi' : null) }}
                             />
                         )}
