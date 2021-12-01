@@ -101,11 +101,20 @@ const FortsettUtenInntektsmeldingForm = ({
                                 label={
                                     <>
                                         <label htmlFor={begrunnelseId}>Begrunnelse</label>
-                                        <div className={styles['fortsettUtenInntektsmelding__begrunnelse-subtext']}>
-                                            Vi benytter opplysninger fra A-inntekt for alle arbeidsgivere, også de vi
-                                            har mottatt inntektsmelding fra. Gjør en vurdering av hvorfor du benytter
-                                            A-inntekt for å fastsette grunnlaget etter § 8-28
-                                        </div>
+                                        {fortsettUtenInntektsmelding === Kode.FORTSETT && (
+                                            <div className={styles['fortsettUtenInntektsmelding__begrunnelse-subtext']}>
+                                                Vi benytter opplysninger fra A-inntekt for alle arbeidsgivere, også de
+                                                vi har mottatt inntektsmelding fra. Gjør en vurdering av hvorfor du
+                                                benytter A-inntekt for å fastsette grunnlaget etter § 8-28.
+                                            </div>
+                                        )}
+                                        {fortsettUtenInntektsmelding === Kode.MANGLENDE_GRUNNLAG && (
+                                            <div className={styles['fortsettUtenInntektsmelding__begrunnelse-subtext']}>
+                                                Skriv begrunnelse for hvorfor du ikke kan benytte opplysninger fra
+                                                A-inntekt for å fastsette grunnlaget, og avslå saken etter
+                                                folketrygdloven §§ 21-3 og 8-28.
+                                            </div>
+                                        )}
                                     </>
                                 }
                                 validators={{ something: (v) => (!v ? 'Du må fylle inn en verdi' : null) }}
