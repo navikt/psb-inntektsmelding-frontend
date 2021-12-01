@@ -55,11 +55,11 @@ const FortsettUtenInntektsmeldingForm = ({
 
     const radios = {
         '9069': [
-            { value: Kode.FORTSETT, label: 'Ja, bruk A-inntekt for denne arbeidsgiveren' },
+            { value: Kode.FORTSETT, label: 'Ja, bruk A-inntekt for alle arbeidsgivere' },
             { value: Kode.MANGLENDE_GRUNNLAG, label: 'Nei, send purring med varsel om avslag' },
         ],
         '9071': [
-            { value: Kode.FORTSETT, label: 'Ja, bruk A-inntekt for denne arbeidsgiveren' },
+            { value: Kode.FORTSETT, label: 'Ja, bruk A-inntekt for alle arbeidsgivere' },
             { value: Kode.MANGLENDE_GRUNNLAG, label: 'Nei, avslå periode på grunn av manglende inntektsopplysninger' },
         ],
     };
@@ -102,9 +102,9 @@ const FortsettUtenInntektsmeldingForm = ({
                                     <>
                                         <label htmlFor={begrunnelseId}>Begrunnelse</label>
                                         <div className={styles['fortsettUtenInntektsmelding__begrunnelse-subtext']}>
-                                            Vi benytter opplysninger fra A-inntekt for arbeidsgiverne det mangler
-                                            inntektsmelding fra. Gjør en vurdering av hvorfor du benytter A-inntekt for
-                                            å fastsette grunnlaget etter § 8-28.
+                                            Vi benytter opplysninger fra A-inntekt for alle arbeidsgivere, også de vi
+                                            har mottatt inntektsmelding fra. Gjør en vurdering av hvorfor du benytter
+                                            A-inntekt for å fastsette grunnlaget etter § 8-28
                                         </div>
                                     </>
                                 }
