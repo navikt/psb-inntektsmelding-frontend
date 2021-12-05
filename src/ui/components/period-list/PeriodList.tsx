@@ -31,13 +31,17 @@ const PeriodList = ({
     onFormSubmit,
 }: PeriodListProps): JSX.Element => {
     const { aksjonspunkter } = React.useContext(ContainerContext);
-    const [redigeringsmodus, setRedigeringsmodus] = useState(false);
+    const tilstanderMedRedigering = tilstander.map((tilstand) => {
+        const [redigeringsmodus, setRedigeringsmodus] = useState(false);
+
+        return { ...tilstand, redigeringsmodus, setRedigeringsmodus };
+    });
     const aktivtAksjonspunkt = finnAktivtAksjonspunkt(aksjonspunkter);
     const forrigeAksjonspunkt = aksjonspunkter.sort((a, b) => Number(b.definisjon.kode) - Number(a.definisjon.kode))[0];
     const aksjonspunkt = aktivtAksjonspunkt || forrigeAksjonspunkt;
     return (
         <ul className={styles.periodList}>
-            {tilstander.map((tilstand) => (
+            {tilstanderMedRedigering.map((tilstand) => (
                 <li className={styles.periodList__element} key={tilstand.periode.prettifyPeriod()}>
                     <div className={styles.periodList__element__title}>
                         <CalendarIcon />
@@ -51,18 +55,18 @@ const PeriodList = ({
                         onSubmit={onFormSubmit}
                         tilstand={tilstand}
                         aksjonspunkt={aksjonspunkt}
-                        redigeringsmodus={redigeringsmodus}
-                        setRedigeringsmodus={setRedigeringsmodus}
+                        redigeringsmodus={tilstand.redigeringsmodus}
+                        setRedigeringsmodus={tilstand.setRedigeringsmodus}
                     />
                     <FortsettUtenInntektsmeldingInfo
                         tilstand={tilstand}
-                        redigeringsmodus={redigeringsmodus}
-                        setRedigeringsmodus={setRedigeringsmodus}
+                        redigeringsmodus={tilstand.redigeringsmodus}
+                        setRedigeringsmodus={tilstand.setRedigeringsmodus}
                     />
                     <FortsettUtenInntektsmeldingAvslag
                         tilstand={tilstand}
-                        redigeringsmodus={redigeringsmodus}
-                        setRedigeringsmodus={setRedigeringsmodus}
+                        redigeringsmodus={tilstand.redigeringsmodus}
+                        setRedigeringsmodus={tilstand.setRedigeringsmodus}
                     />
                 </li>
             ))}
