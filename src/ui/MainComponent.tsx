@@ -5,7 +5,7 @@ import axios from 'axios';
 import React from 'react';
 import ContainerContext from '../context/ContainerContext';
 import ContainerContract from '../types/ContainerContract';
-import { Kode, Kompletthet as KompletthetData } from '../types/KompletthetData';
+import { Kompletthet as KompletthetData } from '../types/KompletthetData';
 import { Kompletthet as KompletthetResponse } from '../types/KompletthetResponse';
 import ActionType from './actionTypes';
 import Kompletthetsoversikt from './components/kompletthetsoversikt/Kompletthetsoversikt';
@@ -21,6 +21,7 @@ function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetDat
                 begrunnelse,
                 tilVurdering,
                 vurdering,
+                periodeOpprinneligFormat: periode
             };
         }),
     };
@@ -71,19 +72,8 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
                 {kompletthetsoversiktResponse && (
                     <Kompletthetsoversikt
                         kompletthetsoversikt={initKompletthetsdata(kompletthetsoversiktResponse)}
-                        onFormSubmit={({ begrunnelse, periode, beslutning, kode }) => {
-                            onFinished({
-                                '@type': kode,
-                                kode,
-                                begrunnelse,
-                                perioder: [
-                                    {
-                                        periode: `${periode.fom}/${periode.tom}`,
-                                        fortsett: beslutning === Kode.FORTSETT,
-                                        begrunnelse,
-                                    },
-                                ],
-                            });
+                        onFormSubmit={(payload) => {
+                            onFinished(payload);
                         }}
                     />
                 )}

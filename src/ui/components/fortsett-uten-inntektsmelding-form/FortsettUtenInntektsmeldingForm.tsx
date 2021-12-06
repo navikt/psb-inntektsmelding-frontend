@@ -2,13 +2,13 @@
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import Panel from 'nav-frontend-paneler';
 import React from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, UseFormReturn } from 'react-hook-form';
 import { Box, Margin } from '@navikt/k9-react-components';
 import { RadioGroupPanel, TextArea } from '@navikt/k9-form-utils';
 import ContainerContext from '../../../context/ContainerContext';
 import styles from './fortsettUtenInntektsMeldingForm.less';
 import Aksjonspunkt from '../../../types/Aksjonspunkt';
-import { Kode, Tilstand } from '../../../types/KompletthetData';
+import { Kode, TilstandBeriket } from '../../../types/KompletthetData';
 
 export interface FortsettUtenInntektsmeldingFormState {
     begrunnelse: string;
@@ -16,16 +16,13 @@ export interface FortsettUtenInntektsmeldingFormState {
 }
 
 interface FortsettUtenInntektsmeldingFormProps {
-    tilstand: Tilstand;
-    onSubmit: ({ begrunnelse, periode, beslutning, kode }) => void;
+    tilstand: TilstandBeriket;
+    onSubmit: any;
     redigeringsmodus: boolean;
     aksjonspunkt: Aksjonspunkt;
     setRedigeringsmodus: (state: boolean) => void;
-}
-
-export enum FieldName {
-    BESLUTNING = 'beslutning',
-    BEGRUNNELSE = 'begrunnelse',
+    formMethods: UseFormReturn;
+    harFlereTilstanderTilVurdering: boolean;
 }
 
 const FortsettUtenInntektsmeldingForm = ({
@@ -34,16 +31,16 @@ const FortsettUtenInntektsmeldingForm = ({
     redigeringsmodus,
     setRedigeringsmodus,
     aksjonspunkt,
+    formMethods,
+    harFlereTilstanderTilVurdering,
 }: FortsettUtenInntektsmeldingFormProps): JSX.Element => {
     const { readOnly } = React.useContext(ContainerContext);
-    const formMethods = useForm({
-        mode: 'onTouched',
-        defaultValues: { [FieldName.BEGRUNNELSE]: tilstand?.begrunnelse || '', [FieldName.BESLUTNING]: null },
-    });
-    const { handleSubmit, watch } = formMethods;
 
-    const begrunnelseId = 'begrunnelse';
-    const fortsettUtenInntektsmelding = watch(FieldName.BESLUTNING);
+    const { handleSubmit, watch } = formMethods;
+    const { beslutningFieldName, begrunnelseFieldName } = tilstand;
+
+    const begrunnelseId = `begrunnelse-${tilstand.periodeOpprinneligFormat}`;
+    const fortsettUtenInntektsmelding = watch(beslutningFieldName);
     const aksjonspunktKode = aksjonspunkt?.definisjon?.kode;
     const vis = ((!tilstand.begrunnelse && !readOnly) || redigeringsmodus) && aksjonspunkt && tilstand.tilVurdering;
     const skalViseBegrunnelse = !(aksjonspunktKode === '9069' && fortsettUtenInntektsmelding !== Kode.FORTSETT);
@@ -72,18 +69,25 @@ const FortsettUtenInntektsmeldingForm = ({
         // eslint-disable-next-line react/jsx-props-no-spreading
         <FormProvider {...formMethods}>
             <form
-                onSubmit={handleSubmit(({ begrunnelse, beslutning }) =>
+                onSubmit={handleSubmit((data) =>
                     onSubmit({
-                        begrunnelse: skalViseBegrunnelse ? begrunnelse : null,
-                        periode: tilstand.periode,
-                        beslutning,
+                        '@type': aksjonspunktKode,
                         kode: aksjonspunktKode,
+                        begrunnelse: skalViseBegrunnelse ? data[tilstand.begrunnelseFieldName] : null,
+                        perioder: [
+                            {
+                                begrunnelse: skalViseBegrunnelse ? data[tilstand.begrunnelseFieldName] : null,
+                                periode: tilstand.periodeOpprinneligFormat,
+                                fortsett: data[tilstand.beslutningFieldName] === Kode.FORTSETT,
+                                kode: aksjonspunktKode,
+                            },
+                        ],
                     })
                 )}
             >
                 <Panel className={styles.fortsettUtenInntektsmelding__panel}>
                     <RadioGroupPanel
-                        name={FieldName.BESLUTNING}
+                        name={beslutningFieldName}
                         question="Kan du gå videre uten inntektsmelding?"
                         radios={radios[aksjonspunktKode]}
                         disabled={readOnly && !redigeringsmodus}
@@ -92,12 +96,13 @@ const FortsettUtenInntektsmeldingForm = ({
                                 v === tilstand.vurdering.kode
                                     ? 'Velg en annen verdi enn sist, eller avbryt redigering'
                                     : null,
+                            something: (v) => (!v ? 'Du må oppgi en verdi ' : null),
                         }}
                     />
                     <>
                         {skalViseBegrunnelse && (
                             <TextArea
-                                name={FieldName.BEGRUNNELSE}
+                                name={begrunnelseFieldName}
                                 label={
                                     <>
                                         <label htmlFor={begrunnelseId}>Begrunnelse</label>
@@ -123,11 +128,13 @@ const FortsettUtenInntektsmeldingForm = ({
                         )}
                         <Box marginTop={Margin.large}>
                             <div className={styles.fortsettUtenInntektsmelding__knapper}>
-                                <Hovedknapp disabled={!fortsettUtenInntektsmelding} mini>
-                                    {fortsettKnappTekstFunc[aksjonspunktKode](
-                                        fortsettUtenInntektsmelding === Kode.FORTSETT
-                                    )}
-                                </Hovedknapp>
+                                {!harFlereTilstanderTilVurdering && (
+                                    <Hovedknapp mini>
+                                        {fortsettKnappTekstFunc[aksjonspunktKode](
+                                            fortsettUtenInntektsmelding === Kode.FORTSETT
+                                        )}
+                                    </Hovedknapp>
+                                )}
                                 {redigeringsmodus && (
                                     <Knapp mini onClick={() => setRedigeringsmodus(false)}>
                                         Avbryt redigering
