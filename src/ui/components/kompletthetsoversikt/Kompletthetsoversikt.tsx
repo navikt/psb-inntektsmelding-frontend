@@ -31,9 +31,8 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
     const aksjonspunkt = aktivtAksjonspunkt || forrigeAksjonspunkt;
     const aksjonspunktKode = aksjonspunkt?.definisjon?.kode;
 
-    const testTilstander = [...tilstander, ...tilstander]
 
-    const tilstanderBeriket = testTilstander.map((tilstand) => {
+    const tilstanderBeriket = tilstander.map((tilstand) => {
         const [redigeringsmodus, setRedigeringsmodus] = useState(false);
 
         return {
