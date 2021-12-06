@@ -38,7 +38,7 @@ const FortsettUtenInntektsmeldingForm = ({
 
     const { handleSubmit, watch } = formMethods;
     const { beslutningFieldName, begrunnelseFieldName } = tilstand;
-    console.log(tilstand)
+    const beslutningId = `beslutning-${tilstand.periodeOpprinneligFormat}`;
     const begrunnelseId = `begrunnelse-${tilstand.periodeOpprinneligFormat}`;
     const fortsettUtenInntektsmelding = watch(beslutningFieldName);
     const aksjonspunktKode = aksjonspunkt?.definisjon?.kode;
@@ -52,12 +52,28 @@ const FortsettUtenInntektsmeldingForm = ({
 
     const radios = {
         '9069': [
-            { value: Kode.FORTSETT, label: 'Ja, bruk A-inntekt for alle arbeidsgivere' },
-            { value: Kode.MANGLENDE_GRUNNLAG, label: 'Nei, send purring med varsel om avslag' },
+            {
+                value: Kode.FORTSETT,
+                label: 'Ja, bruk A-inntekt for alle arbeidsgivere',
+                id: `${beslutningId}${Kode.FORTSETT}`,
+            },
+            {
+                value: Kode.MANGLENDE_GRUNNLAG,
+                label: 'Nei, send purring med varsel om avslag',
+                id: `${beslutningId}${Kode.MANGLENDE_GRUNNLAG}`,
+            },
         ],
         '9071': [
-            { value: Kode.FORTSETT, label: 'Ja, bruk A-inntekt for alle arbeidsgivere' },
-            { value: Kode.MANGLENDE_GRUNNLAG, label: 'Nei, avslå periode på grunn av manglende inntektsopplysninger' },
+            {
+                value: Kode.FORTSETT,
+                label: 'Ja, bruk A-inntekt for alle arbeidsgivere',
+                id: `${beslutningId}${Kode.FORTSETT}`,
+            },
+            {
+                value: Kode.MANGLENDE_GRUNNLAG,
+                label: 'Nei, avslå periode på grunn av manglende inntektsopplysninger',
+                id: `${beslutningId}${Kode.MANGLENDE_GRUNNLAG}`,
+            },
         ],
     };
 
