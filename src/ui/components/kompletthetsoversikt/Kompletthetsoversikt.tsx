@@ -12,10 +12,11 @@ import styles from './kompletthetsoversikt.less';
 import { finnAktivtAksjonspunkt, finnTilstanderSomRedigeres, finnTilstanderSomVurderes } from '../../../util/utils';
 import FieldName from '../../../types/FieldName';
 import InntektsmeldingManglerInfo from './InntektsmeldingManglerInfo';
+import AksjonspunktRequestPayload from '../../../types/AksjonspunktRequestPayload';
 
 interface KompletthetsoversiktProps {
     kompletthetsoversikt: Kompletthet;
-    onFormSubmit: any;
+    onFormSubmit: (payload: AksjonspunktRequestPayload) => void;
 }
 
 const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: KompletthetsoversiktProps): JSX.Element => {

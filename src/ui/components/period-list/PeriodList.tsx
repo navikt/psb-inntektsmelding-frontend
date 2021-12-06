@@ -8,20 +8,13 @@ import { TilstandBeriket } from '../../../types/KompletthetData';
 import FortsettUtenInntektsmeldingInfo from './FortsettUtenInntektsmeldingInfo';
 import FortsettUtenInntektsmeldingAvslag from './FortsettUtenInntektsmeldingAvslag';
 import Aksjonspunkt from '../../../types/Aksjonspunkt';
+import AksjonspunktRequestPayload from '../../../types/AksjonspunktRequestPayload';
 
 interface PeriodListProps {
     tilstander: TilstandBeriket[];
     listHeadingRenderer: () => React.ReactNode;
     listItemRenderer: (period: Period) => React.ReactNode;
-    onFormSubmit: ({
-        begrunnelse,
-        periode,
-        beslutning,
-    }: {
-        begrunnelse: string;
-        periode: Period;
-        beslutning: string;
-    }) => void;
+    onFormSubmit: (payload: AksjonspunktRequestPayload) => void;
     aksjonspunkt: Aksjonspunkt;
     formMethods: UseFormReturn;
     harFlereTilstanderTilVurdering: boolean;
@@ -34,7 +27,7 @@ const PeriodList = ({
     onFormSubmit,
     aksjonspunkt,
     formMethods,
-    harFlereTilstanderTilVurdering
+    harFlereTilstanderTilVurdering,
 }: PeriodListProps): JSX.Element => (
     <ul className={styles.periodList}>
         {tilstander.map((tilstand) => (

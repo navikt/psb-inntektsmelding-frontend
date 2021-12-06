@@ -9,6 +9,7 @@ import ContainerContext from '../../../context/ContainerContext';
 import styles from './fortsettUtenInntektsMeldingForm.less';
 import Aksjonspunkt from '../../../types/Aksjonspunkt';
 import { Kode, TilstandBeriket } from '../../../types/KompletthetData';
+import AksjonspunktRequestPayload from '../../../types/AksjonspunktRequestPayload';
 
 export interface FortsettUtenInntektsmeldingFormState {
     begrunnelse: string;
@@ -17,7 +18,7 @@ export interface FortsettUtenInntektsmeldingFormState {
 
 interface FortsettUtenInntektsmeldingFormProps {
     tilstand: TilstandBeriket;
-    onSubmit: any;
+    onSubmit: (payload: AksjonspunktRequestPayload) => void;
     redigeringsmodus: boolean;
     aksjonspunkt: Aksjonspunkt;
     setRedigeringsmodus: (state: boolean) => void;

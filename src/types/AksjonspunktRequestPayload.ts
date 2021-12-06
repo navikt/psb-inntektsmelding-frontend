@@ -1,11 +1,12 @@
 interface Perioder {
     periode: string;
     fortsett: boolean;
-    begrunnelse: string;
+    begrunnelse?: string;
+    kode: string;
 }
 
 interface AksjonspunktRequestPayload {
-    begrunnelse: string;
+    begrunnelse?: string;
     perioder: Perioder[];
     kode: string;
     '@type': string;
