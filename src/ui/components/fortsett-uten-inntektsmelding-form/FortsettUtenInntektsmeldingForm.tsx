@@ -38,7 +38,7 @@ const FortsettUtenInntektsmeldingForm = ({
 
     const { handleSubmit, watch } = formMethods;
     const { beslutningFieldName, begrunnelseFieldName } = tilstand;
-
+    console.log(tilstand)
     const begrunnelseId = `begrunnelse-${tilstand.periodeOpprinneligFormat}`;
     const fortsettUtenInntektsmelding = watch(beslutningFieldName);
     const aksjonspunktKode = aksjonspunkt?.definisjon?.kode;
