@@ -58,7 +58,6 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
         ...finnTilstanderSomRedigeres(tilstanderBeriket),
     ];
     const harFlereTilstanderTilVurdering = tilstanderTilVurdering.length > 1;
-
     return (
         <div className={styles.kompletthet}>
             <h1 className={styles.kompletthet__mainHeading}>Inntektsmelding</h1>
@@ -81,7 +80,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
                 <Box marginTop={Margin.large}>
                     <form
                         onSubmit={handleSubmit((data) => {
-                            const perioder = tilstanderBeriket.map((tilstand) => {
+                            const perioder = tilstanderTilVurdering.map((tilstand) => {
                                 const skalViseBegrunnelse = !(
                                     aksjonspunktKode === '9069' && watch(tilstand.beslutningFieldName) !== Kode.FORTSETT
                                 );
