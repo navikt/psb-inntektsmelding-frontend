@@ -6,12 +6,11 @@ import Status from '../types/TilstandStatus';
 export const finnAktivtAksjonspunkt = (aksjonspunkter: Aksjonspunkt[]): Aksjonspunkt =>
     aksjonspunkter.find((aksjonspunkt) => aksjonspunkt.status.kode === 'OPPR');
 
+export const skalVurderes = (tilstand: TilstandBeriket): boolean =>
+    tilstand?.status.some((status) => status?.status === Status.MANGLER) && tilstand?.vurdering?.kode === Kode.TOM;
+
 export const finnTilstanderSomVurderes = (tilstander: TilstandBeriket[]): TilstandBeriket[] =>
-    tilstander.filter(
-        (tilstand) =>
-            tilstand?.status.some((status) => status?.status === Status.MANGLER) &&
-            tilstand?.vurdering?.kode === Kode.TOM
-    );
+    tilstander.filter(skalVurderes);
 
 export const finnTilstanderSomRedigeres = (tilstander: TilstandBeriket[]): TilstandBeriket[] =>
     tilstander.filter((tilstand) => tilstand.redigeringsmodus);

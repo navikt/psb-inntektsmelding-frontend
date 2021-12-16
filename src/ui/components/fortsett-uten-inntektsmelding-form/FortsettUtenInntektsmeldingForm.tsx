@@ -10,6 +10,7 @@ import styles from './fortsettUtenInntektsMeldingForm.less';
 import Aksjonspunkt from '../../../types/Aksjonspunkt';
 import { Kode, TilstandBeriket } from '../../../types/KompletthetData';
 import AksjonspunktRequestPayload from '../../../types/AksjonspunktRequestPayload';
+import { skalVurderes } from '../../../util/utils';
 
 export interface FortsettUtenInntektsmeldingFormState {
     begrunnelse: string;
@@ -43,7 +44,7 @@ const FortsettUtenInntektsmeldingForm = ({
     const begrunnelseId = `begrunnelse-${tilstand.periodeOpprinneligFormat}`;
     const fortsettUtenInntektsmelding = watch(beslutningFieldName);
     const aksjonspunktKode = aksjonspunkt?.definisjon?.kode;
-    const vis = ((!tilstand.begrunnelse && !readOnly) || redigeringsmodus) && aksjonspunkt && tilstand.tilVurdering;
+    const vis = ((skalVurderes(tilstand) && !readOnly) || redigeringsmodus) && aksjonspunkt && tilstand.tilVurdering;
     const skalViseBegrunnelse = !(aksjonspunktKode === '9069' && fortsettUtenInntektsmelding !== Kode.FORTSETT);
     const fortsettKnappTekstFunc = {
         '9069': (erFortsett: boolean) =>
