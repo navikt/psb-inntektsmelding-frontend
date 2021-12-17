@@ -114,7 +114,7 @@ const FortsettUtenInntektsmeldingForm = ({
                                 v === tilstand.vurdering.kode
                                     ? 'Velg en annen verdi enn sist, eller avbryt redigering'
                                     : null,
-                            something: (v) => (!v ? 'Du må oppgi en verdi ' : null),
+                            paakrevd: (v) => (!v ? 'Du må oppgi en verdi ' : null),
                         }}
                     />
                     <>
@@ -140,7 +140,7 @@ const FortsettUtenInntektsmeldingForm = ({
                                         )}
                                     </>
                                 }
-                                validators={{ something: (v) => (!v ? 'Du må fylle inn en verdi' : null) }}
+                                validators={{ paakrevd: (v) => (!v ? 'Du må fylle inn en verdi' : null) }}
                                 id={begrunnelseId}
                             />
                         )}
