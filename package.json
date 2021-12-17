@@ -56,16 +56,19 @@
         "webpack-merge": "^5.8.0"
     },
     "dependencies": {
+        "@navikt/ds-icons": "^0.6.3",
+        "@navikt/ds-react": "^0.13.1",
         "@navikt/fnrvalidator": "^1.1.4",
         "@navikt/k9-array-utils": "^0.0.1",
         "@navikt/k9-date-utils": "^0.0.2",
+        "@navikt/k9-form-utils": "^1.0.1",
         "@navikt/k9-http-utils": "0.0.1",
         "@navikt/k9-period-utils": "^0.0.3",
-        "@navikt/k9-react-components": "^0.0.11",
+        "@navikt/k9-react-components": "^0.1.8",
         "@types/react": "^17.0.3",
         "@types/react-dom": "^17.0.3",
         "axios": "^0.21.4",
-        "classnames": "^2.2.6",
+        "classnames": "^2.3.1",
         "cors": "^2.8.5",
         "dayjs": "^1.10.4",
         "express": "^4.17.1",
@@ -73,8 +76,13 @@
         "nav-datovelger": "^11.0.0",
         "nav-frontend-alertstriper": "^3.0.51",
         "nav-frontend-alertstriper-style": "^2.0.38",
+        "nav-frontend-chevron": "^1.0.30",
+        "nav-frontend-chevron-style": "^1.0.4",
         "nav-frontend-core": "^5.0.11",
+        "nav-frontend-ekspanderbartpanel": "^4.0.2",
+        "nav-frontend-ekspanderbartpanel-style": "^2.0.1",
         "nav-frontend-ikoner-assets": "^2.0.10",
+        "nav-frontend-ikonknapper": "^2.1.2",
         "nav-frontend-js-utils": "^1.0.17",
         "nav-frontend-knapper": "^2.0.32",
         "nav-frontend-knapper-style": "^1.0.17",
@@ -93,6 +101,6 @@
         "react-collapse": "^5.1.0",
         "react-day-picker": "^7.4.10",
         "react-dom": "^17.0.2",
-        "react-hook-form": "^6.15.5"
+        "react-hook-form": "^7.20.2"
     }
 }

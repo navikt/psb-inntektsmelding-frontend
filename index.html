@@ -7,34 +7,32 @@
                 font-family: 'Source Sans Pro', Arial, sans-serif;
                 font-size: 1rem;
             }
-
-
         </style>
     </head>
     <body>
-        <div id="app" style="padding:2.5rem"></div>
+        <div id="app" style="padding: 2.5rem"></div>
         <script type="text/javascript">
             setTimeout(() => {
                 window.renderKompletthetApp('app', {
                     readOnly: false,
                     dokumenter: [
                         { journalpostId: '1111', href: '/foo' },
-                        { journalpostId: '4444', href: '/bar' }
+                        { journalpostId: '4444', href: '/bar' },
                     ],
                     arbeidsforhold: {
-                        '123456789': {
-                            navn: 'MOCK MOCKESEN AS'
+                        123456789: {
+                            navn: 'MOCK MOCKESEN AS',
                         },
-                        '234567890': {
-                            fødselsdato: '01.01.2048'
-                        }
+                        234567890: {
+                            fødselsdato: '01.01.2048',
+                        },
                     },
                     endpoints: {
-                        kompletthetBeregning: 'http://localhost:8082/mock/kompletthet'
+                        kompletthetBeregning: 'http://localhost:8082/mock/kompletthet',
                     },
                     httpErrorHandler: () => console.error('An error occured'),
                     onFinished: (data) => console.log('Aksjonspunkt løst', data),
-                    visFortsettKnapp: true
+                    aksjonspunkter: [],
                 });
             }, 300);
         </script>

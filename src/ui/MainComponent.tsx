@@ -7,18 +7,21 @@ import ContainerContext from '../context/ContainerContext';
 import ContainerContract from '../types/ContainerContract';
 import { Kompletthet as KompletthetData } from '../types/KompletthetData';
 import { Kompletthet as KompletthetResponse } from '../types/KompletthetResponse';
-import tilstandManglerInntektsmelding from '../util/tilstandManglerInntektsmelding';
 import ActionType from './actionTypes';
 import Kompletthetsoversikt from './components/kompletthetsoversikt/Kompletthetsoversikt';
 import mainComponentReducer from './reducer';
 
 function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetData {
     return {
-        tilstand: tilstand.map(({ periode, status }) => {
+        tilstand: tilstand.map(({ periode, status, begrunnelse, tilVurdering, vurdering }) => {
             const [fom, tom] = periode.split('/');
             return {
                 periode: new Period(fom, tom),
                 status,
+                begrunnelse,
+                tilVurdering,
+                vurdering,
+                periodeOpprinneligFormat: periode
             };
         }),
     };
@@ -69,22 +72,8 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
                 {kompletthetsoversiktResponse && (
                     <Kompletthetsoversikt
                         kompletthetsoversikt={initKompletthetsdata(kompletthetsoversiktResponse)}
-                        onFormSubmit={({ begrunnelse }) => {
-                            onFinished({
-                                begrunnelse,
-                                perioder: kompletthetsoversiktResponse.tilstand.map((currentTilstand) => {
-                                    if (tilstandManglerInntektsmelding(currentTilstand)) {
-                                        return {
-                                            periode: currentTilstand.periode,
-                                            fortsett: true,
-                                        };
-                                    }
-                                    return {
-                                        periode: currentTilstand.periode,
-                                        fortsett: false,
-                                    };
-                                }),
-                            });
+                        onFormSubmit={(payload) => {
+                            onFinished(payload);
                         }}
                     />
                 )}

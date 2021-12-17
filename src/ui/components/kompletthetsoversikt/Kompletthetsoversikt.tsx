@@ -1,80 +1,108 @@
-import { getHumanReadablePeriodString, Period } from '@navikt/k9-period-utils';
-import Alertstripe from 'nav-frontend-alertstriper';
-import React from 'react';
+import React, { useState } from 'react';
+import { Period } from '@navikt/k9-period-utils';
 import { Box, Margin } from '@navikt/k9-react-components';
+import { Hovedknapp } from 'nav-frontend-knapper';
+import { useForm } from 'react-hook-form';
 import ContainerContext from '../../../context/ContainerContext';
-import { Kompletthet } from '../../../types/KompletthetData';
-import FortsettUtenInntektsmeldingForm, {
-    FortsettUtenInntektsmeldingFormState,
-} from '../fortsett-uten-inntektsmelding-form/FortsettUtenInntektsmeldingForm';
+import { Kode, Kompletthet, Tilstand } from '../../../types/KompletthetData';
 import InntektsmeldingListeHeading from '../inntektsmelding-liste-heading/InntektsmeldingListeHeading';
 import InntektsmeldingListe from '../inntektsmelding-liste/InntektsmeldingListe';
 import PeriodList from '../period-list/PeriodList';
-import WriteAccessBoundContent from '../write-access-bound-content/WriteAccessBoundContent';
 import styles from './kompletthetsoversikt.less';
-import tilstandManglerInntektsmeldingUtil from '../../../util/tilstandManglerInntektsmelding';
+import { finnAktivtAksjonspunkt, finnTilstanderSomRedigeres, finnTilstanderSomVurderes } from '../../../util/utils';
+import FieldName from '../../../types/FieldName';
+import InntektsmeldingManglerInfo from './InntektsmeldingManglerInfo';
+import AksjonspunktRequestPayload from '../../../types/AksjonspunktRequestPayload';
 
 interface KompletthetsoversiktProps {
     kompletthetsoversikt: Kompletthet;
-    onFormSubmit: (data: FortsettUtenInntektsmeldingFormState) => void;
+    onFormSubmit: (payload: AksjonspunktRequestPayload) => void;
 }
 
-const periodestring = (perioder: Period[]) => {
-    if (perioder.length > 1) {
-        return `periodene ${getHumanReadablePeriodString(perioder)}`;
-    }
-    return `perioden ${getHumanReadablePeriodString(perioder)}`;
-};
-
 const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: KompletthetsoversiktProps): JSX.Element => {
-    const { visFortsettKnapp } = React.useContext(ContainerContext);
-    const { tilstand } = kompletthetsoversikt;
-    const periods = tilstand.map(({ periode }) => periode);
-    const statuses = tilstand.map(({ status }) => status);
-    const perioderSomManglerInntektsmelding = tilstand
-        .filter(tilstandManglerInntektsmeldingUtil)
-        .map(({ periode }) => periode);
+    const { aksjonspunkter } = React.useContext(ContainerContext);
+    const { tilstand: tilstander } = kompletthetsoversikt;
 
+    const periods = tilstander.map(({ periode }) => periode);
+    const statuses = tilstander.map(({ status }) => status);
+    const aktivtAksjonspunkt = finnAktivtAksjonspunkt(aksjonspunkter);
+    const forrigeAksjonspunkt = aksjonspunkter.sort((a, b) => Number(b.definisjon.kode) - Number(a.definisjon.kode))[0];
+    const aksjonspunkt = aktivtAksjonspunkt || forrigeAksjonspunkt;
+    const aksjonspunktKode = aksjonspunkt?.definisjon?.kode;
+
+    const tilstanderBeriket = tilstander.map((tilstand) => {
+        const [redigeringsmodus, setRedigeringsmodus] = useState(false);
+
+        return {
+            ...tilstand,
+            redigeringsmodus,
+            setRedigeringsmodus,
+            begrunnelseFieldName: `${FieldName.BEGRUNNELSE}${tilstand.periodeOpprinneligFormat}`,
+            beslutningFieldName: `${FieldName.BESLUTNING}${tilstand.periodeOpprinneligFormat}`,
+        };
+    });
+
+    const reducer = (defaultValues, tilstand: Tilstand) => ({
+        ...defaultValues,
+        [`${FieldName.BEGRUNNELSE}${tilstand.periodeOpprinneligFormat}`]: tilstand?.begrunnelse || '',
+        [`${FieldName.BESLUTNING}${tilstand.periodeOpprinneligFormat}`]: null,
+    });
+    const formMethods = useForm({
+        mode: 'onTouched',
+        defaultValues: tilstanderBeriket.reduce(reducer, {}),
+    });
+    const { handleSubmit, watch } = formMethods;
+
+    const tilstanderTilVurdering = [
+        ...finnTilstanderSomVurderes(tilstanderBeriket),
+        ...finnTilstanderSomRedigeres(tilstanderBeriket),
+    ];
+    const harFlereTilstanderTilVurdering = tilstanderTilVurdering.length > 1;
     return (
         <div className={styles.kompletthet}>
             <h1 className={styles.kompletthet__mainHeading}>Inntektsmelding</h1>
             <h2 className={styles.kompletthet__subHeading}>Opplysninger til beregning</h2>
-            {visFortsettKnapp && (
-                <>
-                    <Box marginBottom={Margin.large}>
-                        <Alertstripe type="advarsel" className={styles.alertstripe}>
-                            {`Inntektsmelding mangler for en eller flere arbeidsgivere i
-                        ${periodestring(perioderSomManglerInntektsmelding)}.`}
-                        </Alertstripe>
-                    </Box>
-                    <Box marginBottom={Margin.large}>
-                        <Alertstripe type="info" className={styles.alertstripe}>
-                            <ul className={styles.kompletthet__list}>
-                                <li>
-                                    Første fraværsdato i inntektsmeldingen må være 4 uker før eller etter
-                                    skjæringstidspunktet for ytelsen.
-                                </li>
-                                <li>
-                                    Arbeidsforholds-ID i inntektsmeldingen må være lik arbeidsforholds-ID i
-                                    Aa-registeret.
-                                </li>
-                            </ul>
-                        </Alertstripe>
-                    </Box>
-                    <WriteAccessBoundContent
-                        contentRenderer={() => <FortsettUtenInntektsmeldingForm onSubmit={onFormSubmit} />}
-                    />
-                </>
-            )}
+            {aksjonspunkt && <InntektsmeldingManglerInfo />}
             <Box marginTop={Margin.large}>
                 <PeriodList
-                    periods={periods}
+                    tilstander={tilstanderBeriket}
                     listHeadingRenderer={() => <InntektsmeldingListeHeading />}
                     listItemRenderer={(period: Period) => (
                         <InntektsmeldingListe status={statuses[periods.indexOf(period)]} />
                     )}
+                    onFormSubmit={onFormSubmit}
+                    aksjonspunkt={aksjonspunkt}
+                    formMethods={formMethods}
+                    harFlereTilstanderTilVurdering={harFlereTilstanderTilVurdering}
                 />
             </Box>
+            {harFlereTilstanderTilVurdering && (
+                <Box marginTop={Margin.large}>
+                    <form
+                        onSubmit={handleSubmit((data) => {
+                            const perioder = tilstanderTilVurdering.map((tilstand) => {
+                                const skalViseBegrunnelse = !(
+                                    aksjonspunktKode === '9069' && watch(tilstand.beslutningFieldName) !== Kode.FORTSETT
+                                );
+                                const begrunnelse = skalViseBegrunnelse ? data[tilstand.begrunnelseFieldName] : null;
+                                return {
+                                    begrunnelse,
+                                    periode: tilstand.periodeOpprinneligFormat,
+                                    fortsett: data[tilstand.beslutningFieldName] === Kode.FORTSETT,
+                                    kode: aksjonspunktKode,
+                                };
+                            });
+                            onFormSubmit({
+                                '@type': aksjonspunktKode,
+                                kode: aksjonspunktKode,
+                                perioder,
+                            });
+                        })}
+                    >
+                        <Hovedknapp mini>Send inn</Hovedknapp>
+                    </form>
+                </Box>
+            )}
         </div>
     );
 };

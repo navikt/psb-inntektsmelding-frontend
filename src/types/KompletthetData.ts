@@ -1,4 +1,5 @@
 import { Period } from '@navikt/k9-period-utils';
+import TilstandStatus from './TilstandStatus';
 
 export interface Kompletthet {
     tilstand: Tilstand[];
@@ -7,17 +8,36 @@ export interface Kompletthet {
 export interface Tilstand {
     periode: Period;
     status: Status[];
+    begrunnelse: string;
+    tilVurdering: boolean;
+    vurdering: Vurdering;
+    periodeOpprinneligFormat: string;
 }
 
-type StatusType = 'MOTTATT' | 'MANGLER';
+export interface TilstandBeriket extends Tilstand {
+    redigeringsmodus: boolean;
+    setRedigeringsmodus: (state: boolean) => void;
+    beslutningFieldName?: string;
+    begrunnelseFieldName?: string;
+}
 
 export interface Status {
     arbeidsgiver: Arbeidsgiver;
-    status: StatusType;
+    status: TilstandStatus;
     journalpostId: string;
 }
 
 export interface Arbeidsgiver {
     arbeidsgiver: string;
     arbeidsforhold: null;
+}
+export interface Vurdering {
+    beskrivelse: string;
+    kode: Kode;
+}
+
+export enum Kode {
+    FORTSETT = 'FORTSETT',
+    MANGLENDE_GRUNNLAG = 'MANGLENDE_GRUNNLAG',
+    TOM = '-',
 }
