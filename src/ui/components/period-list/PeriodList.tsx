@@ -9,6 +9,7 @@ import FortsettUtenInntektsmeldingInfo from './FortsettUtenInntektsmeldingInfo';
 import FortsettUtenInntektsmeldingAvslag from './FortsettUtenInntektsmeldingAvslag';
 import Aksjonspunkt from '../../../types/Aksjonspunkt';
 import AksjonspunktRequestPayload from '../../../types/AksjonspunktRequestPayload';
+import { sorterSkjæringstidspunkt } from '../../../util/utils';
 
 interface PeriodListProps {
     tilstander: TilstandBeriket[];
@@ -30,7 +31,7 @@ const PeriodList = ({
     harFlereTilstanderTilVurdering,
 }: PeriodListProps): JSX.Element => (
     <ul className={styles.periodList}>
-        {tilstander.map((tilstand) => (
+        {tilstander.sort(sorterSkjæringstidspunkt).map((tilstand) => (
             <li className={styles.periodList__element} key={tilstand.periode.prettifyPeriod()}>
                 <div className={styles.periodList__element__title}>
                     <CalendarIcon />
