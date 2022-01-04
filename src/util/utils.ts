@@ -1,3 +1,4 @@
+import { initializeDate } from '@navikt/k9-date-utils';
 import Aksjonspunkt from '../types/Aksjonspunkt';
 import { Kode, TilstandBeriket } from '../types/KompletthetData';
 import Status from '../types/TilstandStatus';
@@ -14,3 +15,15 @@ export const finnTilstanderSomVurderes = (tilstander: TilstandBeriket[]): Tilsta
 
 export const finnTilstanderSomRedigeres = (tilstander: TilstandBeriket[]): TilstandBeriket[] =>
     tilstander.filter((tilstand) => tilstand.redigeringsmodus);
+
+export const sorterSkjæringstidspunkt = (tilstand1: TilstandBeriket, tilstand2: TilstandBeriket): number => {
+    const date1 = initializeDate(tilstand1?.periode?.fom);
+    const date2 = initializeDate(tilstand2?.periode?.fom);
+    if (date1.isBefore(date2)) {
+        return -1;
+    }
+    if (date2.isBefore(date1)) {
+        return 1;
+    }
+    return 0;
+};
