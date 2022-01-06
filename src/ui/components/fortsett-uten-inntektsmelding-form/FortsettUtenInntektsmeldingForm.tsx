@@ -56,7 +56,7 @@ const FortsettUtenInntektsmeldingForm = ({
         '9069': [
             {
                 value: Kode.FORTSETT,
-                label: 'Ja, bruk A-inntekt for alle arbeidsgivere',
+                label: 'Ja, bruk A-inntekt for arbeidsgivere vi ikke har mottatt inntektsmelding fra',
                 id: `${beslutningId}${Kode.FORTSETT}`,
             },
             {
@@ -68,7 +68,7 @@ const FortsettUtenInntektsmeldingForm = ({
         '9071': [
             {
                 value: Kode.FORTSETT,
-                label: 'Ja, bruk A-inntekt for alle arbeidsgivere',
+                label: 'Ja, bruk A-inntekt for arbeidsgivere vi ikke har mottatt inntektsmelding fra',
                 id: `${beslutningId}${Kode.FORTSETT}`,
             },
             {
