@@ -99,7 +99,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
                             });
                         })}
                     >
-                        <Hovedknapp mini>Send inn</Hovedknapp>
+                        {harFlereTilstanderTilVurdering && <Hovedknapp mini>Send inn</Hovedknapp>}
                     </form>
                 </Box>
             )}
