@@ -58,6 +58,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
         ...finnTilstanderSomRedigeres(tilstanderBeriket),
     ];
     const harFlereTilstanderTilVurdering = tilstanderTilVurdering.length > 1;
+    const kanSendeInn = harFlereTilstanderTilVurdering && aksjonspunktKode;
     return (
         <div className={styles.kompletthet}>
             <h1 className={styles.kompletthet__mainHeading}>Inntektsmelding</h1>
@@ -76,7 +77,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
                     harFlereTilstanderTilVurdering={harFlereTilstanderTilVurdering}
                 />
             </Box>
-            {harFlereTilstanderTilVurdering && (
+            {kanSendeInn && (
                 <Box marginTop={Margin.large}>
                     <form
                         onSubmit={handleSubmit((data) => {
@@ -99,7 +100,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
                             });
                         })}
                     >
-                        {harFlereTilstanderTilVurdering && <Hovedknapp mini>Send inn</Hovedknapp>}
+                        <Hovedknapp mini>Send inn</Hovedknapp>
                     </form>
                 </Box>
             )}
