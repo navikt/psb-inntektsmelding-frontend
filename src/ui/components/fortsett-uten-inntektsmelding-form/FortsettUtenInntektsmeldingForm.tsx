@@ -126,8 +126,8 @@ const FortsettUtenInntektsmeldingForm = ({
                                         <label htmlFor={begrunnelseId}>Begrunnelse</label>
                                         {fortsettUtenInntektsmelding === Kode.FORTSETT && (
                                             <div className={styles['fortsettUtenInntektsmelding__begrunnelse-subtext']}>
-                                                Vi benytter opplysninger fra A-inntekt for alle arbeidsgivere, også de
-                                                vi har mottatt inntektsmelding fra. Gjør en vurdering av hvorfor du
+                                                Vi benytter opplysninger fra A-inntekt for alle arbeidsgivere vi ikke
+                                                har mottatt inntektsmelding fra. Gjør en vurdering av hvorfor du
                                                 benytter A-inntekt for å fastsette grunnlaget etter § 8-28.
                                             </div>
                                         )}
