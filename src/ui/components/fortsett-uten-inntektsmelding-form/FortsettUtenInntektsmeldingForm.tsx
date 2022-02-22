@@ -110,10 +110,6 @@ const FortsettUtenInntektsmeldingForm = ({
                         radios={radios[aksjonspunktKode]}
                         disabled={readOnly && !redigeringsmodus}
                         validators={{
-                            kanIkkeVelgeForrigeVerdi: (v) =>
-                                v === tilstand.vurdering.kode
-                                    ? 'Velg en annen verdi enn sist, eller avbryt redigering'
-                                    : null,
                             paakrevd: (v) => (!v ? 'Du må oppgi en verdi ' : null),
                         }}
                     />
