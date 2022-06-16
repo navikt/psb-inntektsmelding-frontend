@@ -17,13 +17,8 @@ const renderListItem = (status: Status) => {
     if (status.status === 'MOTTATT') {
         return listItem(<InntektsmeldingMottattItem status={status} />);
     }
-    if (status.status === 'MANGLER') {
-        return listItem(<InntektsmeldingManglerItem status={status} />);
-    }
-    if (status.status === 'FORTSETT_UTEN') {
-        return listItem(<InntektsmeldingManglerItem status={status} />);
-    }
-    return null;
+    
+    return listItem(<InntektsmeldingManglerItem status={status} />);
 };
 
 const InntektsmeldingListe = ({ status }: PeriodListItemProps): JSX.Element => (
