@@ -1,5 +1,5 @@
 import React from 'react';
-import { LabelledContent } from '@navikt/k9-react-components';
+import { LabelledContent } from '@navikt/ft-plattform-komponenter';
 import { Knapp } from 'nav-frontend-knapper';
 import Alertstripe from 'nav-frontend-alertstriper';
 import { Edit } from '@navikt/ds-icons';

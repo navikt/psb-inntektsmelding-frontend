@@ -1,4 +1,4 @@
-import { WarningIcon } from '@navikt/k9-react-components';
+import { WarningIcon } from '@navikt/ft-plattform-komponenter';
 import React from 'react';
 import { Status } from '../../../types/KompletthetData';
 import ListItem from '../list-item/ListItem';

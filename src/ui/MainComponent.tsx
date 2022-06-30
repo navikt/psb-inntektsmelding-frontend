@@ -1,6 +1,7 @@
 import { Period } from '@navikt/k9-period-utils';
 import { get } from '@navikt/k9-http-utils';
-import { PageContainer } from '@navikt/k9-react-components';
+import { PageContainer } from '@navikt/ft-plattform-komponenter';
+import '@navikt/ft-plattform-komponenter/dist/style.css';
 import axios from 'axios';
 import React from 'react';
 import ContainerContext from '../context/ContainerContext';
@@ -21,7 +22,7 @@ function initKompletthetsdata({ tilstand }: KompletthetResponse): KompletthetDat
                 begrunnelse,
                 tilVurdering,
                 vurdering,
-                periodeOpprinneligFormat: periode
+                periodeOpprinneligFormat: periode,
             };
         }),
     };

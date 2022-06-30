@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Period } from '@navikt/k9-period-utils';
-import { Box, Margin } from '@navikt/k9-react-components';
+import { Box, Margin } from '@navikt/ft-plattform-komponenter';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import { useForm } from 'react-hook-form';
 import ContainerContext from '../../../context/ContainerContext';

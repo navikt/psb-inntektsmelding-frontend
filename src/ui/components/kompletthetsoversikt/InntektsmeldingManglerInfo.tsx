@@ -1,7 +1,7 @@
 import React from 'react';
 import cl from 'classnames';
 
-import { Box, Margin } from '@navikt/k9-react-components';
+import { Box, Margin } from '@navikt/ft-plattform-komponenter';
 import Alertstripe from 'nav-frontend-alertstriper';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import styles from './kompletthetsoversikt.less';
