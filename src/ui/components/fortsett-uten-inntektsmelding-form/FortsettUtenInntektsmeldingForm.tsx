@@ -1,17 +1,17 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
+import { Alert, Heading } from '@navikt/ds-react';
+import { Box, Margin } from '@navikt/ft-plattform-komponenter';
+import { RadioGroupPanel, TextArea } from '@navikt/k9-form-utils';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import Panel from 'nav-frontend-paneler';
 import React from 'react';
 import { FormProvider, UseFormReturn } from 'react-hook-form';
-import { Box, Margin } from '@navikt/ft-plattform-komponenter';
-import { RadioGroupPanel, TextArea } from '@navikt/k9-form-utils';
 import ContainerContext from '../../../context/ContainerContext';
-import styles from './fortsettUtenInntektsMeldingForm.less';
 import Aksjonspunkt from '../../../types/Aksjonspunkt';
-import { Kode, TilstandBeriket } from '../../../types/KompletthetData';
 import AksjonspunktRequestPayload from '../../../types/AksjonspunktRequestPayload';
+import { Kode, TilstandBeriket } from '../../../types/KompletthetData';
 import { skalVurderes } from '../../../util/utils';
-import { Alert, Heading } from '@navikt/ds-react';
+import styles from './fortsettUtenInntektsMeldingForm.less';
 
 export interface FortsettUtenInntektsmeldingFormState {
     begrunnelse: string;
