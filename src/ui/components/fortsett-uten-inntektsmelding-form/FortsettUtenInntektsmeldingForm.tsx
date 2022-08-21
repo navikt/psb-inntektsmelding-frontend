@@ -11,6 +11,7 @@ import Aksjonspunkt from '../../../types/Aksjonspunkt';
 import { Kode, TilstandBeriket } from '../../../types/KompletthetData';
 import AksjonspunktRequestPayload from '../../../types/AksjonspunktRequestPayload';
 import { skalVurderes } from '../../../util/utils';
+import { Alert, Heading } from '@navikt/ds-react';
 
 export interface FortsettUtenInntektsmeldingFormState {
     begrunnelse: string;
@@ -36,7 +37,7 @@ const FortsettUtenInntektsmeldingForm = ({
     formMethods,
     harFlereTilstanderTilVurdering,
 }: FortsettUtenInntektsmeldingFormProps): JSX.Element => {
-    const { readOnly } = React.useContext(ContainerContext);
+    const { arbeidsforhold, readOnly } = React.useContext(ContainerContext);
 
     const { handleSubmit, watch } = formMethods;
     const { beslutningFieldName, begrunnelseFieldName } = tilstand;
@@ -51,12 +52,26 @@ const FortsettUtenInntektsmeldingForm = ({
             erFortsett ? 'Fortsett uten inntektsmelding' : 'Send purring med varsel om avslag',
         '9071': (erFortsett: boolean) => (erFortsett ? 'Fortsett uten inntektsmelding' : 'Avslå periode'),
     };
+    const arbeidsgivereMedManglendeInntektsmelding = tilstand.status.filter((s) => s.status !== 'MOTTATT');
+
+    let arbeidsgivereString = '';
+    const formatArbeidsgiver = (arbeidsgiver) =>
+        `${arbeidsforhold[arbeidsgiver.arbeidsgiver]?.navn} (${arbeidsgiver.arbeidsforhold})`;
+    arbeidsgivereMedManglendeInntektsmelding.forEach(({ arbeidsgiver }, index) => {
+        if (index === 0) {
+            arbeidsgivereString = formatArbeidsgiver(arbeidsgiver);
+        } else if (index === arbeidsgivereMedManglendeInntektsmelding.length - 1) {
+            arbeidsgivereString = `${arbeidsgivereString} og ${formatArbeidsgiver(arbeidsgiver)}`;
+        } else {
+            arbeidsgivereString = `${arbeidsgivereString}, ${formatArbeidsgiver(arbeidsgiver)}`;
+        }
+    });
 
     const radios = {
         '9069': [
             {
                 value: Kode.FORTSETT,
-                label: 'Ja, bruk A-inntekt for arbeidsgivere vi ikke har mottatt inntektsmelding fra',
+                label: `Ja, bruk A-inntekt for ${arbeidsgivereString}`,
                 id: `${beslutningId}${Kode.FORTSETT}`,
             },
             {
@@ -68,7 +83,7 @@ const FortsettUtenInntektsmeldingForm = ({
         '9071': [
             {
                 value: Kode.FORTSETT,
-                label: 'Ja, bruk A-inntekt for arbeidsgivere vi ikke har mottatt inntektsmelding fra',
+                label: `Ja, bruk A-inntekt for ${arbeidsgivereString}`,
                 id: `${beslutningId}${Kode.FORTSETT}`,
             },
             {
@@ -104,15 +119,32 @@ const FortsettUtenInntektsmeldingForm = ({
                 )}
             >
                 <Panel className={styles.fortsettUtenInntektsmelding__panel}>
-                    <RadioGroupPanel
-                        name={beslutningFieldName}
-                        question="Kan du gå videre uten inntektsmelding?"
-                        radios={radios[aksjonspunktKode]}
-                        disabled={readOnly && !redigeringsmodus}
-                        validators={{
-                            paakrevd: (v) => (!v ? 'Du må oppgi en verdi ' : null),
-                        }}
-                    />
+                    <Heading className={styles.fortsettUtenInntektsmelding__radiogroupHeading} level="3" size="xsmall">
+                        Kan du gå videre uten inntektsmelding?
+                    </Heading>
+                    <Alert className={styles.fortsettUtenInntektsmelding__radiogroupAlert} variant="info" size="medium">
+                        <ul>
+                            <li>
+                                A-inntekt benyttes <span className={styles.radiogroupAlert__emphasize}>kun</span> for de
+                                arbeidsgiverne/arbeidsforholdene vi mangler inntektsmelding fra.
+                            </li>
+                            <li>
+                                Refusjon i inntektsmeldinger vil alltid utbetales til arbeidsgiver. Evt. mellomlegg
+                                utbetales direkte til søker.
+                            </li>
+                        </ul>
+                    </Alert>
+                    <div className={styles.fortsettUtenInntektsmelding__radiogroup}>
+                        <RadioGroupPanel
+                            name={beslutningFieldName}
+                            question="Kan du gå videre uten inntektsmelding?"
+                            radios={radios[aksjonspunktKode]}
+                            disabled={readOnly && !redigeringsmodus}
+                            validators={{
+                                paakrevd: (v) => (!v ? 'Du må oppgi en verdi ' : null),
+                            }}
+                        />
+                    </div>
                     <>
                         {skalViseBegrunnelse && (
                             <TextArea

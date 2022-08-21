@@ -1,6 +1,27 @@
-.alertstripe {
-    :global .alertstripe__tekst {
-        max-width: 100%;
+.alert {
+    :global(.navds-heading) {
+        margin-bottom: 0;
+        margin-top: 0.125rem;
+    }
+    :global(.navds-alert__wrapper) {
+        max-width: none;
+    }
+}
+
+.alertAccordion {
+    :global(.navds-accordion__header) {
+        border: none;
+        padding: 0;
+        margin-top: 0.25rem;
+    }
+
+    :global(.navds-accordion__content) {
+        border: none;
+    }
+
+    &__heading:global(.navds-heading--xsmall) {
+        font-weight: var(--navds-font-weight-regular);
+        margin-bottom: 0;
     }
 }
 

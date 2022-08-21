@@ -4,6 +4,7 @@ import { PageContainer } from '@navikt/ft-plattform-komponenter';
 import '@navikt/ft-plattform-komponenter/dist/style.css';
 import axios from 'axios';
 import React from 'react';
+import '@navikt/ds-css';
 import ContainerContext from '../context/ContainerContext';
 import ContainerContract from '../types/ContainerContract';
 import { Kompletthet as KompletthetData } from '../types/KompletthetData';
