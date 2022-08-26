@@ -58,7 +58,7 @@ const InntektsmeldingManglerInfo = (): JSX.Element => (
                                     <li>
                                         Måneden for skjæringstidspunktet er innrapportert til A-ordningen, og det er
                                         utbetalt full lønn. Dette tyder på at arbeidsgiver forskutterer lønn og vil
-                                        kreve refusjon. I disse tilfelle bør vi ikke utbetale til bruker, men vente på
+                                        kreve refusjon. I disse tilfellene bør vi ikke utbetale til bruker, men vente på
                                         inntektsmelding.
                                     </li>
                                 </ul>
