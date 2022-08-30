@@ -1,9 +1,7 @@
-import cl from 'classnames';
 import React from 'react';
 
 import { Accordion, Alert, BodyLong, Heading } from '@navikt/ds-react';
 import { Box, Margin } from '@navikt/ft-plattform-komponenter';
-import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
 import styles from './kompletthetsoversikt.less';
 
 const InntektsmeldingManglerInfo = (): JSX.Element => (
