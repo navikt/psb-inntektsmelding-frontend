@@ -1,6 +1,6 @@
 import React from 'react';
 import { Period } from '@navikt/k9-period-utils';
-import { CalendarIcon } from '@navikt/k9-react-components';
+import { CalendarIcon } from '@navikt/ft-plattform-komponenter';
 import { UseFormReturn } from 'react-hook-form';
 import styles from './periodList.less';
 import FortsettUtenInntektsmeldingForm from '../fortsett-uten-inntektsmelding-form/FortsettUtenInntektsmeldingForm';

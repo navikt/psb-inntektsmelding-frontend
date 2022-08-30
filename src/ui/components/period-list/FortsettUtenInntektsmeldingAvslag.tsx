@@ -1,11 +1,11 @@
-import React from 'react';
-import { LabelledContent } from '@navikt/k9-react-components';
-import { Knapp } from 'nav-frontend-knapper';
-import Alertstripe from 'nav-frontend-alertstriper';
 import { Edit } from '@navikt/ds-icons';
+import { Alert } from '@navikt/ds-react';
+import { LabelledContent } from '@navikt/ft-plattform-komponenter';
+import { Knapp } from 'nav-frontend-knapper';
+import React from 'react';
+import ContainerContext from '../../../context/ContainerContext';
 import { Kode, Tilstand } from '../../../types/KompletthetData';
 import styles from './periodList.less';
-import ContainerContext from '../../../context/ContainerContext';
 
 const FortsettUtenInntektsmeldingAvslag = ({
     tilstand,
@@ -21,7 +21,7 @@ const FortsettUtenInntektsmeldingAvslag = ({
     if (tilstand?.vurdering?.kode === Kode.MANGLENDE_GRUNNLAG && !redigeringsmodus && tilstand.tilVurdering) {
         return (
             <>
-                <Alertstripe type="feil" className={styles.periodList__alertstripe}>
+                <Alert variant="error" size="medium" className={styles.periodList__alertstripe}>
                     <span>Kan ikke gå videre uten inntektsmelding, søknad avslås.</span>
                     {!readOnly && (
                         <Knapp mini onClick={() => setRedigeringsmodus(true)}>
@@ -29,7 +29,7 @@ const FortsettUtenInntektsmeldingAvslag = ({
                             <span>Rediger vurdering</span>
                         </Knapp>
                     )}
-                </Alertstripe>
+                </Alert>
                 <LabelledContent label="Begrunnelse" content={<span>{tilstand.begrunnelse}</span>} />
             </>
         );
