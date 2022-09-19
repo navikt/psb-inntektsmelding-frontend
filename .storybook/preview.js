@@ -1,7 +1,5 @@
 import { initialize, mswDecorator } from 'msw-storybook-addon';
 
-import '@navikt/ft-plattform-komponenter/dist/style.css';
-
 // Initialize MSW
 initialize();
 

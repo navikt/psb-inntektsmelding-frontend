@@ -51,7 +51,7 @@ module.exports = {
             exclude: [nodeModules],
         }),
             config.module.rules.push({
-                test: /\.(less|css)?$/,
+                test: /\.(less)?$/,
                 use: [
                     { loader: MiniCssExtractPlugin.loader },
 
@@ -70,16 +70,20 @@ module.exports = {
                         },
                     },
                 ],
-                include: [nodeModules, STORYBOOK_DIR],
+                include: [nodeModules],
             });
 
+        config.module.rules.push({
+            test: /\.(jpg|png|svg)$/,
+            loader: 'file-loader',
+        });
         config.plugins.push(
             new MiniCssExtractPlugin({
                 filename: 'styles[name].css',
             })
         );
-
-        config.resolve.extensions.push('.ts', '.tsx', '.less', '.js', '.css');
+        config.devtool = 'inline-source-map';
+        config.resolve.extensions.push('.ts', '.tsx', '.less', '.js');
 
         return config;
     },
