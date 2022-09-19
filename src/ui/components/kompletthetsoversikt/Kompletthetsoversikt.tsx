@@ -9,7 +9,12 @@ import InntektsmeldingListeHeading from '../inntektsmelding-liste-heading/Inntek
 import InntektsmeldingListe from '../inntektsmelding-liste/InntektsmeldingListe';
 import PeriodList from '../period-list/PeriodList';
 import styles from './kompletthetsoversikt.less';
-import { finnAktivtAksjonspunkt, finnTilstanderSomRedigeres, finnTilstanderSomVurderes } from '../../../util/utils';
+import {
+    finnAktivtAksjonspunkt,
+    finnTilstanderSomRedigeres,
+    finnTilstanderSomVurderes,
+    ingenTilstanderErPaakrevd,
+} from '../../../util/utils';
 import FieldName from '../../../types/FieldName';
 import InntektsmeldingManglerInfo from './InntektsmeldingManglerInfo';
 import AksjonspunktRequestPayload from '../../../types/AksjonspunktRequestPayload';
@@ -57,8 +62,10 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
         ...finnTilstanderSomVurderes(tilstanderBeriket),
         ...finnTilstanderSomRedigeres(tilstanderBeriket),
     ];
+
     const harFlereTilstanderTilVurdering = tilstanderTilVurdering.length > 1;
-    const kanSendeInn = harFlereTilstanderTilVurdering && aksjonspunktKode;
+    const kanSendeInn =
+        (harFlereTilstanderTilVurdering || ingenTilstanderErPaakrevd(tilstanderBeriket)) && aksjonspunktKode;
     return (
         <div className={styles.kompletthet}>
             <h1 className={styles.kompletthet__mainHeading}>Inntektsmelding</h1>

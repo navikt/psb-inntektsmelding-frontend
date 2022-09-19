@@ -43,10 +43,10 @@ const FortsettUtenInntektsmeldingForm = ({
     const { beslutningFieldName, begrunnelseFieldName } = tilstand;
     const beslutningId = `beslutning-${tilstand.periodeOpprinneligFormat}`;
     const begrunnelseId = `begrunnelse-${tilstand.periodeOpprinneligFormat}`;
-    const fortsettUtenInntektsmelding = watch(beslutningFieldName);
+    const beslutning = watch(beslutningFieldName);
     const aksjonspunktKode = aksjonspunkt?.definisjon?.kode;
     const vis = ((skalVurderes(tilstand) && !readOnly) || redigeringsmodus) && aksjonspunkt && tilstand.tilVurdering;
-    const skalViseBegrunnelse = !(aksjonspunktKode === '9069' && fortsettUtenInntektsmelding !== Kode.FORTSETT);
+    const skalViseBegrunnelse = !(aksjonspunktKode === '9069' && beslutning !== Kode.FORTSETT);
     const fortsettKnappTekstFunc = {
         '9069': (erFortsett: boolean) =>
             erFortsett ? 'Fortsett uten inntektsmelding' : 'Send purring med varsel om avslag',
@@ -152,14 +152,14 @@ const FortsettUtenInntektsmeldingForm = ({
                                 label={
                                     <>
                                         <label htmlFor={begrunnelseId}>Begrunnelse</label>
-                                        {fortsettUtenInntektsmelding === Kode.FORTSETT && (
+                                        {beslutning === Kode.FORTSETT && (
                                             <div className={styles['fortsettUtenInntektsmelding__begrunnelse-subtext']}>
                                                 Vi benytter opplysninger fra A-inntekt for alle arbeidsgivere vi ikke
                                                 har mottatt inntektsmelding fra. Gjør en vurdering av hvorfor du
                                                 benytter A-inntekt for å fastsette grunnlaget etter § 8-28.
                                             </div>
                                         )}
-                                        {fortsettUtenInntektsmelding === Kode.MANGLENDE_GRUNNLAG && (
+                                        {beslutning === Kode.MANGLENDE_GRUNNLAG && (
                                             <div className={styles['fortsettUtenInntektsmelding__begrunnelse-subtext']}>
                                                 Skriv begrunnelse for hvorfor du ikke kan benytte opplysninger fra
                                                 A-inntekt for å fastsette grunnlaget, og avslå saken etter
@@ -174,11 +174,9 @@ const FortsettUtenInntektsmeldingForm = ({
                         )}
                         <Box marginTop={Margin.large}>
                             <div className={styles.fortsettUtenInntektsmelding__knapper}>
-                                {!harFlereTilstanderTilVurdering && (
+                                {!harFlereTilstanderTilVurdering && !!beslutning && (
                                     <Hovedknapp mini>
-                                        {fortsettKnappTekstFunc[aksjonspunktKode](
-                                            fortsettUtenInntektsmelding === Kode.FORTSETT
-                                        )}
+                                        {fortsettKnappTekstFunc[aksjonspunktKode](beslutning === Kode.FORTSETT)}
                                     </Hovedknapp>
                                 )}
                                 {redigeringsmodus && (
