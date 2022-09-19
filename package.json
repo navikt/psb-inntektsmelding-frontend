@@ -10,7 +10,9 @@
         "api-mock": "ts-node mock/api-mock.ts",
         "majorVersion": "node ./majorVersion.js",
         "lint": "eslint 'src/**/*.{ts,tsx,js,jsx}'",
-        "start:e2e": "nodemon mock/api-mock.ts & node webpack/webpack-config.development.js"
+        "start:e2e": "nodemon mock/api-mock.ts & node webpack/webpack-config.development.js",
+        "storybook": "start-storybook -p 6006 -s public",
+        "build-storybook": "build-storybook"
     },
     "keywords": [],
     "author": "NAV IT",
@@ -23,6 +25,14 @@
         "@babel/preset-env": "^7.18.10",
         "@babel/preset-react": "^7.18.6",
         "@babel/preset-typescript": "^7.18.6",
+        "@storybook/addon-actions": "^6.5.12",
+        "@storybook/addon-essentials": "^6.5.12",
+        "@storybook/addon-interactions": "^6.5.12",
+        "@storybook/addon-links": "^6.5.12",
+        "@storybook/builder-webpack5": "^6.5.12",
+        "@storybook/manager-webpack5": "^6.5.12",
+        "@storybook/react": "^6.5.12",
+        "@storybook/testing-library": "^0.0.13",
         "@types/jest": "^28.1.7",
         "@typescript-eslint/eslint-plugin": "^5.33.1",
         "@typescript-eslint/parser": "^5.33.1",
@@ -45,6 +55,8 @@
         "less": "^4.1.3",
         "less-loader": "^11.0.0",
         "mini-css-extract-plugin": "^2.6.1",
+        "msw": "^0.47.2",
+        "msw-storybook-addon": "^1.6.3",
         "nodemon": "^2.0.19",
         "pre-commit": "^1.2.2",
         "prettier": "^2.7.1",
@@ -104,6 +116,11 @@
         "react-collapse": "^5.1.1",
         "react-day-picker": "^7.x",
         "react-dom": "^17.0.2",
-        "react-hook-form": "^7.34.2"
+        "react-hook-form": "^7.34.2",
+        "storybook-css-modules": "^1.0.8",
+        "tsconfig-paths-webpack-plugin": "^4.0.0"
+    },
+    "msw": {
+        "workerDirectory": "dist"
     }
 }
