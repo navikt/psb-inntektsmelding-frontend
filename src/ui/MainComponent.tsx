@@ -33,7 +33,7 @@ interface MainComponentProps {
     data: ContainerContract;
 }
 
-const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
+function MainComponent({ data }: MainComponentProps): JSX.Element {
     const [state, dispatch] = React.useReducer(mainComponentReducer, {
         isLoading: true,
         kompletthetsoversiktHarFeilet: false,
@@ -44,20 +44,25 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
     const { kompletthetsoversiktResponse, isLoading, kompletthetsoversiktHarFeilet } = state;
     const { endpoints, httpErrorHandler, onFinished } = data;
 
-    const getKompletthetsoversikt = () =>
-        get<KompletthetResponse>(endpoints.kompletthetBeregning, httpErrorHandler, {
-            cancelToken: httpCanceler.token,
+    const getKompletthetsoversikt: () => any = () =>
+        axios.get(endpoints.kompletthetBeregning).then((response) => {
+            console.log(response);
+            return response.data;
         });
 
-    const handleError = () => {
+    const handleError = (e) => {
+        console.log(e);
         dispatch({ type: ActionType.FAILED });
     };
 
     React.useEffect(() => {
         let isMounted = true;
+        console.log('hallo');
         getKompletthetsoversikt()
             .then((response: KompletthetResponse) => {
+                console.log(response);
                 if (isMounted) {
+                    console.log('har mountet', response);
                     dispatch({ type: ActionType.OK, kompletthetsoversiktResponse: response });
                 }
             })
@@ -67,7 +72,6 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
             httpCanceler.cancel();
         };
     }, []);
-    console.log(isLoading);
     return (
         <ContainerContext.Provider value={data}>
             <PageContainer isLoading={isLoading} hasError={kompletthetsoversiktHarFeilet}>
@@ -82,6 +86,6 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
             </PageContainer>
         </ContainerContext.Provider>
     );
-};
+}
 
 export default MainComponent;

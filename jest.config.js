@@ -6,12 +6,13 @@ module.exports = {
         '\\.\\/userContent': '<rootDir>/node_modules/jest-css-modules',
         '\\.\\/systemsStyles': '<rootDir>/node_modules/jest-css-modules',
         '\\.\\/header': '<rootDir>/node_modules/jest-css-modules',
-        uuid: require.resolve('uuid'),
     },
-    transformIgnorePatterns: ['<rootDir>.*(node_modules)(?!.*nav.*).*$'],
+    transformIgnorePatterns: [
+        '<rootDir>.*(node_modules)(?!.*nav.*).*$',
+        '<rootDir>/node_modules/(?!@navikt/k9-react-components|@navikt/k9-period-utils/|@navikt/k9-date-utils|@navikt/k9-array-utils|@navikt/k9-bem-utils|@navikt/k9-form-utils)',
+    ],
     transform: {
-        '^.+\\.(ts|tsx)?$': 'ts-jest',
-        '^.+\\.(js|jsx)?$': 'babel-jest',
+        '^.+\\.(ts|tsx|js|jsx)?$': 'babel-jest',
     },
     testEnvironment: 'jsdom',
 };
