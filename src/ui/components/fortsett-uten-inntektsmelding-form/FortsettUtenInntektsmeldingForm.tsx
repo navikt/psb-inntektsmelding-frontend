@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { Alert, Heading } from '@navikt/ds-react';
 import { Box, Margin } from '@navikt/ft-plattform-komponenter';
-import { RadioGroupPanel, TextArea } from '@navikt/k9-form-utils';
+import { RadioGroupPanel, TextAreaField, Form } from '@navikt/ft-form-hooks';
 import { Hovedknapp, Knapp } from 'nav-frontend-knapper';
 import Panel from 'nav-frontend-paneler';
 import React from 'react';
@@ -28,7 +28,7 @@ interface FortsettUtenInntektsmeldingFormProps {
     harFlereTilstanderTilVurdering: boolean;
 }
 
-const FortsettUtenInntektsmeldingForm = ({
+function FortsettUtenInntektsmeldingForm({
     onSubmit,
     tilstand,
     redigeringsmodus,
@@ -36,10 +36,10 @@ const FortsettUtenInntektsmeldingForm = ({
     aksjonspunkt,
     formMethods,
     harFlereTilstanderTilVurdering,
-}: FortsettUtenInntektsmeldingFormProps): JSX.Element => {
+}: FortsettUtenInntektsmeldingFormProps): JSX.Element {
     const { arbeidsforhold, readOnly } = React.useContext(ContainerContext);
 
-    const { handleSubmit, watch } = formMethods;
+    const { watch } = formMethods;
     const { beslutningFieldName, begrunnelseFieldName } = tilstand;
     const beslutningId = `beslutning-${tilstand.periodeOpprinneligFormat}`;
     const begrunnelseId = `begrunnelse-${tilstand.periodeOpprinneligFormat}`;
@@ -66,6 +66,21 @@ const FortsettUtenInntektsmeldingForm = ({
             arbeidsgivereString = `${arbeidsgivereString}, ${formatArbeidsgiver(arbeidsgiver)}`;
         }
     });
+
+    const submit = (data) =>
+        onSubmit({
+            '@type': aksjonspunktKode,
+            kode: aksjonspunktKode,
+            begrunnelse: skalViseBegrunnelse ? data[tilstand.begrunnelseFieldName] : null,
+            perioder: [
+                {
+                    begrunnelse: skalViseBegrunnelse ? data[tilstand.begrunnelseFieldName] : null,
+                    periode: tilstand.periodeOpprinneligFormat,
+                    fortsett: data[tilstand.beslutningFieldName] === Kode.FORTSETT,
+                    kode: aksjonspunktKode,
+                },
+            ],
+        });
 
     const radios = {
         '9069': [
@@ -100,97 +115,76 @@ const FortsettUtenInntektsmeldingForm = ({
 
     return (
         // eslint-disable-next-line react/jsx-props-no-spreading
-        <FormProvider {...formMethods}>
-            <form
-                onSubmit={handleSubmit((data) =>
-                    onSubmit({
-                        '@type': aksjonspunktKode,
-                        kode: aksjonspunktKode,
-                        begrunnelse: skalViseBegrunnelse ? data[tilstand.begrunnelseFieldName] : null,
-                        perioder: [
-                            {
-                                begrunnelse: skalViseBegrunnelse ? data[tilstand.begrunnelseFieldName] : null,
-                                periode: tilstand.periodeOpprinneligFormat,
-                                fortsett: data[tilstand.beslutningFieldName] === Kode.FORTSETT,
-                                kode: aksjonspunktKode,
-                            },
-                        ],
-                    })
-                )}
-            >
-                <Panel className={styles.fortsettUtenInntektsmelding__panel}>
-                    <Heading className={styles.fortsettUtenInntektsmelding__radiogroupHeading} level="3" size="xsmall">
-                        Kan du gå videre uten inntektsmelding?
-                    </Heading>
-                    <Alert className={styles.fortsettUtenInntektsmelding__radiogroupAlert} variant="info" size="medium">
-                        <ul>
-                            <li>
-                                A-inntekt benyttes <span className={styles.radiogroupAlert__emphasize}>kun</span> for de
-                                arbeidsgiverne/arbeidsforholdene vi mangler inntektsmelding fra.
-                            </li>
-                            <li>
-                                Refusjon i inntektsmeldinger vil alltid utbetales til arbeidsgiver. Evt. mellomlegg
-                                utbetales direkte til søker.
-                            </li>
-                        </ul>
-                    </Alert>
-                    <div className={styles.fortsettUtenInntektsmelding__radiogroup}>
-                        <RadioGroupPanel
-                            name={beslutningFieldName}
-                            question="Kan du gå videre uten inntektsmelding?"
-                            radios={radios[aksjonspunktKode]}
-                            disabled={readOnly && !redigeringsmodus}
-                            validators={{
-                                paakrevd: (v) => (!v ? 'Du må oppgi en verdi ' : null),
-                            }}
+        <Form formMethods={formMethods} onSubmit={submit}>
+            <Panel className={styles.fortsettUtenInntektsmelding__panel}>
+                <Heading className={styles.fortsettUtenInntektsmelding__radiogroupHeading} level="3" size="xsmall">
+                    Kan du gå videre uten inntektsmelding?
+                </Heading>
+                <Alert className={styles.fortsettUtenInntektsmelding__radiogroupAlert} variant="info" size="medium">
+                    <ul>
+                        <li>
+                            A-inntekt benyttes <span className={styles.radiogroupAlert__emphasize}>kun</span> for de
+                            arbeidsgiverne/arbeidsforholdene vi mangler inntektsmelding fra.
+                        </li>
+                        <li>
+                            Refusjon i inntektsmeldinger vil alltid utbetales til arbeidsgiver. Evt. mellomlegg
+                            utbetales direkte til søker.
+                        </li>
+                    </ul>
+                </Alert>
+                <div className={styles.fortsettUtenInntektsmelding__radiogroup}>
+                    <RadioGroupPanel
+                        name={beslutningFieldName}
+                        label="Kan du gå videre uten inntektsmelding?"
+                        radios={radios[aksjonspunktKode]}
+                        disabled={readOnly && !redigeringsmodus}
+                        validate={[(v) => (!v ? 'Du må oppgi en verdi ' : null)]}
+                    />
+                </div>
+                <>
+                    {skalViseBegrunnelse && (
+                        <TextAreaField
+                            name={begrunnelseFieldName}
+                            label={
+                                <>
+                                    <label htmlFor={begrunnelseId}>Begrunnelse</label>
+                                    {beslutning === Kode.FORTSETT && (
+                                        <div className={styles['fortsettUtenInntektsmelding__begrunnelse-subtext']}>
+                                            Vi benytter opplysninger fra A-inntekt for alle arbeidsgivere vi ikke har
+                                            mottatt inntektsmelding fra. Gjør en vurdering av hvorfor du benytter
+                                            A-inntekt for å fastsette grunnlaget etter § 8-28.
+                                        </div>
+                                    )}
+                                    {beslutning === Kode.MANGLENDE_GRUNNLAG && (
+                                        <div className={styles['fortsettUtenInntektsmelding__begrunnelse-subtext']}>
+                                            Skriv begrunnelse for hvorfor du ikke kan benytte opplysninger fra A-inntekt
+                                            for å fastsette grunnlaget, og avslå saken etter folketrygdloven §§ 21-3 og
+                                            8-28.
+                                        </div>
+                                    )}
+                                </>
+                            }
+                            validate={[(v) => (!v ? 'Du må fylle inn en verdi' : null)]}
                         />
-                    </div>
-                    <>
-                        {skalViseBegrunnelse && (
-                            <TextArea
-                                name={begrunnelseFieldName}
-                                label={
-                                    <>
-                                        <label htmlFor={begrunnelseId}>Begrunnelse</label>
-                                        {beslutning === Kode.FORTSETT && (
-                                            <div className={styles['fortsettUtenInntektsmelding__begrunnelse-subtext']}>
-                                                Vi benytter opplysninger fra A-inntekt for alle arbeidsgivere vi ikke
-                                                har mottatt inntektsmelding fra. Gjør en vurdering av hvorfor du
-                                                benytter A-inntekt for å fastsette grunnlaget etter § 8-28.
-                                            </div>
-                                        )}
-                                        {beslutning === Kode.MANGLENDE_GRUNNLAG && (
-                                            <div className={styles['fortsettUtenInntektsmelding__begrunnelse-subtext']}>
-                                                Skriv begrunnelse for hvorfor du ikke kan benytte opplysninger fra
-                                                A-inntekt for å fastsette grunnlaget, og avslå saken etter
-                                                folketrygdloven §§ 21-3 og 8-28.
-                                            </div>
-                                        )}
-                                    </>
-                                }
-                                validators={{ paakrevd: (v) => (!v ? 'Du må fylle inn en verdi' : null) }}
-                                id={begrunnelseId}
-                            />
-                        )}
-                        <Box marginTop={Margin.large}>
-                            <div className={styles.fortsettUtenInntektsmelding__knapper}>
-                                {!harFlereTilstanderTilVurdering && !!beslutning && (
-                                    <Hovedknapp mini>
-                                        {fortsettKnappTekstFunc[aksjonspunktKode](beslutning === Kode.FORTSETT)}
-                                    </Hovedknapp>
-                                )}
-                                {redigeringsmodus && (
-                                    <Knapp mini onClick={() => setRedigeringsmodus(false)}>
-                                        Avbryt redigering
-                                    </Knapp>
-                                )}
-                            </div>
-                        </Box>
-                    </>
-                </Panel>
-            </form>
-        </FormProvider>
+                    )}
+                    <Box marginTop={Margin.large}>
+                        <div className={styles.fortsettUtenInntektsmelding__knapper}>
+                            {!harFlereTilstanderTilVurdering && !!beslutning && (
+                                <Hovedknapp mini>
+                                    {fortsettKnappTekstFunc[aksjonspunktKode](beslutning === Kode.FORTSETT)}
+                                </Hovedknapp>
+                            )}
+                            {redigeringsmodus && (
+                                <Knapp mini onClick={() => setRedigeringsmodus(false)}>
+                                    Avbryt redigering
+                                </Knapp>
+                            )}
+                        </div>
+                    </Box>
+                </>
+            </Panel>
+        </Form>
     );
-};
+}
 
 export default FortsettUtenInntektsmeldingForm;

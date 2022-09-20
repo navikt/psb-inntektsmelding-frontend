@@ -9,10 +9,11 @@ module.exports = {
     },
     transformIgnorePatterns: [
         '<rootDir>.*(node_modules)(?!.*nav.*).*$',
-        '<rootDir>/node_modules/(?!@navikt/k9-react-components|@navikt/k9-period-utils/|@navikt/k9-date-utils|@navikt/k9-array-utils|@navikt/k9-bem-utils|@navikt/k9-form-utils)',
+        '<rootDir>/node_modules/(?!@navikt/k9-react-components|@navikt/k9-period-utils/|@navikt/k9-date-utils|@navikt/k9-array-utils|@navikt/k9-bem-utils|@navikt/k9-form-utils|@navikt/ds-icons)',
     ],
     transform: {
-        '^.+\\.(ts|tsx|js|jsx)?$': 'babel-jest',
+        '^.+\\.(js|jsx|ts|tsx)?$': 'babel-jest',
     },
     testEnvironment: 'jsdom',
+    setupFilesAfterEnv: ['./setupTests.js'],
 };

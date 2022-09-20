@@ -1,5 +1,4 @@
 import { Period } from '@navikt/k9-period-utils';
-import { get } from '@navikt/k9-http-utils';
 import { PageContainer } from '@navikt/ft-plattform-komponenter';
 import '@navikt/ft-plattform-komponenter/dist/style.css';
 import axios from 'axios';
@@ -42,27 +41,20 @@ function MainComponent({ data }: MainComponentProps): JSX.Element {
 
     const httpCanceler = React.useMemo(() => axios.CancelToken.source(), []);
     const { kompletthetsoversiktResponse, isLoading, kompletthetsoversiktHarFeilet } = state;
-    const { endpoints, httpErrorHandler, onFinished } = data;
+    const { endpoints, onFinished } = data;
 
     const getKompletthetsoversikt: () => any = () =>
-        axios.get(endpoints.kompletthetBeregning).then((response) => {
-            console.log(response);
-            return response.data;
-        });
+        axios.get(endpoints.kompletthetBeregning).then((response) => response.data);
 
-    const handleError = (e) => {
-        console.log(e);
+    const handleError = () => {
         dispatch({ type: ActionType.FAILED });
     };
 
     React.useEffect(() => {
         let isMounted = true;
-        console.log('hallo');
         getKompletthetsoversikt()
             .then((response: KompletthetResponse) => {
-                console.log(response);
                 if (isMounted) {
-                    console.log('har mountet', response);
                     dispatch({ type: ActionType.OK, kompletthetsoversiktResponse: response });
                 }
             })

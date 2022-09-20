@@ -82,7 +82,7 @@ module.exports = {
                 filename: 'styles[name].css',
             })
         );
-        config.devtool = 'inline-source-map';
+        config.devtool = 'eval-source-map';
         config.resolve.extensions.push('.ts', '.tsx', '.less', '.js');
 
         return config;
