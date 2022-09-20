@@ -67,7 +67,7 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
             httpCanceler.cancel();
         };
     }, []);
-
+    console.log(isLoading);
     return (
         <ContainerContext.Provider value={data}>
             <PageContainer isLoading={isLoading} hasError={kompletthetsoversiktHarFeilet}>
