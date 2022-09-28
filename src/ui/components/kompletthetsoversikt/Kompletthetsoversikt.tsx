@@ -66,6 +66,9 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
     const harFlereTilstanderTilVurdering = tilstanderTilVurdering.length > 1;
     const kanSendeInn =
         (harFlereTilstanderTilVurdering || ingenTilstanderErPaakrevd(tilstanderBeriket)) && aksjonspunktKode;
+
+    const listItemRenderer = (period: Period) => <InntektsmeldingListe status={statuses[periods.indexOf(period)]} />;
+    const listHeadingRenderer = () => <InntektsmeldingListeHeading />;
     return (
         <div className={styles.kompletthet}>
             <h1 className={styles.kompletthet__mainHeading}>Inntektsmelding</h1>
@@ -74,10 +77,8 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
             <Box marginTop={Margin.large}>
                 <PeriodList
                     tilstander={tilstanderBeriket}
-                    listHeadingRenderer={() => <InntektsmeldingListeHeading />}
-                    listItemRenderer={(period: Period) => (
-                        <InntektsmeldingListe status={statuses[periods.indexOf(period)]} />
-                    )}
+                    listHeadingRenderer={listHeadingRenderer}
+                    listItemRenderer={listItemRenderer}
                     onFormSubmit={onFormSubmit}
                     aksjonspunkt={aksjonspunkt}
                     formMethods={formMethods}
