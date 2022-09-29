@@ -70,7 +70,7 @@ export const manglerFlereInntektsmeldinger = {
             tilVurdering: true,
         },
         {
-            periode: '2022-03/2022-03-16',
+            periode: '2022-03-01/2022-03-16',
             status: [
                 {
                     arbeidsgiver: { arbeidsgiver: '896929119', arbeidsforhold: '2' },
