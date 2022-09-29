@@ -34,9 +34,12 @@ const finnDokumentLink = (dokumenter: DokumentOpplysninger[], journalpostId: str
 const InntektsmeldingMottattItem = ({ status }: InntektsmeldingMottattItemProps): JSX.Element => {
     const { dokumenter } = React.useContext(ContainerContext);
     const dokumentLink = finnDokumentLink(dokumenter || [], status.journalpostId)?.href;
-    const firstColumnRenderer = () => <ArbeidsgiverTekst arbeidsgiver={status.arbeidsgiver} />;
-    const secondColumnRenderer = () => <MottattContent dokumentLink={dokumentLink || '#'} />;
-    return <ListItem firstColumnRenderer={firstColumnRenderer} secondColumnRenderer={secondColumnRenderer} />;
+    return (
+        <ListItem
+            firstColumnRenderer={() => <ArbeidsgiverTekst arbeidsgiver={status.arbeidsgiver} />}
+            secondColumnRenderer={() => <MottattContent dokumentLink={dokumentLink || '#'} />}
+        />
+    );
 };
 
 export default InntektsmeldingMottattItem;

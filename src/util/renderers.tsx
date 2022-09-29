@@ -1,14 +1,11 @@
 import React from 'react';
-import { createRoot } from 'react-dom/client';
+import { render } from 'react-dom';
 import MainComponent from '../ui/MainComponent';
 import ContainerContract from '../types/ContainerContract';
 
-const renderAppInSuccessfulState = (appId: string, data: ContainerContract): void => {
-    const container = document.getElementById(appId);
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const root = createRoot(container!);
-    return root.render(<MainComponent data={data} />);
-};
+const renderAppInSuccessfulState = (appId: string, data: ContainerContract): void =>
+    render(<MainComponent data={data} />, document.getElementById(appId));
+
 export default {
     renderAppInSuccessfulState,
 };

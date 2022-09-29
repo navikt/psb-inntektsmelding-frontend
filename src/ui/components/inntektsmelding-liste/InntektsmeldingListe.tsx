@@ -8,7 +8,7 @@ interface PeriodListItemProps {
     status: Status[];
 }
 
-const RenderListItem = ({ status }: { status: Status }) => {
+const renderListItem = (status: Status) => {
     const listItem = (children) => (
         <li className={styles.inntektsmeldingListe__item} key={status.journalpostId}>
             {children}
@@ -17,17 +17,12 @@ const RenderListItem = ({ status }: { status: Status }) => {
     if (status.status === 'MOTTATT') {
         return listItem(<InntektsmeldingMottattItem status={status} />);
     }
-
+    
     return listItem(<InntektsmeldingManglerItem status={status} />);
 };
 
 const InntektsmeldingListe = ({ status }: PeriodListItemProps): JSX.Element => (
-    <ul className={styles.inntektsmeldingListe}>
-        {status.map((v, index) => (
-            // eslint-disable-next-line react/no-array-index-key
-            <RenderListItem key={index} status={v} />
-        ))}
-    </ul>
+    <ul className={styles.inntektsmeldingListe}>{status.map(renderListItem)}</ul>
 );
 
 export default InntektsmeldingListe;
