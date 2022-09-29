@@ -4,6 +4,7 @@ import '@navikt/ft-plattform-komponenter/dist/style.css';
 import axios from 'axios';
 import React from 'react';
 import '@navikt/ds-css';
+import { get } from '@navikt/k9-http-utils';
 import ContainerContext from '../context/ContainerContext';
 import ContainerContract from '../types/ContainerContract';
 import { Kompletthet as KompletthetData } from '../types/KompletthetData';
@@ -41,10 +42,12 @@ function MainComponent({ data }: MainComponentProps): JSX.Element {
 
     const httpCanceler = React.useMemo(() => axios.CancelToken.source(), []);
     const { kompletthetsoversiktResponse, isLoading, kompletthetsoversiktHarFeilet } = state;
-    const { endpoints, onFinished } = data;
+    const { endpoints, onFinished, httpErrorHandler } = data;
 
-    const getKompletthetsoversikt: () => any = () =>
-        axios.get(endpoints.kompletthetBeregning).then((response) => response.data);
+    const getKompletthetsoversikt = () =>
+        get<KompletthetResponse>(endpoints.kompletthetBeregning, httpErrorHandler, {
+            cancelToken: httpCanceler.token,
+        });
 
     const handleError = () => {
         dispatch({ type: ActionType.FAILED });
