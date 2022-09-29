@@ -15,8 +15,8 @@ export type DokumentOpplysninger = Readonly<{
 interface ContainerContract {
     readOnly: boolean;
     arbeidsforhold: Record<string, ArbeidsgiverOpplysninger>;
-    dokumenter: DokumentOpplysninger[];
-    httpErrorHandler: HttpErrorHandler;
+    dokumenter?: DokumentOpplysninger[];
+    httpErrorHandler?: HttpErrorHandler;
     endpoints: {
         kompletthetBeregning: string;
     };

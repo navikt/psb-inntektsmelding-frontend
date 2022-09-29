@@ -1,10 +1,10 @@
 import { Period } from '@navikt/k9-period-utils';
-import { get } from '@navikt/k9-http-utils';
 import { PageContainer } from '@navikt/ft-plattform-komponenter';
 import '@navikt/ft-plattform-komponenter/dist/style.css';
 import axios from 'axios';
 import React from 'react';
 import '@navikt/ds-css';
+import { get } from '@navikt/k9-http-utils';
 import ContainerContext from '../context/ContainerContext';
 import ContainerContract from '../types/ContainerContract';
 import { Kompletthet as KompletthetData } from '../types/KompletthetData';
@@ -33,7 +33,7 @@ interface MainComponentProps {
     data: ContainerContract;
 }
 
-const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
+function MainComponent({ data }: MainComponentProps): JSX.Element {
     const [state, dispatch] = React.useReducer(mainComponentReducer, {
         isLoading: true,
         kompletthetsoversiktHarFeilet: false,
@@ -42,7 +42,7 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
 
     const httpCanceler = React.useMemo(() => axios.CancelToken.source(), []);
     const { kompletthetsoversiktResponse, isLoading, kompletthetsoversiktHarFeilet } = state;
-    const { endpoints, httpErrorHandler, onFinished } = data;
+    const { endpoints, onFinished, httpErrorHandler } = data;
 
     const getKompletthetsoversikt = () =>
         get<KompletthetResponse>(endpoints.kompletthetBeregning, httpErrorHandler, {
@@ -67,7 +67,6 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
             httpCanceler.cancel();
         };
     }, []);
-
     return (
         <ContainerContext.Provider value={data}>
             <PageContainer isLoading={isLoading} hasError={kompletthetsoversiktHarFeilet}>
@@ -82,6 +81,6 @@ const MainComponent = ({ data }: MainComponentProps): JSX.Element => {
             </PageContainer>
         </ContainerContext.Provider>
     );
-};
+}
 
 export default MainComponent;

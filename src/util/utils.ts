@@ -8,7 +8,13 @@ export const finnAktivtAksjonspunkt = (aksjonspunkter: Aksjonspunkt[]): Aksjonsp
     aksjonspunkter.find((aksjonspunkt) => aksjonspunkt.status.kode === 'OPPR');
 
 export const skalVurderes = (tilstand: TilstandBeriket): boolean =>
-    tilstand?.status.some((status) => status?.status === Status.MANGLER) && tilstand?.vurdering?.kode === Kode.TOM;
+    tilstand?.status.some((status) => [Status.MANGLER].includes(status.status)) &&
+    tilstand?.vurdering?.kode === Kode.TOM;
+
+export const ikkePaakrevd = (tilstand: TilstandBeriket): boolean =>
+    tilstand?.status.some((status) => [Status.IKKE_PÅKREVD].includes(status.status));
+
+export const ingenTilstanderErPaakrevd = (tilstander: TilstandBeriket[]) => tilstander.every(ikkePaakrevd);
 
 export const finnTilstanderSomVurderes = (tilstander: TilstandBeriket[]): TilstandBeriket[] =>
     tilstander.filter(skalVurderes);
