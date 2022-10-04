@@ -2,7 +2,7 @@ import React from 'react';
 import { Period } from '@navikt/k9-period-utils';
 import { CalendarIcon } from '@navikt/ft-plattform-komponenter';
 import { UseFormReturn } from 'react-hook-form';
-import styles from './periodList.less';
+import styles from './periodList.css';
 import FortsettUtenInntektsmeldingForm from '../fortsett-uten-inntektsmelding-form/FortsettUtenInntektsmeldingForm';
 import { TilstandBeriket } from '../../../types/KompletthetData';
 import FortsettUtenInntektsmeldingInfo from './FortsettUtenInntektsmeldingInfo';

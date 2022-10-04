@@ -11,7 +11,7 @@ import Aksjonspunkt from '../../../types/Aksjonspunkt';
 import AksjonspunktRequestPayload from '../../../types/AksjonspunktRequestPayload';
 import { Kode, TilstandBeriket } from '../../../types/KompletthetData';
 import { skalVurderes } from '../../../util/utils';
-import styles from './fortsettUtenInntektsMeldingForm.less';
+import styles from './fortsettUtenInntektsMeldingForm.css';
 
 export interface FortsettUtenInntektsmeldingFormState {
     begrunnelse: string;
