@@ -73,7 +73,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
         <div className={styles.kompletthet}>
             <h1 className={styles.kompletthet__mainHeading}>Inntektsmelding</h1>
             <h2 className={styles.kompletthet__subHeading}>Opplysninger til beregning</h2>
-            {aksjonspunkt && <InntektsmeldingManglerInfo />}
+            {aktivtAksjonspunkt && <InntektsmeldingManglerInfo />}
             <Box marginTop={Margin.large}>
                 <PeriodList
                     tilstander={tilstanderBeriket}
