@@ -31,14 +31,4 @@
 .kompletthet--margin-top {
   margin-top: 1.5rem;
 }
-.kompletthet__info {
-  background: inherit !important;
-  border: none !important;
-}
-.kompletthet__info span {
-  font-size: 18px !important;
-}
-.kompletthet__info:hover {
-  border: none !important;
-  box-shadow: none !important;
-}
+
