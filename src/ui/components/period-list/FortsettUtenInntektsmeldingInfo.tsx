@@ -5,7 +5,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import React from 'react';
 import ContainerContext from '../../../context/ContainerContext';
 import { Kode, Tilstand } from '../../../types/KompletthetData';
-import styles from './periodList.less';
+import styles from './periodList.css';
 
 const FortsettUtenInntektsmeldingInfo = ({
     tilstand,

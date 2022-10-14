@@ -2,7 +2,7 @@ import React from 'react';
 import { Status } from '../../../types/KompletthetData';
 import InntektsmeldingMottattItem from '../inntektsmelding-mottatt-item/InntektsmeldingMottattItem';
 import InntektsmeldingManglerItem from '../inntektsmelding-mangler-item/InntektsmeldingManglerItem';
-import styles from './inntektsmeldingListe.less';
+import styles from './inntektsmeldingListe.css';
 
 interface PeriodListItemProps {
     status: Status[];
