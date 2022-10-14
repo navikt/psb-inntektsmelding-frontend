@@ -3,7 +3,7 @@ import React from 'react';
 import Lenke from 'nav-frontend-lenker';
 import { Status } from '../../../types/KompletthetData';
 import ListItem from '../list-item/ListItem';
-import styles from './inntektsmeldingMottattItem.less';
+import styles from './inntektsmeldingMottattItem.css';
 import ArbeidsgiverTekst from '../arbeidsgiver-tekst/ArbeidsgiverTekst';
 import ContainerContext from '../../../context/ContainerContext';
 import { DokumentOpplysninger } from '../../../types/ContainerContract';

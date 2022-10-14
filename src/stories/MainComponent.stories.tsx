@@ -10,6 +10,13 @@ import ferdigvisning, {
 } from '../../mock/mockedKompletthetsdata';
 import inntektsmeldingPropsMock, { aksjonspunkt9071Props } from '../../mock/inntektsmeldingPropsMock';
 
+export default {
+    args: inntektsmeldingPropsMock,
+    argTypes: { onFinished: { action: 'clicked' } },
+    title: 'Inntektsmelding',
+    component: MainComponent,
+} as ComponentMeta<typeof MainComponent>;
+
 const Template: ComponentStory<typeof MainComponent> = (args: any) => <MainComponent data={args} />;
 
 export const IkkePaakrevd = Template.bind({});
@@ -19,13 +26,6 @@ export const ManglerFlere9071 = Template.bind({});
 export const IkkePaakrevdOgMangler9071 = Template.bind({});
 export const FerdigVisning9069 = Template.bind({});
 export const FerdigVisning9071 = Template.bind({});
-
-export default {
-    args: inntektsmeldingPropsMock,
-    argTypes: { onFinished: { action: 'clicked' } },
-    title: 'Inntektsmelding',
-    component: MainComponent,
-} as ComponentMeta<typeof MainComponent>;
 
 IkkePaakrevd.args = inntektsmeldingPropsMock;
 IkkePaakrevd.parameters = {
