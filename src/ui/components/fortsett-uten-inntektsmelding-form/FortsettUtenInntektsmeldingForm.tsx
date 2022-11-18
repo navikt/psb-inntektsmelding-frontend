@@ -39,7 +39,7 @@ function FortsettUtenInntektsmeldingForm({
 }: FortsettUtenInntektsmeldingFormProps): JSX.Element {
     const { arbeidsforhold, readOnly } = React.useContext(ContainerContext);
 
-    const { watch } = formMethods;
+    const { watch, reset } = formMethods;
     const { beslutningFieldName, begrunnelseFieldName } = tilstand;
     const beslutningId = `beslutning-${tilstand.periodeOpprinneligFormat}`;
     const begrunnelseId = `begrunnelse-${tilstand.periodeOpprinneligFormat}`;
@@ -81,6 +81,11 @@ function FortsettUtenInntektsmeldingForm({
                 },
             ],
         });
+
+    const avbrytRedigering = () => {
+        reset();
+        setRedigeringsmodus(false);
+    };
 
     const radios = {
         '9069': [
@@ -175,7 +180,7 @@ function FortsettUtenInntektsmeldingForm({
                                 </Hovedknapp>
                             )}
                             {redigeringsmodus && (
-                                <Knapp mini onClick={() => setRedigeringsmodus(false)}>
+                                <Knapp mini onClick={avbrytRedigering}>
                                     Avbryt redigering
                                 </Knapp>
                             )}

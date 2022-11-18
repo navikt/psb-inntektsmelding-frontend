@@ -17,7 +17,7 @@ describe('9071 - Mangler inntektsmelding', () => {
 
     afterAll(() => (getWorker() as SetupServerApi).close());
 
-    const { Mangler9071 } = composeStories(stories) as {
+    const { Mangler9071, AlleInntektsmeldingerMottatt } = composeStories(stories) as {
         [key: string]: Story<Partial<typeof MainComponent>>;
     };
 
@@ -115,6 +115,23 @@ describe('9071 - Mangler inntektsmelding', () => {
                     kode: '9071',
                 },
             ],
+        });
+    });
+    test('Hvis det tidligere er blitt gjort en vurdering og behandlingen har hoppet tilbake må man kunne løse aksjonspunktet', async () => {
+        // ARRANGE
+        const onClickSpy = jest.fn();
+        render(<AlleInntektsmeldingerMottatt onFinished={onClickSpy} />);
+
+        await waitFor(() => screen.getByText(/Når kan du gå videre uten inntektsmelding?/i));
+
+        // ACT
+        await userEvent.click(screen.getByRole('button', { name: /Send inn/i }));
+
+        // ASSERT
+        expect(onClickSpy).toBeCalledWith({
+            '@type': '9071',
+            kode: '9071',
+            perioder: [],
         });
     });
 });
