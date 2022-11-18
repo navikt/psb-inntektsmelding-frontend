@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
 import { Story } from '@storybook/react';
@@ -17,7 +18,7 @@ describe('9071 - Mangler inntektsmelding', () => {
 
     afterAll(() => (getWorker() as SetupServerApi).close());
 
-    const { Mangler9071 } = composeStories(stories) as {
+    const { Mangler9071, AlleInntektsmeldingerMottatt } = composeStories(stories) as {
         [key: string]: Story<Partial<typeof MainComponent>>;
     };
 
@@ -62,7 +63,6 @@ describe('9071 - Mangler inntektsmelding', () => {
         // ARRANGE
         const onClickSpy = jest.fn();
         const data = { onFinished: onClickSpy };
-        // eslint-disable-next-line react/jsx-props-no-spreading
         render(<Mangler9071 {...data} />);
 
         await waitFor(() => screen.getByText(/Når kan du gå videre uten inntektsmelding?/i));
@@ -92,7 +92,6 @@ describe('9071 - Mangler inntektsmelding', () => {
         // ARRANGE
         const onClickSpy = jest.fn();
         const data = { onFinished: onClickSpy };
-        // eslint-disable-next-line react/jsx-props-no-spreading
         render(<Mangler9071 {...data} />);
 
         await waitFor(() => screen.getByText(/Når kan du gå videre uten inntektsmelding?/i));
@@ -115,6 +114,24 @@ describe('9071 - Mangler inntektsmelding', () => {
                     kode: '9071',
                 },
             ],
+        });
+    });
+    test('Hvis det tidligere er blitt gjort en vurdering og behandlingen har hoppet tilbake må man kunne løse aksjonspunktet', async () => {
+        // ARRANGE
+        const onClickSpy = jest.fn();
+        const data = { onFinished: onClickSpy };
+        render(<AlleInntektsmeldingerMottatt {...data} />);
+
+        await waitFor(() => screen.getByText(/Når kan du gå videre uten inntektsmelding?/i));
+
+        // ACT
+        await userEvent.click(screen.getByRole('button', { name: /Send inn/i }));
+
+        // ASSERT
+        expect(onClickSpy).toBeCalledWith({
+            '@type': '9071',
+            kode: '9071',
+            perioder: [],
         });
     });
 });

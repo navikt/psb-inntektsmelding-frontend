@@ -13,7 +13,7 @@ import {
     finnAktivtAksjonspunkt,
     finnTilstanderSomRedigeres,
     finnTilstanderSomVurderes,
-    ingenTilstanderErPaakrevd,
+    ingenTilstanderHarMangler,
 } from '../../../util/utils';
 import FieldName from '../../../types/FieldName';
 import InntektsmeldingManglerInfo from './InntektsmeldingManglerInfo';
@@ -25,15 +25,16 @@ interface KompletthetsoversiktProps {
 }
 
 const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: KompletthetsoversiktProps): JSX.Element => {
-    const { aksjonspunkter } = React.useContext(ContainerContext);
+    const { aksjonspunkter, readOnly } = React.useContext(ContainerContext);
     const { tilstand: tilstander } = kompletthetsoversikt;
 
     const periods = tilstander.map(({ periode }) => periode);
     const statuses = tilstander.map(({ status }) => status);
     const aktivtAksjonspunkt = finnAktivtAksjonspunkt(aksjonspunkter);
     const forrigeAksjonspunkt = aksjonspunkter.sort((a, b) => Number(b.definisjon.kode) - Number(a.definisjon.kode))[0];
-    const aksjonspunkt = aktivtAksjonspunkt || forrigeAksjonspunkt;
-    const aksjonspunktKode = aksjonspunkt?.definisjon?.kode;
+    const aktivtAksjonspunktKode = aktivtAksjonspunkt?.definisjon?.kode;
+    const forrigeAksjonspunktKode = forrigeAksjonspunkt?.definisjon?.kode;
+    const aksjonspunktKode = aktivtAksjonspunktKode || forrigeAksjonspunktKode
 
     const tilstanderBeriket = tilstander.map((tilstand) => {
         const [redigeringsmodus, setRedigeringsmodus] = useState(false);
@@ -56,6 +57,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
         mode: 'onTouched',
         defaultValues: tilstanderBeriket.reduce(reducer, {}),
     });
+    const { isDirty } = formMethods.formState;
     const { handleSubmit, watch } = formMethods;
 
     const tilstanderTilVurdering = [
@@ -63,9 +65,17 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
         ...finnTilstanderSomRedigeres(tilstanderBeriket),
     ];
 
+
+
     const harFlereTilstanderTilVurdering = tilstanderTilVurdering.length > 1;
-    const kanSendeInn =
-        (harFlereTilstanderTilVurdering || ingenTilstanderErPaakrevd(tilstanderBeriket)) && aksjonspunktKode;
+    const kanSendeInn = () => {
+        if (harFlereTilstanderTilVurdering || ingenTilstanderHarMangler(tilstanderBeriket)) {
+            if (!readOnly) {
+                if (aktivtAksjonspunktKode || (forrigeAksjonspunktKode && isDirty)) return true;
+            }
+        }
+        return false;
+    };
 
     const listItemRenderer = (period: Period) => <InntektsmeldingListe status={statuses[periods.indexOf(period)]} />;
     const listHeadingRenderer = () => <InntektsmeldingListeHeading />;
@@ -73,19 +83,19 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
         <div className={styles.kompletthet}>
             <h1 className={styles.kompletthet__mainHeading}>Inntektsmelding</h1>
             <h2 className={styles.kompletthet__subHeading}>Opplysninger til beregning</h2>
-            {aksjonspunkt && <InntektsmeldingManglerInfo />}
+            <InntektsmeldingManglerInfo />
             <Box marginTop={Margin.large}>
                 <PeriodList
                     tilstander={tilstanderBeriket}
                     listHeadingRenderer={listHeadingRenderer}
                     listItemRenderer={listItemRenderer}
                     onFormSubmit={onFormSubmit}
-                    aksjonspunkt={aksjonspunkt}
+                    aksjonspunkt={aktivtAksjonspunkt || forrigeAksjonspunkt}
                     formMethods={formMethods}
                     harFlereTilstanderTilVurdering={harFlereTilstanderTilVurdering}
                 />
             </Box>
-            {kanSendeInn && (
+            {kanSendeInn() && (
                 <Box marginTop={Margin.large}>
                     <form
                         onSubmit={handleSubmit((data) => {

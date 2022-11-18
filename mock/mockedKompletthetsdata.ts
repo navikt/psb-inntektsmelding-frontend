@@ -175,3 +175,34 @@ export const ikkePaakrevd = {
         },
     ],
 };
+export const alleErMottatt = {
+    tilstand: [
+        {
+            periode: '2022-08-01/2022-08-04',
+            status: [
+                {
+                    arbeidsgiver: {
+                        arbeidsgiver: '896929119',
+                        arbeidsforhold: '2',
+                    },
+                    status: 'MOTTATT',
+                    journalpostId: null,
+                },
+                {
+                    arbeidsgiver: {
+                        arbeidsgiver: '972674818',
+                        arbeidsforhold: null,
+                    },
+                    status: 'MOTTATT',
+                    journalpostId: '573777857',
+                },
+            ],
+            vurdering: {
+                kode: '-',
+                beskrivelse: 'Udefinert',
+            },
+            tilVurdering: true,
+            begrunnelse: null,
+        },
+    ],
+};
