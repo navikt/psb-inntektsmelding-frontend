@@ -3,12 +3,13 @@ import { rest } from 'msw';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 import MainComponent from '../ui/MainComponent';
 import ferdigvisning, {
+    alleErMottatt,
     ikkePaakrevd,
     ikkePaakrevdOgManglerInntektsmelding,
     manglerFlereInntektsmeldinger,
     manglerInntektsmelding,
 } from '../../mock/mockedKompletthetsdata';
-import inntektsmeldingPropsMock, { aksjonspunkt9071Props } from '../../mock/inntektsmeldingPropsMock';
+import inntektsmeldingPropsMock, { aksjonspunkt9071FerdigProps, aksjonspunkt9071Props } from '../../mock/inntektsmeldingPropsMock';
 
 export default {
     args: inntektsmeldingPropsMock,
@@ -26,6 +27,7 @@ export const ManglerFlere9071 = Template.bind({});
 export const IkkePaakrevdOgMangler9071 = Template.bind({});
 export const FerdigVisning9069 = Template.bind({});
 export const FerdigVisning9071 = Template.bind({});
+export const AlleInntektsmeldingerMottatt = Template.bind({});
 
 IkkePaakrevd.args = inntektsmeldingPropsMock;
 IkkePaakrevd.parameters = {
@@ -62,9 +64,16 @@ FerdigVisning9069.parameters = {
         handlers: [rest.get('/tilstand', (req, res, ctx) => res(ctx.json(ferdigvisning)))],
     },
 };
-FerdigVisning9071.args = aksjonspunkt9071Props;
+FerdigVisning9071.args = aksjonspunkt9071FerdigProps;
 FerdigVisning9071.parameters = {
     msw: {
         handlers: [rest.get('/tilstand', (req, res, ctx) => res(ctx.json(ferdigvisning)))],
+    },
+};
+
+AlleInntektsmeldingerMottatt.args = aksjonspunkt9071Props;
+AlleInntektsmeldingerMottatt.parameters = {
+    msw: {
+        handlers: [rest.get('/tilstand', (req, res, ctx) => res(ctx.json(alleErMottatt)))],
     },
 };
