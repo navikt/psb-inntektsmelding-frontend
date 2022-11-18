@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
 import { Story } from '@storybook/react';
@@ -62,7 +63,6 @@ describe('9071 - Mangler inntektsmelding', () => {
         // ARRANGE
         const onClickSpy = jest.fn();
         const data = { onFinished: onClickSpy };
-        // eslint-disable-next-line react/jsx-props-no-spreading
         render(<Mangler9071 {...data} />);
 
         await waitFor(() => screen.getByText(/Når kan du gå videre uten inntektsmelding?/i));
@@ -92,7 +92,6 @@ describe('9071 - Mangler inntektsmelding', () => {
         // ARRANGE
         const onClickSpy = jest.fn();
         const data = { onFinished: onClickSpy };
-        // eslint-disable-next-line react/jsx-props-no-spreading
         render(<Mangler9071 {...data} />);
 
         await waitFor(() => screen.getByText(/Når kan du gå videre uten inntektsmelding?/i));
@@ -120,7 +119,8 @@ describe('9071 - Mangler inntektsmelding', () => {
     test('Hvis det tidligere er blitt gjort en vurdering og behandlingen har hoppet tilbake må man kunne løse aksjonspunktet', async () => {
         // ARRANGE
         const onClickSpy = jest.fn();
-        render(<AlleInntektsmeldingerMottatt onFinished={onClickSpy} />);
+        const data = { onFinished: onClickSpy };
+        render(<AlleInntektsmeldingerMottatt {...data} />);
 
         await waitFor(() => screen.getByText(/Når kan du gå videre uten inntektsmelding?/i));
 
