@@ -16,7 +16,7 @@ export default defineConfig({
             output: {
                 dir: './build/1/',
                 entryFileNames: 'app.js',
-                assetFileNames: 'style.css',
+                assetFileNames: 'styles.css',
             },
             input: './src/app.ts',
         },
