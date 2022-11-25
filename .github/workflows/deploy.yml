@@ -36,6 +36,9 @@ jobs:
               run: yarn test
             - name: Bygge applikasjon
               run: yarn build
+            - name: Sette versjon
+              run: |
+                  echo "MAJOR_VERSION=$(npm run majorVersion --silent)" >> $GITHUB_ENV
             - name: Sette tag
               run: |
                   echo "TAG=$(date "+%Y.%m.%d")-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
@@ -43,8 +46,8 @@ jobs:
               run: |
                   echo "IMAGE=${IMAGE_BASE}:${TAG}" >> $GITHUB_ENV
                   echo "LATEST=${IMAGE_BASE}:latest" >> $GITHUB_ENV
-                  echo "CSS_HASH=$(shasum -b -a 384 build/styles.css | awk '{ print $1 }' | xxd -r -p | base64)" >> $GITHUB_ENV
-                  echo "JS_HASH=$(shasum -b -a 384 build/app.js | awk '{ print $1 }' | xxd -r -p | base64)" >> $GITHUB_ENV
+                  echo "CSS_HASH=$(shasum -b -a 384 build/${MAJOR_VERSION}/styles.css | awk '{ print $1 }' | xxd -r -p | base64)" >> $GITHUB_ENV
+                  echo "JS_HASH=$(shasum -b -a 384 build/${MAJOR_VERSION}/app.js | awk '{ print $1 }' | xxd -r -p | base64)" >> $GITHUB_ENV
             - name: Bygg og laste opp docker-image
               run: |
                   docker build --tag ${IMAGE} --tag ${LATEST} .
@@ -83,7 +86,7 @@ jobs:
                       ```
                       <script
                         type="text/javascript"
-                        src="https://psb-inntektsmelding-frontend.dev.adeo.no/app.js"
+                        src="https://psb-inntektsmelding-frontend.dev.adeo.no/${{ env.MAJOR_VERSION }}/app.js"
                         integrity="sha384-${{ env.JS_HASH }}"
                         crossorigin="anonymous"
                       ></script>
@@ -93,7 +96,7 @@ jobs:
                       ```
                       <link
                         rel="stylesheet"
-                        href="https://psb-inntektsmelding-frontend.dev.adeo.no/styles.css"
+                        href="https://psb-inntektsmelding-frontend.dev.adeo.no/${{ env.MAJOR_VERSION }}/styles.css"
                         integrity="sha384-${{ env.CSS_HASH }}"
                         crossorigin="anonymous"
                       >

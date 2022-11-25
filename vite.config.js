@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-const path = require('path');
 
 export default defineConfig({
     server: {
@@ -14,11 +13,12 @@ export default defineConfig({
     },
     build: {
         sourcemap: true,
-        outDir: './build',
         rollupOptions: {
-            dir: path.resolve(__dirname, `../build/1`),
-            entryFileNames: 'app.js',
-            assetFileNames: 'style.css',
+            output: {
+                dir: './build/1/',
+                entryFileNames: 'app.js',
+                assetFileNames: 'style.css',
+            },
         },
     },
     plugins: [react(), tsconfigPaths()],
