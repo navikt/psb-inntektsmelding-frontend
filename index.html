@@ -11,7 +11,8 @@
     </head>
     <body>
         <div id="app" style="padding: 2.5rem"></div>
-        <script type="text/javascript">
+        <script type="module" src="src/app.ts"></script>
+        <script type="module">
             setTimeout(() => {
                 window.renderKompletthetApp('app', {
                     readOnly: false,
@@ -24,7 +25,7 @@
                             identifikator: '896929119',
                             personIdentifikator: null,
                             navn: 'SAUEFABRIKK',
-                            fødselsdato: null,
+                            foedselsdato: null,
                             arbeidsforholdreferanser: [
                                 {
                                     internArbeidsforholdId: 'b28c0e54-0e9d-4af4-bdde-37c4d5cc5b7e',
@@ -41,7 +42,7 @@
                         kompletthetBeregning: 'http://localhost:8082/mock/kompletthet',
                     },
                     httpErrorHandler: () => console.error('An error occured'),
-                    onFinished: (data) => console.log('Aksjonspunkt løst', data),
+                    onFinished: (data) => console.log('Aksjonspunkt lost', data),
                     aksjonspunkter: [
                         {
                             aksjonspunktType: {
@@ -51,7 +52,7 @@
                             begrunnelse: null,
                             besluttersBegrunnelse: null,
                             definisjon: {
-                                skalAvbrytesVedTilbakeføring: false,
+                                skalAvbrytesVedTilbakeforing: false,
                                 kode: '9069',
                                 kodeverk: 'AKSJONSPUNKT_DEF',
                             },
@@ -66,12 +67,12 @@
                             toTrinnsBehandlingGodkjent: null,
                             vilkarType: null,
                             vurderPaNyttArsaker: null,
-                            venteårsak: {
+                            venteaarsak: {
                                 kanVelgesIGui: false,
                                 kode: '-',
                                 kodeverk: 'VENT_AARSAK',
                             },
-                            venteårsakVariant: null,
+                            venteaarsakVariant: null,
                             opprettetAv: 'srvk9sak',
                         },
                         {
@@ -82,7 +83,7 @@
                             begrunnelse: 'wwdwdwwqwdwqwqw',
                             besluttersBegrunnelse: null,
                             definisjon: {
-                                skalAvbrytesVedTilbakeføring: false,
+                                skalAvbrytesVedTilbakeforing: false,
                                 kode: '9071',
                                 kodeverk: 'AKSJONSPUNKT_DEF',
                             },
@@ -97,12 +98,12 @@
                             toTrinnsBehandlingGodkjent: null,
                             vilkarType: null,
                             vurderPaNyttArsaker: null,
-                            venteårsak: {
+                            venteaarsak: {
                                 kanVelgesIGui: false,
                                 kode: '-',
                                 kodeverk: 'VENT_AARSAK',
                             },
-                            venteårsakVariant: null,
+                            venteaarsakVariant: null,
                             opprettetAv: 'srvk9sak',
                         },
                     ],

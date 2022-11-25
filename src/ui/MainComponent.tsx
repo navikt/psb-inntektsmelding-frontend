@@ -40,6 +40,8 @@ function MainComponent({ data }: MainComponentProps): JSX.Element {
         kompletthetsoversiktResponse: null,
     });
 
+    window.console.log(process.env.NODE_ENV)
+
     const httpCanceler = React.useMemo(() => axios.CancelToken.source(), []);
     const { kompletthetsoversiktResponse, isLoading, kompletthetsoversiktHarFeilet } = state;
     const { endpoints, onFinished, httpErrorHandler } = data;

@@ -1,11 +1,10 @@
 import { Edit } from '@navikt/ds-icons';
-import { Alert } from '@navikt/ds-react';
+import { Alert, Button } from '@navikt/ds-react';
 import { LabelledContent } from '@navikt/ft-plattform-komponenter';
-import { Knapp } from 'nav-frontend-knapper';
 import React from 'react';
 import ContainerContext from '../../../context/ContainerContext';
 import { Kode, Tilstand } from '../../../types/KompletthetData';
-import styles from './periodList.css';
+import styles from './periodList.module.css';
 
 const FortsettUtenInntektsmeldingAvslag = ({
     tilstand,
@@ -24,10 +23,10 @@ const FortsettUtenInntektsmeldingAvslag = ({
                 <Alert variant="error" size="medium" className={styles.periodList__alertstripe}>
                     <span>Kan ikke gå videre uten inntektsmelding, søknad avslås.</span>
                     {!readOnly && (
-                        <Knapp mini onClick={() => setRedigeringsmodus(true)}>
+                        <Button size="small" onClick={() => setRedigeringsmodus(true)}>
                             <Edit />
                             <span>Rediger vurdering</span>
-                        </Knapp>
+                        </Button>
                     )}
                 </Alert>
                 <LabelledContent label="Begrunnelse" content={<span>{tilstand.begrunnelse}</span>} />

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Period } from '@navikt/k9-period-utils';
+import { Button } from '@navikt/ds-react';
 import { Box, Margin } from '@navikt/ft-plattform-komponenter';
-import { Hovedknapp } from 'nav-frontend-knapper';
 import { useForm } from 'react-hook-form';
 import ContainerContext from '../../../context/ContainerContext';
 import { Kode, Kompletthet, Tilstand } from '../../../types/KompletthetData';
 import InntektsmeldingListeHeading from '../inntektsmelding-liste-heading/InntektsmeldingListeHeading';
 import InntektsmeldingListe from '../inntektsmelding-liste/InntektsmeldingListe';
 import PeriodList from '../period-list/PeriodList';
-import styles from './kompletthetsoversikt.css';
+import styles from './kompletthetsoversikt.module.css';
 import {
     finnAktivtAksjonspunkt,
     finnTilstanderSomRedigeres,
@@ -34,7 +34,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
     const forrigeAksjonspunkt = aksjonspunkter.sort((a, b) => Number(b.definisjon.kode) - Number(a.definisjon.kode))[0];
     const aktivtAksjonspunktKode = aktivtAksjonspunkt?.definisjon?.kode;
     const forrigeAksjonspunktKode = forrigeAksjonspunkt?.definisjon?.kode;
-    const aksjonspunktKode = aktivtAksjonspunktKode || forrigeAksjonspunktKode
+    const aksjonspunktKode = aktivtAksjonspunktKode || forrigeAksjonspunktKode;
 
     const tilstanderBeriket = tilstander.map((tilstand) => {
         const [redigeringsmodus, setRedigeringsmodus] = useState(false);
@@ -64,8 +64,6 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
         ...finnTilstanderSomVurderes(tilstanderBeriket),
         ...finnTilstanderSomRedigeres(tilstanderBeriket),
     ];
-
-
 
     const harFlereTilstanderTilVurdering = tilstanderTilVurdering.length > 1;
     const kanSendeInn = () => {
@@ -118,7 +116,7 @@ const Kompletthetsoversikt = ({ kompletthetsoversikt, onFormSubmit }: Kompletthe
                             });
                         })}
                     >
-                        <Hovedknapp mini>Send inn</Hovedknapp>
+                        <Button variant="primary">Send inn</Button>
                     </form>
                 </Box>
             )}
