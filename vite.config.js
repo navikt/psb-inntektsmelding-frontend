@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-
 export default defineConfig({
     server: {
         port: 8383,
@@ -19,6 +18,7 @@ export default defineConfig({
                 entryFileNames: 'app.js',
                 assetFileNames: 'style.css',
             },
+            input: './src/app.ts',
         },
     },
     plugins: [react(), tsconfigPaths()],
