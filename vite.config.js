@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import path from 'path';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
@@ -20,6 +21,11 @@ export default defineConfig({
             },
             input: './src/app.ts',
         },
+    },
+    test: {
+        globals: true,
+        environment: 'jsdom',
+        setupFiles: './setupTests.js',
     },
     plugins: [react(), tsconfigPaths()],
 });

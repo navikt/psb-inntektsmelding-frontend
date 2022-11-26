@@ -7,6 +7,7 @@ import { cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { getWorker } from 'msw-storybook-addon';
 import { SetupServerApi } from 'msw/lib/node';
+import { vi } from 'vitest';
 import * as stories from '../src/stories/MainComponent.stories';
 import MainComponent from '../src/ui/MainComponent';
 
@@ -60,7 +61,7 @@ describe('9069 - Mangler inntektsmelding', () => {
 
     test('Kan sende purring med varsel om avslag', async () => {
         // ARRANGE
-        const onClickSpy = jest.fn();
+        const onClickSpy = vi.fn();
         const data = { onFinished: onClickSpy };
         // eslint-disable-next-line react/jsx-props-no-spreading
         render(<Mangler9069 {...data} />);
@@ -90,7 +91,7 @@ describe('9069 - Mangler inntektsmelding', () => {
 
     test('Kan submitte begrunnelse når man har valgt A-inntekt', async () => {
         // ARRANGE
-        const onClickSpy = jest.fn();
+        const onClickSpy = vi.fn();
         const data = { onFinished: onClickSpy };
         // eslint-disable-next-line react/jsx-props-no-spreading
         render(<Mangler9069 {...data} />);
