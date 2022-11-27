@@ -2,19 +2,7 @@ const { mergeConfig } = require('vite');
 
 module.exports = {
     stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-    addons: [
-        '@storybook/addon-links',
-        '@storybook/addon-essentials',
-        {
-            name: 'storybook-css-modules',
-            cssModulesLoaderOptions: {
-                importLoaders: 1,
-                modules: {
-                    localIdentName: '[name]_[contenthash:base64:5]',
-                },
-            },
-        },
-    ],
+    addons: ['@storybook/addon-links', '@storybook/addon-essentials'],
 
     framework: '@storybook/react',
     core: {
