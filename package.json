@@ -1,7 +1,6 @@
 {
     "name": "psb-inntektsmelding-frontend",
     "version": "1.0.2",
-    "type": "module",
     "scripts": {
         "test": "vitest run",
         "test-watch": "vitest watch",
