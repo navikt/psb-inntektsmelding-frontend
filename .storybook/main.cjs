@@ -24,7 +24,7 @@ module.exports = {
         // Merge custom configuration into the default config
         return mergeConfig(config, {
             // Use the same "resolve" configuration as your app
-            resolve: (await import('../vite.config.js')).default.resolve,
+            resolve: (await import('../vite.config.mjs')).default.resolve,
         });
     },
 };
