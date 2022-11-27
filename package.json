@@ -10,7 +10,7 @@
         "dev": "vite dev",
         "preview": "vite preview",
         "api-mock": "ts-node mock/api-mock.ts",
-        "majorVersion": "node ./majorVersion.js",
+        "majorVersion": "node ./majorVersion.cjs",
         "lint": "eslint --cache 'src/**/*.{ts,tsx,js,jsx}'",
         "ts-check": "tsc --pretty --noEmit",
         "start:e2e": "nodemon mock/api-mock.ts & node webpack/webpack-config.development.js",
