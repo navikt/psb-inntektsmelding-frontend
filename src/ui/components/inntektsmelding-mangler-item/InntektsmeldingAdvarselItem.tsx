@@ -20,11 +20,17 @@ const ManglerContent = ({ tekst }: ManglerContentProps) => (
     </div>
 );
 
-const InntektsmeldingManglerItem = ({ status }: InntektsmeldingMottattItemProps): JSX.Element => {
-    const tekst = status.status === 'IKKE_PÅKREVD' ? 'Ikke påkrevd' : 'Mangler';
+const tekster = {
+    IKKE_PÅKREVD: 'Ikke påkrevd',
+    MANGLER: 'Mangler',
+    MOTTATT_IKKE_ANSATT: 'Mottatt, men ikke ansatt',
+};
+
+const InntektsmeldingAdvarselItem = ({ status }: InntektsmeldingMottattItemProps): JSX.Element => {
+    const tekst = tekster[status.status];
     const firstColumnRenderer = () => <ArbeidsgiverTekst arbeidsgiver={status.arbeidsgiver} />;
     const secondColumnRenderer = () => <ManglerContent tekst={tekst} />;
     return <ListItem firstColumnRenderer={firstColumnRenderer} secondColumnRenderer={secondColumnRenderer} />;
 };
 
-export default InntektsmeldingManglerItem;
+export default InntektsmeldingAdvarselItem;
