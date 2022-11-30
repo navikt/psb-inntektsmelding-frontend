@@ -64,7 +64,7 @@
         "jest-environment-jsdom": "^29.2.2",
         "less": "^4.1.3",
         "less-loader": "^11.1.0",
-        "mini-css-extract-plugin": "^2.6.1",
+        "mini-css-extract-plugin": "^2.7.1",
         "msw": "0.47.4",
         "msw-storybook-addon": "^1.6.3",
         "nodemon": "^2.0.20",
