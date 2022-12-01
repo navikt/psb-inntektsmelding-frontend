@@ -1,7 +1,7 @@
 import React from 'react';
 import { Status } from '../../../types/KompletthetData';
 import InntektsmeldingMottattItem from '../inntektsmelding-mottatt-item/InntektsmeldingMottattItem';
-import InntektsmeldingManglerItem from '../inntektsmelding-mangler-item/InntektsmeldingManglerItem';
+import InntektsmeldingAdvarsel from '../inntektsmelding-mangler-item/InntektsmeldingAdvarselItem';
 import styles from './inntektsmeldingListe.css';
 
 interface PeriodListItemProps {
@@ -18,7 +18,7 @@ const RenderListItem = ({ status }: { status: Status }) => {
         return listItem(<InntektsmeldingMottattItem status={status} />);
     }
 
-    return listItem(<InntektsmeldingManglerItem status={status} />);
+    return listItem(<InntektsmeldingAdvarsel status={status} />);
 };
 
 const InntektsmeldingListe = ({ status }: PeriodListItemProps): JSX.Element => (
