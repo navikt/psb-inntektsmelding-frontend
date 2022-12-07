@@ -10,6 +10,7 @@ import ContainerContext from '../../../context/ContainerContext';
 import Aksjonspunkt from '../../../types/Aksjonspunkt';
 import AksjonspunktRequestPayload from '../../../types/AksjonspunktRequestPayload';
 import { Kode, TilstandBeriket } from '../../../types/KompletthetData';
+import TilstandStatus from '../../../types/TilstandStatus';
 import { skalVurderes } from '../../../util/utils';
 import styles from './fortsettUtenInntektsMeldingForm.css';
 
@@ -52,7 +53,7 @@ function FortsettUtenInntektsmeldingForm({
             erFortsett ? 'Fortsett uten inntektsmelding' : 'Send purring med varsel om avslag',
         '9071': (erFortsett: boolean) => (erFortsett ? 'Fortsett uten inntektsmelding' : 'Avslå periode'),
     };
-    const arbeidsgivereMedManglendeInntektsmelding = tilstand.status.filter((s) => s.status !== 'MOTTATT');
+    const arbeidsgivereMedManglendeInntektsmelding = tilstand.status.filter((s) => s.status === TilstandStatus.MANGLER);
 
     let arbeidsgivereString = '';
     const formatArbeidsgiver = (arbeidsgiver) =>
