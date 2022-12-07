@@ -24,6 +24,7 @@ const tekster = {
     IKKE_PÅKREVD: 'Ikke påkrevd',
     MANGLER: 'Mangler',
     MOTTATT_IKKE_ANSATT: 'Mottatt, men ikke ansatt',
+    MOTTATT_UKJENT_ARBEIDSFORHOLDSID: 'Mottatt, men inneholder ukjent arbeidsforhold-ID',
 };
 
 const InntektsmeldingAdvarselItem = ({ status }: InntektsmeldingMottattItemProps): JSX.Element => {
