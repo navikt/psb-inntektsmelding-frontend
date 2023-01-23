@@ -89,7 +89,7 @@
         "@navikt/ft-plattform-komponenter": "^1.4.6",
         "@navikt/k9-array-utils": "^0.0.1",
         "@navikt/k9-date-utils": "^0.0.8",
-        "@navikt/k9-http-utils": "0.0.3",
+        "@navikt/k9-http-utils": "1.0.1",
         "@navikt/k9-period-utils": "^0.0.12",
         "@popperjs/core": "^2.11.6",
         "axios": "^0.27.2",
