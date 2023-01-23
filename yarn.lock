@@ -1879,6 +1879,11 @@
   resolved "https://npm.pkg.github.com/download/@navikt/k9-date-utils/0.0.8/06cfdda433652b39c1c4f2457463fc91dabd0d58#06cfdda433652b39c1c4f2457463fc91dabd0d58"
   integrity sha512-k6kJtGyReu3ZAUwi5/8eNQyQHQgPyHYO1fuOuvsrcXv4KoU33d2tO/+QHvMyVW3qKyTJGURKT1tN8mqpAAajsQ==
 
+"@navikt/k9-date-utils@^0.1.0":
+  version "0.1.0"
+  resolved "https://npm.pkg.github.com/download/@navikt/k9-date-utils/0.1.0/4b3c0a162bd31145593a8b12a535d74211c0d437#4b3c0a162bd31145593a8b12a535d74211c0d437"
+  integrity sha512-JWix2fJibcPnxRIK2coWBVkmwxkWoocJxTLqzocTMXdE5KWcdIuWUKV/Vba9rj82MniPW66nmeYZvv+TBQltbQ==
+
 "@navikt/k9-http-utils@0.0.3":
   version "0.0.3"
   resolved "https://npm.pkg.github.com/download/@navikt/k9-http-utils/0.0.3/133dec9df786c1f1aa27da7a0598bd4ba77823fa#133dec9df786c1f1aa27da7a0598bd4ba77823fa"
