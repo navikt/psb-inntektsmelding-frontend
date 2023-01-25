@@ -133,6 +133,6 @@
         "uuid": "^9.0.0"
     },
     "msw": {
-        "workerDirectory": "dist"
+        "workerDirectory": "public"
     }
 }
