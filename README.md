@@ -1,4 +1,8 @@
-# Frontend for kompletthetssjekk PSB
+# Flyttet til https://github.com/navikt/k9-saksbehandling-frontend
+
+
+
+## Frontend for kompletthetssjekk PSB
 
 Dette er en frontend for visning av kompletthetssjekk i saksbehandlingen av pleiepenger ved sykt barn.
 
